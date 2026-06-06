@@ -661,8 +661,8 @@
             accent-color: #667eea;
         }
 
-        .payment-item.paid.edit-mode .payment-checkbox {
-            cursor: pointer;
+        .payment-item.paid .payment-checkbox {
+            cursor: not-allowed;
         }
         
         .summary-grid {
@@ -930,8 +930,6 @@
             max-width: 400px;
             width: 90%;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            max-height: 90vh;
-            overflow-y: auto;
         }
 
         .modal-title {
@@ -953,7 +951,7 @@
             font-size: 0.92em;
         }
 
-        .modal-form-group input, .modal-form-group textarea, .modal-form-group select {
+        .modal-form-group input, .modal-form-group textarea {
             width: 100%;
             padding: 12px 14px;
             border: 2px solid #e0e7ff;
@@ -963,7 +961,7 @@
             transition: all 0.3s;
         }
 
-        .modal-form-group input:focus, .modal-form-group textarea:focus, .modal-form-group select:focus {
+        .modal-form-group input:focus, .modal-form-group textarea:focus {
             outline: none;
             border-color: #667eea;
             background-color: #f8f9ff;
@@ -996,22 +994,17 @@
             color: #333;
         }
 
-        .enable-payment-btn {
-            background: #28a745;
-            color: white;
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: none;
-            font-size: 0.85em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 12px;
-            width: 100%;
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .enable-payment-btn:active {
-            transform: scale(0.95);
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
         }
     </style>
 </head>
@@ -1118,15 +1111,6 @@
                 <div class="form-group">
                     <label>Loan Duration (months)</label>
                     <input type="number" id="loanDuration" placeholder="12">
-                </div>
-                <div class="form-group">
-                    <label>Payment Frequency</label>
-                    <select id="paymentFrequency">
-                        <option value="monthly">Monthly</option>
-                        <option value="quarterly">Quarterly</option>
-                        <option value="semi-annual">Semi-Annual</option>
-                        <option value="annual">Annual</option>
-                    </select>
                 </div>
                 <div class="button-group">
                     <button class="btn-primary" onclick="handleAddLoan()">Create Loan</button>
@@ -1263,7 +1247,6 @@
             const amount = parseFloat(document.getElementById('loanAmount').value);
             const rate = parseFloat(document.getElementById('interestRate').value);
             const duration = parseInt(document.getElementById('loanDuration').value);
-            const frequency = document.getElementById('paymentFrequency').value;
 
             if (!name || !amount || !rate || !duration) {
                 alert('Please fill all fields');
@@ -1277,10 +1260,9 @@
                 amount,
                 rate,
                 duration,
-                frequency,
                 startDate: new Date().toISOString(),
                 status: 'active',
-                payments: generatePaymentSchedule(duration, frequency)
+                payments: generatePaymentSchedule(duration)
             };
 
             loans.push(loan);
@@ -1295,13 +1277,12 @@
             switchTab(0);
         }
 
-        function generatePaymentSchedule(months, frequency) {
+        function generatePaymentSchedule(months) {
             const payments = [];
-            const monthsPerPayment = frequency === 'monthly' ? 1 : frequency === 'quarterly' ? 3 : frequency === 'semi-annual' ? 6 : 12;
             
-            for (let i = 0; i < months; i += monthsPerPayment) {
+            for (let i = 1; i <= months; i++) {
                 payments.push({
-                    month: i + 1,
+                    month: i,
                     dueDate: new Date(Date.now() + (i * 30 * 24 * 60 * 60 * 1000)).toLocaleDateString(),
                     amount: 0,
                     paid: false,
@@ -1379,7 +1360,7 @@
                                 <div class="payment-month">Month ${p.month}</div>
                                 <div class="payment-amount">${p.dueDate}</div>
                             </div>
-                            <input type="checkbox" class="payment-checkbox" ${p.paid ? 'checked' : ''} onchange="togglePayment(${loanId}, ${idx})">
+                            <input type="checkbox" class="payment-checkbox" ${p.paid ? 'checked disabled' : ''} onchange="togglePayment(${loanId}, ${idx})">
                         </div>
                     `).join('')}
                 </div>
