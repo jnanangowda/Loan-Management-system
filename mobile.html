@@ -242,18 +242,6 @@
             align-items: center;
         }
 
-        .admin-header {
-            background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
-            color: white;
-            padding: 18px 20px;
-            text-align: center;
-            flex-shrink: 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
         .header-content {
             flex: 1;
             text-align: center;
@@ -330,11 +318,6 @@
             background: white;
             color: #667eea;
             border-bottom-color: #667eea;
-        }
-
-        .tabs.admin button.active {
-            color: #ff6b6b;
-            border-bottom-color: #ff6b6b;
         }
         
         .tabs button:active {
@@ -513,133 +496,6 @@
             transform: translateY(-2px);
         }
         
-        .user-card {
-            background: linear-gradient(135deg, #f8f9ff 0%, #f0f7ff 100%);
-            border: 2px solid #e0e7ff;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 14px;
-            transition: all 0.2s;
-            user-select: none;
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
-        }
-        
-        .user-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            gap: 10px;
-        }
-        
-        .user-card-name {
-            font-weight: 700;
-            color: #2d3748;
-            font-size: 1.08em;
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .user-card-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 12px;
-            font-size: 0.85em;
-        }
-        
-        .info-item {
-            display: flex;
-            flex-direction: column;
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-            border-left: 3px solid #667eea;
-        }
-        
-        .info-label {
-            color: #667eea;
-            font-size: 0.8em;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .info-value {
-            color: #2d3748;
-            font-weight: 700;
-            margin-top: 4px;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #999;
-        }
-        
-        .empty-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-        
-        .empty-text {
-            font-size: 1em;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        
-        .admin-btn {
-            background: #ff6b6b;
-            color: white;
-            padding: 8px 14px;
-            border-radius: 6px;
-            border: none;
-            font-size: 0.8em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-right: 8px;
-            margin-bottom: 8px;
-        }
-
-        .admin-btn:active {
-            transform: scale(0.95);
-        }
-
-        .admin-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-
-        .stat-card.red {
-            background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
-        }
-
-        .stat-label {
-            font-size: 0.75em;
-            opacity: 0.95;
-            margin-bottom: 6px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .stat-value {
-            font-size: 1.8em;
-            font-weight: 700;
-        }
-
         .loan-header {
             display: flex;
             justify-content: space-between;
@@ -693,7 +549,50 @@
             margin-bottom: 12px;
             font-size: 0.85em;
         }
-
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .info-label {
+            color: #667eea;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .info-value {
+            color: #2d3748;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+        
+        .empty-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .empty-text {
+            font-size: 1em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .details-section {
+            margin-bottom: 20px;
+        }
+        
         .section-title {
             font-size: 1.05em;
             font-weight: 700;
@@ -702,11 +601,7 @@
             padding-bottom: 10px;
             border-bottom: 2px solid #667eea;
         }
-
-        .details-section {
-            margin-bottom: 20px;
-        }
-
+        
         .payment-item {
             background: white;
             border-left: 4px solid #667eea;
@@ -840,16 +735,76 @@
         .edit-view.active {
             display: block;
         }
-
-        .admin-container {
-            display: none;
-            width: 100%;
-            height: 100vh;
-            flex-direction: column;
+        
+        .calculation-box {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+            border: 2px solid #667eea;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
-
-        .admin-container.active {
+        
+        .calculation-item {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e7ff;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .calculation-item:last-child {
+            border-bottom: none;
+        }
+        
+        .calculation-label {
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 0.92em;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .calculation-value {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.05em;
+        }
+        
+        .total-amount {
+            color: #28a745;
+            font-size: 1.15em;
+        }
+        
+        .edit-mode {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f7ff 100%);
+            border-left: 4px solid #667eea;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+        
+        .info-card-title {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+        
+        .info-card-desc {
+            font-size: 0.85em;
+            color: #555;
+            line-height: 1.5;
         }
 
         h3 {
@@ -917,6 +872,37 @@
         .stat-value {
             font-weight: 700;
             color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .principal-section {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+            border: 2px solid #667eea;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .principal-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e7ff;
+        }
+
+        .principal-item:last-child {
+            border-bottom: none;
+        }
+
+        .principal-label {
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .principal-value {
+            color: #28a745;
+            font-weight: 700;
             font-size: 1.1em;
         }
 
@@ -1013,1073 +999,468 @@
         .enable-payment-btn {
             background: #28a745;
             color: white;
-            padding: 8px 14px;
-            border-radius: 6px;
+            padding: 10px 14px;
+            border-radius: 8px;
             border: none;
-            font-size: 0.75em;
+            font-size: 0.85em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            margin-left: 8px;
+            margin-bottom: 12px;
+            width: 100%;
         }
 
         .enable-payment-btn:active {
             transform: scale(0.95);
         }
-
-        .info-card {
-            background: linear-gradient(135deg, #f8f9ff 0%, #f0f7ff 100%);
-            border-left: 4px solid #667eea;
-            padding: 14px;
-            margin-bottom: 12px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
-        }
-        
-        .info-card-title {
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 6px;
-            font-size: 0.95em;
-        }
-        
-        .info-card-desc {
-            font-size: 0.85em;
-            color: #555;
-            line-height: 1.5;
-        }
-
-        .edit-mode {
-            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            border-left: 4px solid #667eea;
-        }
     </style>
 </head>
 <body>
-
-<!-- AUTH CONTAINER -->
-<div id="authContainer" class="auth-container active">
-    <div class="auth-box">
-        <div id="authMessage"></div>
-
-        <!-- Login Form -->
-        <div id="loginForm" class="auth-form-section active">
-            <h2>Welcome Back</h2>
-            <p class="auth-subtitle">Sign in to manage your loans</p>
-            <div class="auth-form-group">
-                <label>Email/Username</label>
-                <input type="text" id="loginUsername" placeholder="Enter your email">
-            </div>
-            <div class="auth-form-group">
-                <label>Password</label>
-                <input type="password" id="loginPassword" placeholder="Enter your password">
-            </div>
-            <button class="auth-btn" onclick="handleLogin()">Login</button>
-            <div class="auth-toggle">
-                Don't have an account? <a onclick="toggleAuthForm()">Sign Up</a>
-            </div>
-            <div class="auth-links" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-                <span style="font-size: 0.75em; color: #999;">Admin? <a onclick="toggleToAdminLogin()">Login as Admin</a></span>
-            </div>
-        </div>
-
-        <!-- Signup Form -->
-        <div id="signupForm" class="auth-form-section">
-            <h2>Create Account</h2>
-            <p class="auth-subtitle">Join us to get started</p>
-            <div class="auth-form-group">
-                <label>Full Name</label>
-                <input type="text" id="signupName" placeholder="Enter your name">
-            </div>
-            <div class="auth-form-group">
-                <label>Email</label>
-                <input type="email" id="signupEmail" placeholder="Enter your email">
-            </div>
-            <div class="auth-form-group">
-                <label>Password</label>
-                <input type="password" id="signupPassword" placeholder="Create a password">
-            </div>
-            <button class="auth-btn" onclick="handleSignup()">Sign Up</button>
-            <div class="auth-toggle">
-                Already have an account? <a onclick="toggleAuthForm()">Login</a>
-            </div>
-        </div>
-
-        <!-- Admin Login Form -->
-        <div id="adminLoginForm" class="auth-form-section">
-            <h2>Admin Login</h2>
-            <p class="auth-subtitle">Manage all users and loans</p>
-            <div class="auth-form-group">
-                <label>Username</label>
-                <input type="text" id="adminUsername" placeholder="Enter admin username">
-            </div>
-            <div class="auth-form-group">
-                <label>Password</label>
-                <input type="password" id="adminPassword" placeholder="Enter admin password">
-            </div>
-            <button class="auth-btn" onclick="handleAdminLogin()">Login as Admin</button>
-            <div class="auth-toggle">
-                <a onclick="toggleToUserLogin()">← Back to User Login</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- MAIN APP CONTAINER -->
-<div id="appContainer" class="container">
-    <div class="header">
-        <div class="header-content">
-            <h1>💰 Loan Manager</h1>
-            <p>Professional Loan Tracking</p>
-        </div>
-        <div class="user-section">
-            <span class="user-name" id="userName">User</span>
-            <button class="logout-btn" onclick="handleLogout()">Logout</button>
-        </div>
-    </div>
-
-    <div class="tabs">
-        <button class="active" onclick="switchTab('home')">Home</button>
-        <button onclick="switchTab('new-loan')">New Loan</button>
-    </div>
-
-    <div class="content">
-        <!-- HOME TAB -->
-        <div id="home" class="tab-content active">
-            <div id="loansList"></div>
-        </div>
-
-        <!-- NEW LOAN TAB -->
-        <div id="new-loan" class="tab-content">
-            <h3>Create New Loan</h3>
-            <div class="form-group">
-                <label>Loan Name</label>
-                <input type="text" id="loanName" placeholder="e.g., Car Loan">
-            </div>
-            <div class="form-group">
-                <label>Borrower Name</label>
-                <input type="text" id="borrowerName" placeholder="Enter borrower name">
-            </div>
-            <div class="form-group">
-                <label>Principal Amount (₹)</label>
-                <input type="number" id="principalAmount" placeholder="Enter amount">
-            </div>
-            <div class="form-group">
-                <label>Annual Interest Rate (%)</label>
-                <input type="number" id="interestRate" step="0.01" placeholder="e.g., 10">
-            </div>
-            <div class="form-group">
-                <label>Duration (Months)</label>
-                <input type="number" id="loanDuration" placeholder="e.g., 12">
-            </div>
-            <div class="form-group">
-                <label>Start Date</label>
-                <input type="date" id="startDate">
-            </div>
-            <div class="form-group">
-                <label>Payment Frequency</label>
-                <select id="paymentFrequency">
-                    <option value="monthly">Monthly</option>
-                    <option value="yearly">Yearly</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Notes</label>
-                <textarea id="loanNotes" placeholder="Add any notes..."></textarea>
-            </div>
-            <div class="button-group">
-                <button class="btn-primary" onclick="createLoan()">Create Loan</button>
-            </div>
-        </div>
-
-        <!-- LOAN DETAILS VIEW -->
-        <div id="detailsView" class="details-view">
-            <button class="back-btn" onclick="backToHome()">← Back</button>
+    <!-- AUTH CONTAINER -->
+    <div class="auth-container active">
+        <div class="auth-box">
+            <h2>Welcome Back 👋</h2>
+            <p class="auth-subtitle">Sign in to your Loan Manager account</p>
+            <div id="authMessage"></div>
             
-            <div class="summary-grid">
-                <div class="summary-card">
-                    <div class="summary-label">Total Amount</div>
-                    <div class="summary-value" id="detailsTotalAmount">₹0</div>
+            <!-- Login Form -->
+            <div class="auth-form-section active" id="loginForm">
+                <div class="auth-form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="you@example.com">
                 </div>
-                <div class="summary-card">
-                    <div class="summary-label">Status</div>
-                    <div class="summary-value" id="detailsStatus">-</div>
+                <div class="auth-form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••">
+                </div>
+                <button class="auth-btn" onclick="handleLogin()">Sign In</button>
+                <div class="auth-toggle">
+                    Don't have an account? <a onclick="switchAuthForm('signupForm')">Create one</a>
+                </div>
+                <div class="auth-links">
+                    <a onclick="switchAuthForm('forgotForm')">Forgot password?</a>
                 </div>
             </div>
 
-            <div class="details-section">
-                <div class="section-title">Loan Information</div>
-                <div id="loanDetailsInfo"></div>
+            <!-- Signup Form -->
+            <div class="auth-form-section" id="signupForm">
+                <div class="auth-form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="signupName" placeholder="John Doe">
+                </div>
+                <div class="auth-form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="signupEmail" placeholder="you@example.com">
+                </div>
+                <div class="auth-form-group">
+                    <label>Password</label>
+                    <input type="password" id="signupPassword" placeholder="••••••••">
+                </div>
+                <button class="auth-btn" onclick="handleSignup()">Create Account</button>
+                <div class="auth-toggle">
+                    Already have an account? <a onclick="switchAuthForm('loginForm')">Sign in</a>
+                </div>
             </div>
 
-            <div class="details-section">
-                <div class="section-title">Actions</div>
-                <button class="edit-btn" onclick="editLoan()">✏️ Edit</button>
-                <button class="pdf-btn" onclick="generatePDF()">📄 PDF</button>
-                <button class="whatsapp-btn" onclick="shareWhatsApp()">💬 WhatsApp</button>
-                <button class="delete-btn" onclick="deleteLoan()">🗑️ Delete</button>
+            <!-- Forgot Password Form -->
+            <div class="auth-form-section" id="forgotForm">
+                <div class="auth-form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="forgotEmail" placeholder="you@example.com">
+                </div>
+                <button class="auth-btn" onclick="handleForgot()">Reset Password</button>
+                <div class="back-link">
+                    <a onclick="switchAuthForm('loginForm')">Back to login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>💰 Loan Manager</h1>
+                <p>Manage your loans efficiently</p>
+            </div>
+            <div class="user-section">
+                <span class="user-name" id="userName">User</span>
+                <button class="logout-btn" onclick="handleLogout()">Logout</button>
             </div>
         </div>
 
-        <!-- PAYMENT VIEW -->
-        <div id="paymentView" class="payment-view">
-            <button class="back-btn" onclick="backToHome()">← Back</button>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(0, this)">📋 Loans</button>
+            <button class="tab-btn" onclick="switchTab(1, this)">➕ New Loan</button>
+        </div>
+
+        <div class="content">
+            <!-- LOANS TAB -->
+            <div class="tab-content active" id="tab0">
+                <div id="loansList"></div>
+            </div>
+
+            <!-- NEW LOAN TAB -->
+            <div class="tab-content" id="tab1">
+                <h3>Create New Loan</h3>
+                <div class="form-group">
+                    <label>Borrower Name</label>
+                    <input type="text" id="borrowerName" placeholder="Enter borrower's name">
+                </div>
+                <div class="form-group">
+                    <label>Loan Amount</label>
+                    <input type="number" id="loanAmount" placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label>Interest Rate (%)</label>
+                    <input type="number" id="interestRate" placeholder="5.0">
+                </div>
+                <div class="form-group">
+                    <label>Loan Duration (months)</label>
+                    <input type="number" id="loanDuration" placeholder="12">
+                </div>
+                <div class="form-group">
+                    <label>Payment Frequency</label>
+                    <select id="paymentFrequency">
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="semi-annual">Semi-Annual</option>
+                        <option value="annual">Annual</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="handleAddLoan()">Create Loan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAILS MODAL -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content">
+            <div class="details-view" id="detailsView">
+                <button class="back-btn" onclick="closeModal('detailsModal')">← Back</button>
+                <div id="loanDetails"></div>
+            </div>
+            <div class="payment-view" id="paymentView">
+                <button class="back-btn" onclick="showView('detailsView')">← Back to Details</button>
+                <div id="paymentContent"></div>
+            </div>
+            <div class="edit-view" id="editView">
+                <button class="back-btn" onclick="showView('detailsView')">← Back to Details</button>
+                <div id="editContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock Data & State
+        let loans = JSON.parse(localStorage.getItem('loans')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let currentLoanId = null;
+
+        // Initialize App
+        if (!currentUser) {
+            document.querySelector('.auth-container').classList.add('active');
+            document.querySelector('.container').classList.remove('active');
+        } else {
+            document.querySelector('.auth-container').classList.remove('active');
+            document.querySelector('.container').classList.add('active');
+            document.getElementById('userName').textContent = currentUser.name;
+            displayLoans();
+        }
+
+        // Auth Functions
+        function switchAuthForm(formId) {
+            document.querySelectorAll('.auth-form-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(formId).classList.add('active');
+            document.getElementById('authMessage').className = '';
+            document.getElementById('authMessage').textContent = '';
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
             
-            <div class="details-section">
-                <div class="section-title">Payment Schedule</div>
-                <div id="paymentsList"></div>
-            </div>
+            if (!email || !password) {
+                showAuthMessage('Please fill all fields', 'error');
+                return;
+            }
 
-            <div class="details-section">
-                <div class="section-title">Payment Statistics</div>
-                <div class="payment-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Total Paid</span>
-                        <span class="stat-value" id="totalPaid">₹0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Remaining</span>
-                        <span class="stat-value" id="totalRemaining">₹0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Paid Installments</span>
-                        <span class="stat-value" id="paidCount">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Pending Installments</span>
-                        <span class="stat-value" id="pendingCount">0</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- EDIT VIEW -->
-        <div id="editView" class="edit-view">
-            <button class="back-btn" onclick="backToHome()">← Back</button>
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
             
-            <div class="edit-mode">
-                <div style="color: #667eea; font-weight: 600; margin-bottom: 8px;">📝 Edit Loan Details</div>
-                <p style="font-size: 0.85em; color: #555;">Modify payment status below</p>
-            </div>
-
-            <div class="details-section">
-                <div class="section-title">Update Payment Status</div>
-                <div id="editPaymentsList"></div>
-            </div>
-
-            <div class="button-group">
-                <button class="btn-primary" onclick="saveEditPayments()">Save Changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ADMIN CONTAINER -->
-<div id="adminContainer" class="admin-container">
-    <div class="admin-header">
-        <div class="header-content">
-            <h1>🔐 Admin Dashboard</h1>
-            <p>Manage Users & Loans</p>
-        </div>
-        <div class="user-section">
-            <span class="user-name" id="adminName">Admin</span>
-            <button class="logout-btn" onclick="handleLogout()">Logout</button>
-        </div>
-    </div>
-
-    <div class="tabs admin">
-        <button class="active" onclick="switchAdminTab('users')">Users</button>
-        <button onclick="switchAdminTab('all-loans')">All Loans</button>
-    </div>
-
-    <div class="content">
-        <!-- USERS TAB -->
-        <div id="users" class="tab-content active">
-            <div class="admin-stats">
-                <div class="stat-card">
-                    <div class="stat-label">Total Users</div>
-                    <div class="stat-value" id="totalUsersCount">0</div>
-                </div>
-                <div class="stat-card red">
-                    <div class="stat-label">Total Loans</div>
-                    <div class="stat-value" id="totalLoansCount">0</div>
-                </div>
-            </div>
-            <div id="usersList"></div>
-        </div>
-
-        <!-- ALL LOANS TAB -->
-        <div id="all-loans" class="tab-content">
-            <div id="allLoansList"></div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Initialize LocalStorage Data Structure
-    let currentUser = null;
-    let currentLoanId = null;
-    let isAdmin = false;
-
-    const ADMIN_USERNAME = 'Naveen';
-    const ADMIN_PASSWORD = 'Naveen@12';
-
-    function initApp() {
-        const savedUser = localStorage.getItem('currentUser');
-        const isAdminUser = localStorage.getItem('isAdmin') === 'true';
-        
-        if (savedUser) {
-            currentUser = JSON.parse(savedUser);
-            isAdmin = isAdminUser;
-            
-            if (isAdmin) {
-                showAdminPanel();
-                loadAdminDashboard();
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                currentUser = user;
+                document.querySelector('.auth-container').classList.remove('active');
+                document.querySelector('.container').classList.add('active');
+                document.getElementById('userName').textContent = user.name;
+                displayLoans();
             } else {
-                showApp();
-                loadLoans();
+                showAuthMessage('Invalid email or password', 'error');
             }
         }
-    }
 
-    function showAuthPage() {
-        document.getElementById('authContainer').classList.add('active');
-        document.getElementById('appContainer').classList.remove('active');
-        document.getElementById('adminContainer').classList.remove('active');
-    }
-
-    function showApp() {
-        document.getElementById('authContainer').classList.remove('active');
-        document.getElementById('appContainer').classList.add('active');
-        document.getElementById('adminContainer').classList.remove('active');
-        document.getElementById('userName').textContent = currentUser.name;
-    }
-
-    function showAdminPanel() {
-        document.getElementById('authContainer').classList.remove('active');
-        document.getElementById('appContainer').classList.remove('active');
-        document.getElementById('adminContainer').classList.add('active');
-        document.getElementById('adminName').textContent = 'Admin';
-    }
-
-    function showMessage(message, type) {
-        const msgEl = document.getElementById('authMessage');
-        msgEl.textContent = message;
-        msgEl.className = type === 'success' ? 'success' : 'error';
-        setTimeout(() => {
-            msgEl.className = '';
-        }, 3000);
-    }
-
-    function toggleAuthForm() {
-        document.getElementById('loginForm').classList.toggle('active');
-        document.getElementById('signupForm').classList.toggle('active');
-    }
-
-    function toggleToAdminLogin() {
-        document.getElementById('loginForm').classList.remove('active');
-        document.getElementById('signupForm').classList.remove('active');
-        document.getElementById('adminLoginForm').classList.add('active');
-    }
-
-    function toggleToUserLogin() {
-        document.getElementById('adminLoginForm').classList.remove('active');
-        document.getElementById('loginForm').classList.add('active');
-    }
-
-    function handleLogin() {
-        const username = document.getElementById('loginUsername').value;
-        const password = document.getElementById('loginPassword').value;
-
-        if (!username || !password) {
-            showMessage('Please fill all fields', 'error');
-            return;
-        }
-
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const user = users.find(u => (u.email === username || u.name === username) && u.password === password);
-
-        if (user) {
-            currentUser = user;
-            isAdmin = false;
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            localStorage.setItem('isAdmin', 'false');
-            showMessage('Login successful!', 'success');
-            setTimeout(() => {
-                showApp();
-                loadLoans();
-            }, 500);
-        } else {
-            showMessage('Invalid credentials', 'error');
-        }
-    }
-
-    function handleAdminLogin() {
-        const username = document.getElementById('adminUsername').value;
-        const password = document.getElementById('adminPassword').value;
-
-        if (!username || !password) {
-            showMessage('Please fill all fields', 'error');
-            return;
-        }
-
-        if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-            currentUser = { name: 'Admin', id: 'admin_user' };
-            isAdmin = true;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            localStorage.setItem('isAdmin', 'true');
-            showMessage('Admin login successful!', 'success');
-            setTimeout(() => {
-                showAdminPanel();
-                loadAdminDashboard();
-            }, 500);
-        } else {
-            showMessage('Invalid admin credentials', 'error');
-        }
-    }
-
-    function handleSignup() {
-        const name = document.getElementById('signupName').value;
-        const email = document.getElementById('signupEmail').value;
-        const password = document.getElementById('signupPassword').value;
-
-        if (!name || !email || !password) {
-            showMessage('Please fill all fields', 'error');
-            return;
-        }
-
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (users.find(u => u.email === email)) {
-            showMessage('Email already registered', 'error');
-            return;
-        }
-
-        const newUser = { id: Date.now(), name, email, password };
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
-
-        currentUser = newUser;
-        isAdmin = false;
-        localStorage.setItem('currentUser', JSON.stringify(newUser));
-        localStorage.setItem('isAdmin', 'false');
-        showMessage('Account created successfully!', 'success');
-        setTimeout(() => {
-            showApp();
-            loadLoans();
-        }, 500);
-    }
-
-    function handleLogout() {
-        currentUser = null;
-        isAdmin = false;
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('isAdmin');
-        document.getElementById('loginUsername').value = '';
-        document.getElementById('loginPassword').value = '';
-        document.getElementById('adminUsername').value = '';
-        document.getElementById('adminPassword').value = '';
-        document.getElementById('signupName').value = '';
-        document.getElementById('signupEmail').value = '';
-        document.getElementById('signupPassword').value = '';
-        document.getElementById('loginForm').classList.add('active');
-        document.getElementById('signupForm').classList.remove('active');
-        document.getElementById('adminLoginForm').classList.remove('active');
-        showAuthPage();
-    }
-
-    function switchTab(tabName) {
-        document.querySelectorAll('#appContainer .tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('#appContainer .tabs button').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(tabName).classList.add('active');
-        event.target.classList.add('active');
-    }
-
-    function switchAdminTab(tabName) {
-        document.querySelectorAll('#adminContainer .tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('#adminContainer .tabs button').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(tabName).classList.add('active');
-        event.target.classList.add('active');
-
-        if (tabName === 'all-loans') {
-            loadAllLoans();
-        }
-    }
-
-    // ADMIN FUNCTIONS
-    function loadAdminDashboard() {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        let totalLoans = 0;
-
-        users.forEach(user => {
-            const userLoans = JSON.parse(localStorage.getItem(`loans_${user.id}`) || '[]');
-            totalLoans += userLoans.length;
-        });
-
-        document.getElementById('totalUsersCount').textContent = users.length;
-        document.getElementById('totalLoansCount').textContent = totalLoans;
-
-        loadAllUsers();
-    }
-
-    function loadAllUsers() {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const usersList = document.getElementById('usersList');
-
-        if (users.length === 0) {
-            usersList.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon">👥</div>
-                    <div class="empty-text">No users registered</div>
-                </div>
-            `;
-            return;
-        }
-
-        usersList.innerHTML = users.map(user => {
-            const userLoans = JSON.parse(localStorage.getItem(`loans_${user.id}`) || '[]');
-            const totalAmount = userLoans.reduce((sum, l) => {
-                const payments = l.payments || [];
-                return sum + payments.reduce((s, p) => s + parseFloat(p.amount || 0), 0);
-            }, 0);
-
-            return `
-                <div class="user-card">
-                    <div class="user-card-header">
-                        <div class="user-card-name">${user.name}</div>
-                    </div>
-                    <div class="user-card-info">
-                        <div class="info-item">
-                            <div class="info-label">Email</div>
-                            <div class="info-value">${user.email}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Active Loans</div>
-                            <div class="info-value">${userLoans.length}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Total Amount</div>
-                            <div class="info-value">₹${totalAmount.toLocaleString()}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Member Since</div>
-                            <div class="info-value">${new Date(user.id).toLocaleDateString()}</div>
-                        </div>
-                    </div>
-                    <div style="margin-top: 12px;">
-                        <button class="admin-btn" onclick="viewUserLoans('${user.id}')">View Loans</button>
-                        <button class="admin-btn" style="background: #dc3545;" onclick="deleteUser('${user.id}')">Delete User</button>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-
-    function viewUserLoans(userId) {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const user = users.find(u => u.id == userId);
-        const userLoans = JSON.parse(localStorage.getItem(`loans_${userId}`) || '[]');
-
-        alert(`User: ${user.name}\nTotal Loans: ${userLoans.length}\n\nLoans:\n${userLoans.map(l => `- ${l.name} (₹${l.principal})`).join('\n')}`);
-    }
-
-    function deleteUser(userId) {
-        if (!confirm('Are you sure you want to delete this user and all their data?')) return;
-
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const filteredUsers = users.filter(u => u.id != userId);
-        localStorage.setItem('users', JSON.stringify(filteredUsers));
-        localStorage.removeItem(`loans_${userId}`);
-
-        alert('User deleted successfully');
-        loadAdminDashboard();
-    }
-
-    function loadAllLoans() {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const allLoansList = document.getElementById('allLoansList');
-        let allLoans = [];
-
-        users.forEach(user => {
-            const userLoans = JSON.parse(localStorage.getItem(`loans_${user.id}`) || '[]');
-            userLoans.forEach(loan => {
-                allLoans.push({ ...loan, userName: user.name, userId: user.id });
-            });
-        });
-
-        if (allLoans.length === 0) {
-            allLoansList.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon">📋</div>
-                    <div class="empty-text">No loans in system</div>
-                </div>
-            `;
-            return;
-        }
-
-        allLoansList.innerHTML = allLoans.map(loan => {
-            const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
-            const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
-            const paidCount = loan.payments.filter(p => p.paid).length;
-            const statusBadge = loan.payments.every(p => p.paid) ? 'Completed' : 
-                               loan.payments.some(p => p.paid) ? 'Active' : 'Pending';
-            const statusClass = statusBadge === 'Completed' ? 'status-closed' : 
-                               statusBadge === 'Active' ? 'status-active' : 'status-pending';
-
-            return `
-                <div class="loan-card">
-                    <div class="loan-header">
-                        <div class="loan-name">${loan.name}</div>
-                        <div class="status-badge ${statusClass}">${statusBadge}</div>
-                    </div>
-                    <div class="loan-info">
-                        <div class="info-item">
-                            <div class="info-label">Owner</div>
-                            <div class="info-value">${loan.userName}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Borrower</div>
-                            <div class="info-value">${loan.borrowerName}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Amount</div>
-                            <div class="info-value">₹${parseFloat(loan.principal).toLocaleString()}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Paid</div>
-                            <div class="info-value">₹${totalPaid.toLocaleString()}</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-
-    // USER FUNCTIONS
-    function createLoan() {
-        if (!currentUser) return;
-
-        const name = document.getElementById('loanName').value;
-        const borrowerName = document.getElementById('borrowerName').value;
-        const principal = parseFloat(document.getElementById('principalAmount').value);
-        const interestRate = parseFloat(document.getElementById('interestRate').value);
-        const duration = parseInt(document.getElementById('loanDuration').value);
-        const startDate = document.getElementById('startDate').value;
-        const frequency = document.getElementById('paymentFrequency').value;
-        const notes = document.getElementById('loanNotes').value;
-
-        if (!name || !borrowerName || !principal || !interestRate || !duration || !startDate) {
-            alert('Please fill all required fields');
-            return;
-        }
-
-        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
-        
-        // Generate payment schedule
-        const payments = generatePaymentSchedule(startDate, duration, principal, interestRate, frequency);
-
-        const newLoan = {
-            id: Date.now(),
-            name,
-            borrowerName,
-            principal,
-            interestRate,
-            duration,
-            startDate,
-            frequency,
-            notes,
-            payments,
-            createdAt: new Date().toISOString()
-        };
-
-        loans.push(newLoan);
-        localStorage.setItem(`loans_${currentUser.id}`, JSON.stringify(loans));
-
-        alert('Loan created successfully!');
-        document.getElementById('loanName').value = '';
-        document.getElementById('borrowerName').value = '';
-        document.getElementById('principalAmount').value = '';
-        document.getElementById('interestRate').value = '';
-        document.getElementById('loanDuration').value = '';
-        document.getElementById('startDate').value = '';
-        document.getElementById('paymentFrequency').value = 'monthly';
-        document.getElementById('loanNotes').value = '';
-
-        loadLoans();
-        switchTab('home');
-    }
-
-    function generatePaymentSchedule(startDate, months, principal, annualRate, frequency) {
-        const payments = [];
-        const monthlyRate = annualRate / 12 / 100;
-        let balance = principal;
-        
-        let start = new Date(startDate);
-        let paymentNumber = 0;
-
-        if (frequency === 'monthly') {
-            // Monthly payments
-            for (let i = 0; i < months; i++) {
-                const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
-                const interest = balance * monthlyRate;
-                const principalPayment = emi - interest;
-                balance -= principalPayment;
-
-                const dueDate = new Date(start);
-                dueDate.setMonth(dueDate.getMonth() + i);
-
-                payments.push({
-                    id: Date.now() + i,
-                    dueDate: dueDate.toISOString().split('T')[0],
-                    amount: emi.toFixed(2),
-                    principal: principalPayment.toFixed(2),
-                    interest: interest.toFixed(2),
-                    paid: false,
-                    paymentNumber: i + 1
-                });
-            }
-        } else if (frequency === 'yearly') {
-            // Yearly payments
-            const yearsCount = Math.ceil(months / 12);
-            const yearlyRate = annualRate / 100;
+        function handleSignup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
             
-            for (let i = 0; i < yearsCount; i++) {
-                const dueDate = new Date(start);
-                dueDate.setFullYear(dueDate.getFullYear() + i);
+            if (!name || !email || !password) {
+                showAuthMessage('Please fill all fields', 'error');
+                return;
+            }
 
-                const yearInterest = principal * yearlyRate;
-                const yearPrincipal = i === yearsCount - 1 ? balance : principal / yearsCount;
-                balance -= yearPrincipal;
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            if (users.find(u => u.email === email)) {
+                showAuthMessage('Email already registered', 'error');
+                return;
+            }
 
+            const newUser = { id: Date.now(), name, email, password };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            showAuthMessage('Account created! Signing in...', 'success');
+            
+            setTimeout(() => {
+                localStorage.setItem('currentUser', JSON.stringify(newUser));
+                currentUser = newUser;
+                document.querySelector('.auth-container').classList.remove('active');
+                document.querySelector('.container').classList.add('active');
+                document.getElementById('userName').textContent = newUser.name;
+                displayLoans();
+            }, 1500);
+        }
+
+        function handleForgot() {
+            const email = document.getElementById('forgotEmail').value;
+            if (!email) {
+                showAuthMessage('Please enter your email', 'error');
+                return;
+            }
+            showAuthMessage('Password reset link sent to your email', 'success');
+            setTimeout(() => switchAuthForm('loginForm'), 2000);
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            document.querySelector('.container').classList.remove('active');
+            document.querySelector('.auth-container').classList.add('active');
+            switchAuthForm('loginForm');
+        }
+
+        function showAuthMessage(msg, type) {
+            const msgEl = document.getElementById('authMessage');
+            msgEl.textContent = msg;
+            msgEl.className = type;
+        }
+
+        // App Functions
+        function handleAddLoan() {
+            const name = document.getElementById('borrowerName').value;
+            const amount = parseFloat(document.getElementById('loanAmount').value);
+            const rate = parseFloat(document.getElementById('interestRate').value);
+            const duration = parseInt(document.getElementById('loanDuration').value);
+            const frequency = document.getElementById('paymentFrequency').value;
+
+            if (!name || !amount || !rate || !duration) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            const loan = {
+                id: Date.now(),
+                userId: currentUser.id,
+                name,
+                amount,
+                rate,
+                duration,
+                frequency,
+                startDate: new Date().toISOString(),
+                status: 'active',
+                payments: generatePaymentSchedule(duration, frequency)
+            };
+
+            loans.push(loan);
+            localStorage.setItem('loans', JSON.stringify(loans));
+            displayLoans();
+            
+            document.getElementById('borrowerName').value = '';
+            document.getElementById('loanAmount').value = '';
+            document.getElementById('interestRate').value = '';
+            document.getElementById('loanDuration').value = '';
+            
+            switchTab(0);
+        }
+
+        function generatePaymentSchedule(months, frequency) {
+            const payments = [];
+            const monthsPerPayment = frequency === 'monthly' ? 1 : frequency === 'quarterly' ? 3 : frequency === 'semi-annual' ? 6 : 12;
+            
+            for (let i = 0; i < months; i += monthsPerPayment) {
                 payments.push({
-                    id: Date.now() + i,
-                    dueDate: dueDate.toISOString().split('T')[0],
-                    amount: (yearPrincipal + yearInterest).toFixed(2),
-                    principal: yearPrincipal.toFixed(2),
-                    interest: yearInterest.toFixed(2),
+                    month: i + 1,
+                    dueDate: new Date(Date.now() + (i * 30 * 24 * 60 * 60 * 1000)).toLocaleDateString(),
+                    amount: 0,
                     paid: false,
-                    paymentNumber: i + 1
+                    paidDate: null
                 });
             }
+            return payments;
         }
 
-        return payments;
-    }
+        function displayLoans() {
+            const userLoans = loans.filter(l => l.userId === currentUser.id);
+            const container = document.getElementById('loansList');
+            
+            if (userLoans.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">No loans yet</div></div>';
+                return;
+            }
 
-    function loadLoans() {
-        if (!currentUser) return;
-
-        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
-        const loansList = document.getElementById('loansList');
-
-        if (loans.length === 0) {
-            loansList.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon">📋</div>
-                    <div class="empty-text">No loans yet</div>
-                    <p>Create your first loan to get started</p>
-                </div>
-            `;
-            return;
-        }
-
-        loansList.innerHTML = loans.map(loan => {
-            const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
-            const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
-            const paidCount = loan.payments.filter(p => p.paid).length;
-            const statusBadge = loan.payments.every(p => p.paid) ? 'Completed' : 
-                               loan.payments.some(p => p.paid) ? 'Active' : 'Pending';
-            const statusClass = statusBadge === 'Completed' ? 'status-closed' : 
-                               statusBadge === 'Active' ? 'status-active' : 'status-pending';
-
-            return `
-                <div class="loan-card" onclick="viewLoanDetails('${loan.id}')">
+            container.innerHTML = userLoans.map(loan => `
+                <div class="loan-card" onclick="viewLoanDetails(${loan.id})">
                     <div class="loan-header">
                         <div class="loan-name">${loan.name}</div>
-                        <div class="status-badge ${statusClass}">${statusBadge}</div>
+                        <span class="status-badge status-${loan.status}">${loan.status}</span>
                     </div>
                     <div class="loan-info">
                         <div class="info-item">
-                            <div class="info-label">Borrower</div>
-                            <div class="info-value">${loan.borrowerName}</div>
+                            <span class="info-label">Amount</span>
+                            <span class="info-value">₹${loan.amount.toFixed(2)}</span>
                         </div>
                         <div class="info-item">
-                            <div class="info-label">Amount</div>
-                            <div class="info-value">₹${parseFloat(loan.principal).toLocaleString()}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Paid</div>
-                            <div class="info-value">₹${totalPaid.toLocaleString()}</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Progress</div>
-                            <div class="info-value">${paidCount}/${loan.payments.length}</div>
+                            <span class="info-label">Rate</span>
+                            <span class="info-value">${loan.rate}%</span>
                         </div>
                     </div>
                 </div>
-            `;
-        }).join('');
-    }
-
-    function viewLoanDetails(loanId) {
-        currentLoanId = loanId;
-        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
-        const loan = loans.find(l => l.id == loanId);
-
-        if (!loan) return;
-
-        const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
-        const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
-        const paidCount = loan.payments.filter(p => p.paid).length;
-        const statusBadge = loan.payments.every(p => p.paid) ? 'Completed' : 
-                           loan.payments.some(p => p.paid) ? 'Active' : 'Pending';
-
-        document.getElementById('detailsTotalAmount').textContent = `₹${totalAmount.toLocaleString()}`;
-        document.getElementById('detailsStatus').textContent = statusBadge;
-
-        const infoHtml = `
-            <div class="info-card">
-                <div class="info-card-title">Borrower</div>
-                <div class="info-card-desc">${loan.borrowerName}</div>
-            </div>
-            <div class="info-card">
-                <div class="info-card-title">Start Date</div>
-                <div class="info-card-desc">${new Date(loan.startDate).toLocaleDateString()}</div>
-            </div>
-            <div class="info-card">
-                <div class="info-card-title">Principal Amount</div>
-                <div class="info-card-desc">₹${parseFloat(loan.principal).toLocaleString()}</div>
-            </div>
-            <div class="info-card">
-                <div class="info-card-title">Interest Rate</div>
-                <div class="info-card-desc">${loan.interestRate}% per annum</div>
-            </div>
-            <div class="info-card">
-                <div class="info-card-title">Payment Frequency</div>
-                <div class="info-card-desc">${loan.frequency.charAt(0).toUpperCase() + loan.frequency.slice(1)}</div>
-            </div>
-            ${loan.notes ? `
-            <div class="info-card">
-                <div class="info-card-title">Notes</div>
-                <div class="info-card-desc">${loan.notes}</div>
-            </div>
-            ` : ''}
-        `;
-
-        document.getElementById('loanDetailsInfo').innerHTML = infoHtml;
-
-        // Show payment view
-        document.querySelectorAll('.details-view, .payment-view, .edit-view').forEach(el => el.classList.remove('active'));
-        document.getElementById('home').classList.remove('active');
-        document.getElementById('detailsView').classList.add('active');
-
-        loadPayments(loan);
-    }
-
-    function loadPayments(loan) {
-        const paymentsList = document.getElementById('paymentsList');
-        const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
-        const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
-        const paidCount = loan.payments.filter(p => p.paid).length;
-
-        document.getElementById('totalPaid').textContent = `₹${totalPaid.toLocaleString()}`;
-        document.getElementById('totalRemaining').textContent = `₹${(totalAmount - totalPaid).toLocaleString()}`;
-        document.getElementById('paidCount').textContent = paidCount;
-        document.getElementById('pendingCount').textContent = loan.payments.length - paidCount;
-
-        paymentsList.innerHTML = loan.payments.map(payment => {
-            const isPaid = payment.paid;
-            const dueDate = new Date(payment.dueDate);
-            const isOverdue = dueDate < new Date() && !isPaid;
-
-            return `
-                <div class="payment-item ${isPaid ? 'paid' : ''} ${isOverdue ? 'overdue' : ''}">
-                    <div class="payment-info">
-                        <div class="payment-month">${dueDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</div>
-                        <div class="payment-amount">Amount: ₹${parseFloat(payment.amount).toLocaleString()}</div>
-                    </div>
-                    <input type="checkbox" class="payment-checkbox" ${isPaid ? 'checked disabled' : ''} onchange="togglePayment(${payment.id}, this.checked)">
-                </div>
-            `;
-        }).join('');
-    }
-
-    function togglePayment(paymentId, isPaid) {
-        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
-        const loan = loans.find(l => l.id == currentLoanId);
-
-        if (loan) {
-            const payment = loan.payments.find(p => p.id == paymentId);
-            if (payment) {
-                payment.paid = isPaid;
-                localStorage.setItem(`loans_${currentUser.id}`, JSON.stringify(loans));
-                loadPayments(loan);
-            }
+            `).join('');
         }
-    }
 
-    function editLoan() {
-        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
-        const loan = loans.find(l => l.id == currentLoanId);
-
-        if (!loan) return;
-
-        const editPaymentsList = document.getElementById('editPaymentsList');
-        editPaymentsList.innerHTML = loan.payments.map(payment => {
-            const dueDate = new Date(payment.dueDate);
-            const isPaid = payment.paid;
-
-            return `
-                <div class="payment-item ${isPaid ? 'paid edit-mode' : ''}" id="edit-payment-${payment.id}">
-                    <div class="payment-info">
-                        <div class="payment-month">${dueDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</div>
-                        <div class="payment-amount">Amount: ₹${parseFloat(payment.amount).toLocaleString()}</div>
+        function viewLoanDetails(loanId) {
+            currentLoanId = loanId;
+            const loan = loans.find(l => l.id === loanId);
+            
+            const detailsHtml = `
+                <h3>${loan.name}</h3>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">Principal</div>
+                        <div class="summary-value">₹${loan.amount}</div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <input type="checkbox" class="payment-checkbox edit-check" data-id="${payment.id}" ${isPaid ? 'checked' : ''}>
-                        ${isPaid ? `<button class="enable-payment-btn" onclick="resetPayment(${payment.id})">Reset</button>` : ''}
+                    <div class="summary-card">
+                        <div class="summary-label">Rate</div>
+                        <div class="summary-value">${loan.rate}%</div>
                     </div>
                 </div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="editLoan(${loanId})">Edit</button>
+                    <button class="btn-success" onclick="showPayments(${loanId})">Payments</button>
+                    <button class="btn-danger" onclick="deleteLoan(${loanId})">Delete</button>
+                </div>
             `;
-        }).join('');
 
-        document.getElementById('detailsView').classList.remove('active');
-        document.getElementById('editView').classList.add('active');
-    }
-
-    function resetPayment(paymentId) {
-        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
-        const loan = loans.find(l => l.id == currentLoanId);
-
-        if (loan) {
-            const payment = loan.payments.find(p => p.id == paymentId);
-            if (payment) {
-                payment.paid = false;
-                document.querySelector(`#edit-payment-${paymentId} input`).checked = false;
-                document.querySelector(`#edit-payment-${paymentId}`).classList.remove('paid', 'edit-mode');
-                document.querySelector(`#edit-payment-${paymentId} .enable-payment-btn`)?.remove();
-            }
+            document.getElementById('loanDetails').innerHTML = detailsHtml;
+            showModal('detailsModal');
+            showView('detailsView');
         }
-    }
 
-    function saveEditPayments() {
-        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
-        const loan = loans.find(l => l.id == currentLoanId);
-
-        if (loan) {
-            document.querySelectorAll('.edit-check').forEach(checkbox => {
-                const paymentId = parseInt(checkbox.dataset.id);
-                const payment = loan.payments.find(p => p.id == paymentId);
-                if (payment) {
-                    payment.paid = checkbox.checked;
-                }
-            });
-
-            localStorage.setItem(`loans_${currentUser.id}`, JSON.stringify(loans));
-            alert('Payment status updated!');
-            viewLoanDetails(currentLoanId);
-        }
-    }
-
-    function generatePDF() {
-        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
-        const loan = loans.find(l => l.id == currentLoanId);
-
-        if (!loan) return;
-
-        const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
-        const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
-
-        const htmlContent = `
-            <div style="font-family: Arial, sans-serif; padding: 20px;">
-                <h1>Loan Statement</h1>
-                <p><strong>Loan Name:</strong> ${loan.name}</p>
-                <p><strong>Borrower:</strong> ${loan.borrowerName}</p>
-                <p><strong>Principal:</strong> ₹${parseFloat(loan.principal).toLocaleString()}</p>
-                <p><strong>Interest Rate:</strong> ${loan.interestRate}%</p>
-                <p><strong>Start Date:</strong> ${new Date(loan.startDate).toLocaleDateString()}</p>
-                <p><strong>Total Amount:</strong> ₹${totalAmount.toLocaleString()}</p>
-                <p><strong>Total Paid:</strong> ₹${totalPaid.toLocaleString()}</p>
-                <p><strong>Remaining:</strong> ₹${(totalAmount - totalPaid).toLocaleString()}</p>
-                <h2>Payment Schedule</h2>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tr style="background: #f0f0f0;">
-                        <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Amount</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
-                    </tr>
-                    ${loan.payments.map(p => `
-                        <tr>
-                            <td style="border: 1px solid #ddd; padding: 8px;">${new Date(p.dueDate).toLocaleDateString()}</td>
-                            <td style="border: 1px solid #ddd; padding: 8px;">₹${parseFloat(p.amount).toLocaleString()}</td>
-                            <td style="border: 1px solid #ddd; padding: 8px;">${p.paid ? 'Paid' : 'Pending'}</td>
-                        </tr>
+        function showPayments(loanId) {
+            const loan = loans.find(l => l.id === loanId);
+            const paymentHtml = `
+                <h3>Payment Schedule</h3>
+                <div class="payment-stats">
+                    ${loan.payments.map((p, idx) => `
+                        <div class="payment-item ${p.paid ? 'paid' : ''}">
+                            <div class="payment-info">
+                                <div class="payment-month">Month ${p.month}</div>
+                                <div class="payment-amount">${p.dueDate}</div>
+                            </div>
+                            <input type="checkbox" class="payment-checkbox" ${p.paid ? 'checked' : ''} onchange="togglePayment(${loanId}, ${idx})">
+                        </div>
                     `).join('')}
-                </table>
-            </div>
-        `;
+                </div>
+            `;
+            document.getElementById('paymentContent').innerHTML = paymentHtml;
+            showView('paymentView');
+        }
 
-        const element = document.createElement('div');
-        element.innerHTML = htmlContent;
+        function togglePayment(loanId, index) {
+            const loan = loans.find(l => l.id === loanId);
+            loan.payments[index].paid = !loan.payments[index].paid;
+            if (loan.payments[index].paid) {
+                loan.payments[index].paidDate = new Date().toLocaleDateString();
+            }
+            localStorage.setItem('loans', JSON.stringify(loans));
+            showPayments(loanId);
+        }
 
-        const opt = {
-            margin: 10,
-            filename: `${loan.name}_statement.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
-        };
+        function editLoan(loanId) {
+            const loan = loans.find(l => l.id === loanId);
+            const editHtml = `
+                <h3>Edit Loan</h3>
+                <div class="form-group">
+                    <label>Borrower Name</label>
+                    <input type="text" id="editName" value="${loan.name}">
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" id="editAmount" value="${loan.amount}">
+                </div>
+                <div class="form-group">
+                    <label>Interest Rate (%)</label>
+                    <input type="number" id="editRate" value="${loan.rate}">
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="saveEditLoan(${loanId})">Save</button>
+                    <button class="btn-secondary" onclick="showView('detailsView')">Cancel</button>
+                </div>
+            `;
+            document.getElementById('editContent').innerHTML = editHtml;
+            showView('editView');
+        }
 
-        html2pdf().set(opt).from(element).save();
-    }
+        function saveEditLoan(loanId) {
+            const loan = loans.find(l => l.id === loanId);
+            loan.name = document.getElementById('editName').value;
+            loan.amount = parseFloat(document.getElementById('editAmount').value);
+            loan.rate = parseFloat(document.getElementById('editRate').value);
+            localStorage.setItem('loans', JSON.stringify(loans));
+            displayLoans();
+            viewLoanDetails(loanId);
+        }
 
-    function shareWhatsApp() {
-        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
-        const loan = loans.find(l => l.id == currentLoanId);
+        function deleteLoan(loanId) {
+            if (confirm('Are you sure?')) {
+                loans = loans.filter(l => l.id !== loanId);
+                localStorage.setItem('loans', JSON.stringify(loans));
+                displayLoans();
+                closeModal('detailsModal');
+            }
+        }
 
-        if (!loan) return;
+        function switchTab(index, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab' + index).classList.add('active');
+            btn.classList.add('active');
+        }
 
-        const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
-        const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
 
-        const message = `
-💰 Loan Summary
-Loan: ${loan.name}
-Borrower: ${loan.borrowerName}
-Principal: ₹${parseFloat(loan.principal).toLocaleString()}
-Interest: ${loan.interestRate}%
-Total Amount: ₹${totalAmount.toLocaleString()}
-Paid: ₹${totalPaid.toLocaleString()}
-Remaining: ₹${(totalAmount - totalPaid).toLocaleString()}
-        `.trim();
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
 
-        const encodedMessage = encodeURIComponent(message);
-        window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
-    }
-
-    function deleteLoan() {
-        if (!confirm('Are you sure you want to delete this loan?')) return;
-
-        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
-        const filteredLoans = loans.filter(l => l.id != currentLoanId);
-        localStorage.setItem(`loans_${currentUser.id}`, JSON.stringify(filteredLoans));
-
-        alert('Loan deleted successfully');
-        backToHome();
-    }
-
-    function backToHome() {
-        currentLoanId = null;
-        document.querySelectorAll('.details-view, .payment-view, .edit-view').forEach(el => el.classList.remove('active'));
-        document.getElementById('home').classList.add('active');
-        loadLoans();
-    }
-
-    // Initialize app on load
-    window.onload = initApp;
-</script>
-
+        function showView(viewId) {
+            document.querySelectorAll('.details-view, .payment-view, .edit-view').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+        }
+    </script>
 </body>
 </html>
