@@ -242,6 +242,18 @@
             align-items: center;
         }
 
+        .admin-header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+            color: white;
+            padding: 18px 20px;
+            text-align: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .header-content {
             flex: 1;
             text-align: center;
@@ -318,6 +330,11 @@
             background: white;
             color: #667eea;
             border-bottom-color: #667eea;
+        }
+
+        .tabs.admin button.active {
+            color: #ff6b6b;
+            border-bottom-color: #ff6b6b;
         }
         
         .tabs button:active {
@@ -496,6 +513,133 @@
             transform: translateY(-2px);
         }
         
+        .user-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f7ff 100%);
+            border: 2px solid #e0e7ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 14px;
+            transition: all 0.2s;
+            user-select: none;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+        
+        .user-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+        
+        .user-card-name {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 1.08em;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .user-card-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 0.85em;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .info-label {
+            color: #667eea;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .info-value {
+            color: #2d3748;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+        
+        .empty-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .empty-text {
+            font-size: 1em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .admin-btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.8em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .admin-btn:active {
+            transform: scale(0.95);
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-card.red {
+            background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+        }
+
+        .stat-label {
+            font-size: 0.75em;
+            opacity: 0.95;
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
         .loan-header {
             display: flex;
             justify-content: space-between;
@@ -549,50 +693,7 @@
             margin-bottom: 12px;
             font-size: 0.85em;
         }
-        
-        .info-item {
-            display: flex;
-            flex-direction: column;
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-            border-left: 3px solid #667eea;
-        }
-        
-        .info-label {
-            color: #667eea;
-            font-size: 0.8em;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .info-value {
-            color: #2d3748;
-            font-weight: 700;
-            margin-top: 4px;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #999;
-        }
-        
-        .empty-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-        
-        .empty-text {
-            font-size: 1em;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        
-        .details-section {
-            margin-bottom: 20px;
-        }
-        
+
         .section-title {
             font-size: 1.05em;
             font-weight: 700;
@@ -601,7 +702,11 @@
             padding-bottom: 10px;
             border-bottom: 2px solid #667eea;
         }
-        
+
+        .details-section {
+            margin-bottom: 20px;
+        }
+
         .payment-item {
             background: white;
             border-left: 4px solid #667eea;
@@ -735,76 +840,16 @@
         .edit-view.active {
             display: block;
         }
-        
-        .calculation-box {
-            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
-            border: 2px solid #667eea;
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+
+        .admin-container {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            flex-direction: column;
         }
-        
-        .calculation-item {
+
+        .admin-container.active {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #e0e7ff;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .calculation-item:last-child {
-            border-bottom: none;
-        }
-        
-        .calculation-label {
-            color: #2d3748;
-            font-weight: 600;
-            font-size: 0.92em;
-            flex: 1;
-            min-width: 150px;
-        }
-        
-        .calculation-value {
-            color: #667eea;
-            font-weight: 700;
-            font-size: 1.05em;
-        }
-        
-        .total-amount {
-            color: #28a745;
-            font-size: 1.15em;
-        }
-        
-        .edit-mode {
-            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .info-card {
-            background: linear-gradient(135deg, #f8f9ff 0%, #f0f7ff 100%);
-            border-left: 4px solid #667eea;
-            padding: 14px;
-            margin-bottom: 12px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
-        }
-        
-        .info-card-title {
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 6px;
-            font-size: 0.95em;
-        }
-        
-        .info-card-desc {
-            font-size: 0.85em;
-            color: #555;
-            line-height: 1.5;
         }
 
         h3 {
@@ -872,37 +917,6 @@
         .stat-value {
             font-weight: 700;
             color: #667eea;
-            font-size: 1.1em;
-        }
-
-        .principal-section {
-            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
-            border: 2px solid #667eea;
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-
-        .principal-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #e0e7ff;
-        }
-
-        .principal-item:last-child {
-            border-bottom: none;
-        }
-
-        .principal-label {
-            color: #2d3748;
-            font-weight: 600;
-        }
-
-        .principal-value {
-            color: #28a745;
-            font-weight: 700;
             font-size: 1.1em;
         }
 
@@ -1012,6 +1026,36 @@
         .enable-payment-btn:active {
             transform: scale(0.95);
         }
+
+        .info-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f7ff 100%);
+            border-left: 4px solid #667eea;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+        
+        .info-card-title {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+        
+        .info-card-desc {
+            font-size: 0.85em;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .edit-mode {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 4px solid #667eea;
+        }
     </style>
 </head>
 <body>
@@ -1037,6 +1081,9 @@
             <div class="auth-toggle">
                 Don't have an account? <a onclick="toggleAuthForm()">Sign Up</a>
             </div>
+            <div class="auth-links" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                <span style="font-size: 0.75em; color: #999;">Admin? <a onclick="toggleToAdminLogin()">Login as Admin</a></span>
+            </div>
         </div>
 
         <!-- Signup Form -->
@@ -1058,6 +1105,24 @@
             <button class="auth-btn" onclick="handleSignup()">Sign Up</button>
             <div class="auth-toggle">
                 Already have an account? <a onclick="toggleAuthForm()">Login</a>
+            </div>
+        </div>
+
+        <!-- Admin Login Form -->
+        <div id="adminLoginForm" class="auth-form-section">
+            <h2>Admin Login</h2>
+            <p class="auth-subtitle">Manage all users and loans</p>
+            <div class="auth-form-group">
+                <label>Username</label>
+                <input type="text" id="adminUsername" placeholder="Enter admin username">
+            </div>
+            <div class="auth-form-group">
+                <label>Password</label>
+                <input type="password" id="adminPassword" placeholder="Enter admin password">
+            </div>
+            <button class="auth-btn" onclick="handleAdminLogin()">Login as Admin</button>
+            <div class="auth-toggle">
+                <a onclick="toggleToUserLogin()">← Back to User Login</a>
             </div>
         </div>
     </div>
@@ -1212,29 +1277,92 @@
     </div>
 </div>
 
+<!-- ADMIN CONTAINER -->
+<div id="adminContainer" class="admin-container">
+    <div class="admin-header">
+        <div class="header-content">
+            <h1>🔐 Admin Dashboard</h1>
+            <p>Manage Users & Loans</p>
+        </div>
+        <div class="user-section">
+            <span class="user-name" id="adminName">Admin</span>
+            <button class="logout-btn" onclick="handleLogout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="tabs admin">
+        <button class="active" onclick="switchAdminTab('users')">Users</button>
+        <button onclick="switchAdminTab('all-loans')">All Loans</button>
+    </div>
+
+    <div class="content">
+        <!-- USERS TAB -->
+        <div id="users" class="tab-content active">
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-label">Total Users</div>
+                    <div class="stat-value" id="totalUsersCount">0</div>
+                </div>
+                <div class="stat-card red">
+                    <div class="stat-label">Total Loans</div>
+                    <div class="stat-value" id="totalLoansCount">0</div>
+                </div>
+            </div>
+            <div id="usersList"></div>
+        </div>
+
+        <!-- ALL LOANS TAB -->
+        <div id="all-loans" class="tab-content">
+            <div id="allLoansList"></div>
+        </div>
+    </div>
+</div>
+
 <script>
     // Initialize LocalStorage Data Structure
     let currentUser = null;
     let currentLoanId = null;
+    let isAdmin = false;
+
+    const ADMIN_USERNAME = 'Naveen';
+    const ADMIN_PASSWORD = 'Naveen@12';
 
     function initApp() {
         const savedUser = localStorage.getItem('currentUser');
+        const isAdminUser = localStorage.getItem('isAdmin') === 'true';
+        
         if (savedUser) {
             currentUser = JSON.parse(savedUser);
-            showApp();
-            loadLoans();
+            isAdmin = isAdminUser;
+            
+            if (isAdmin) {
+                showAdminPanel();
+                loadAdminDashboard();
+            } else {
+                showApp();
+                loadLoans();
+            }
         }
     }
 
     function showAuthPage() {
         document.getElementById('authContainer').classList.add('active');
         document.getElementById('appContainer').classList.remove('active');
+        document.getElementById('adminContainer').classList.remove('active');
     }
 
     function showApp() {
         document.getElementById('authContainer').classList.remove('active');
         document.getElementById('appContainer').classList.add('active');
+        document.getElementById('adminContainer').classList.remove('active');
         document.getElementById('userName').textContent = currentUser.name;
+    }
+
+    function showAdminPanel() {
+        document.getElementById('authContainer').classList.remove('active');
+        document.getElementById('appContainer').classList.remove('active');
+        document.getElementById('adminContainer').classList.add('active');
+        document.getElementById('adminName').textContent = 'Admin';
     }
 
     function showMessage(message, type) {
@@ -1251,6 +1379,17 @@
         document.getElementById('signupForm').classList.toggle('active');
     }
 
+    function toggleToAdminLogin() {
+        document.getElementById('loginForm').classList.remove('active');
+        document.getElementById('signupForm').classList.remove('active');
+        document.getElementById('adminLoginForm').classList.add('active');
+    }
+
+    function toggleToUserLogin() {
+        document.getElementById('adminLoginForm').classList.remove('active');
+        document.getElementById('loginForm').classList.add('active');
+    }
+
     function handleLogin() {
         const username = document.getElementById('loginUsername').value;
         const password = document.getElementById('loginPassword').value;
@@ -1265,7 +1404,9 @@
 
         if (user) {
             currentUser = user;
+            isAdmin = false;
             localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('isAdmin', 'false');
             showMessage('Login successful!', 'success');
             setTimeout(() => {
                 showApp();
@@ -1273,6 +1414,30 @@
             }, 500);
         } else {
             showMessage('Invalid credentials', 'error');
+        }
+    }
+
+    function handleAdminLogin() {
+        const username = document.getElementById('adminUsername').value;
+        const password = document.getElementById('adminPassword').value;
+
+        if (!username || !password) {
+            showMessage('Please fill all fields', 'error');
+            return;
+        }
+
+        if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+            currentUser = { name: 'Admin', id: 'admin_user' };
+            isAdmin = true;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            localStorage.setItem('isAdmin', 'true');
+            showMessage('Admin login successful!', 'success');
+            setTimeout(() => {
+                showAdminPanel();
+                loadAdminDashboard();
+            }, 500);
+        } else {
+            showMessage('Invalid admin credentials', 'error');
         }
     }
 
@@ -1297,7 +1462,9 @@
         localStorage.setItem('users', JSON.stringify(users));
 
         currentUser = newUser;
+        isAdmin = false;
         localStorage.setItem('currentUser', JSON.stringify(newUser));
+        localStorage.setItem('isAdmin', 'false');
         showMessage('Account created successfully!', 'success');
         setTimeout(() => {
             showApp();
@@ -1307,24 +1474,190 @@
 
     function handleLogout() {
         currentUser = null;
+        isAdmin = false;
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('isAdmin');
         document.getElementById('loginUsername').value = '';
         document.getElementById('loginPassword').value = '';
+        document.getElementById('adminUsername').value = '';
+        document.getElementById('adminPassword').value = '';
         document.getElementById('signupName').value = '';
         document.getElementById('signupEmail').value = '';
         document.getElementById('signupPassword').value = '';
         document.getElementById('loginForm').classList.add('active');
         document.getElementById('signupForm').classList.remove('active');
+        document.getElementById('adminLoginForm').classList.remove('active');
         showAuthPage();
     }
 
     function switchTab(tabName) {
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('#appContainer .tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('#appContainer .tabs button').forEach(btn => btn.classList.remove('active'));
         document.getElementById(tabName).classList.add('active');
         event.target.classList.add('active');
     }
 
+    function switchAdminTab(tabName) {
+        document.querySelectorAll('#adminContainer .tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('#adminContainer .tabs button').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        event.target.classList.add('active');
+
+        if (tabName === 'all-loans') {
+            loadAllLoans();
+        }
+    }
+
+    // ADMIN FUNCTIONS
+    function loadAdminDashboard() {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        let totalLoans = 0;
+
+        users.forEach(user => {
+            const userLoans = JSON.parse(localStorage.getItem(`loans_${user.id}`) || '[]');
+            totalLoans += userLoans.length;
+        });
+
+        document.getElementById('totalUsersCount').textContent = users.length;
+        document.getElementById('totalLoansCount').textContent = totalLoans;
+
+        loadAllUsers();
+    }
+
+    function loadAllUsers() {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const usersList = document.getElementById('usersList');
+
+        if (users.length === 0) {
+            usersList.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">👥</div>
+                    <div class="empty-text">No users registered</div>
+                </div>
+            `;
+            return;
+        }
+
+        usersList.innerHTML = users.map(user => {
+            const userLoans = JSON.parse(localStorage.getItem(`loans_${user.id}`) || '[]');
+            const totalAmount = userLoans.reduce((sum, l) => {
+                const payments = l.payments || [];
+                return sum + payments.reduce((s, p) => s + parseFloat(p.amount || 0), 0);
+            }, 0);
+
+            return `
+                <div class="user-card">
+                    <div class="user-card-header">
+                        <div class="user-card-name">${user.name}</div>
+                    </div>
+                    <div class="user-card-info">
+                        <div class="info-item">
+                            <div class="info-label">Email</div>
+                            <div class="info-value">${user.email}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Active Loans</div>
+                            <div class="info-value">${userLoans.length}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Total Amount</div>
+                            <div class="info-value">₹${totalAmount.toLocaleString()}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Member Since</div>
+                            <div class="info-value">${new Date(user.id).toLocaleDateString()}</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <button class="admin-btn" onclick="viewUserLoans('${user.id}')">View Loans</button>
+                        <button class="admin-btn" style="background: #dc3545;" onclick="deleteUser('${user.id}')">Delete User</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function viewUserLoans(userId) {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => u.id == userId);
+        const userLoans = JSON.parse(localStorage.getItem(`loans_${userId}`) || '[]');
+
+        alert(`User: ${user.name}\nTotal Loans: ${userLoans.length}\n\nLoans:\n${userLoans.map(l => `- ${l.name} (₹${l.principal})`).join('\n')}`);
+    }
+
+    function deleteUser(userId) {
+        if (!confirm('Are you sure you want to delete this user and all their data?')) return;
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const filteredUsers = users.filter(u => u.id != userId);
+        localStorage.setItem('users', JSON.stringify(filteredUsers));
+        localStorage.removeItem(`loans_${userId}`);
+
+        alert('User deleted successfully');
+        loadAdminDashboard();
+    }
+
+    function loadAllLoans() {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const allLoansList = document.getElementById('allLoansList');
+        let allLoans = [];
+
+        users.forEach(user => {
+            const userLoans = JSON.parse(localStorage.getItem(`loans_${user.id}`) || '[]');
+            userLoans.forEach(loan => {
+                allLoans.push({ ...loan, userName: user.name, userId: user.id });
+            });
+        });
+
+        if (allLoans.length === 0) {
+            allLoansList.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <div class="empty-text">No loans in system</div>
+                </div>
+            `;
+            return;
+        }
+
+        allLoansList.innerHTML = allLoans.map(loan => {
+            const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
+            const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+            const paidCount = loan.payments.filter(p => p.paid).length;
+            const statusBadge = loan.payments.every(p => p.paid) ? 'Completed' : 
+                               loan.payments.some(p => p.paid) ? 'Active' : 'Pending';
+            const statusClass = statusBadge === 'Completed' ? 'status-closed' : 
+                               statusBadge === 'Active' ? 'status-active' : 'status-pending';
+
+            return `
+                <div class="loan-card">
+                    <div class="loan-header">
+                        <div class="loan-name">${loan.name}</div>
+                        <div class="status-badge ${statusClass}">${statusBadge}</div>
+                    </div>
+                    <div class="loan-info">
+                        <div class="info-item">
+                            <div class="info-label">Owner</div>
+                            <div class="info-value">${loan.userName}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Borrower</div>
+                            <div class="info-value">${loan.borrowerName}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Amount</div>
+                            <div class="info-value">₹${parseFloat(loan.principal).toLocaleString()}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Paid</div>
+                            <div class="info-value">₹${totalPaid.toLocaleString()}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // USER FUNCTIONS
     function createLoan() {
         if (!currentUser) return;
 
