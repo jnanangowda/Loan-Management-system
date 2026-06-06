@@ -661,8 +661,8 @@
             accent-color: #667eea;
         }
 
-        .payment-item.paid .payment-checkbox {
-            cursor: not-allowed;
+        .payment-item.paid.edit-mode .payment-checkbox {
+            cursor: pointer;
         }
         
         .summary-grid {
@@ -930,6 +930,8 @@
             max-width: 400px;
             width: 90%;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-title {
@@ -951,7 +953,7 @@
             font-size: 0.92em;
         }
 
-        .modal-form-group input, .modal-form-group textarea {
+        .modal-form-group input, .modal-form-group textarea, .modal-form-group select {
             width: 100%;
             padding: 12px 14px;
             border: 2px solid #e0e7ff;
@@ -961,7 +963,7 @@
             transition: all 0.3s;
         }
 
-        .modal-form-group input:focus, .modal-form-group textarea:focus {
+        .modal-form-group input:focus, .modal-form-group textarea:focus, .modal-form-group select:focus {
             outline: none;
             border-color: #667eea;
             background-color: #f8f9ff;
@@ -994,1153 +996,757 @@
             color: #333;
         }
 
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: #f8f9ff;
-            border-radius: 8px;
-            margin-bottom: 16px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: 24px;
-            height: 24px;
-            margin: 0;
-            cursor: pointer;
-            accent-color: #667eea;
-        }
-
-        .checkbox-group label {
-            margin: 0;
-            flex: 1;
+        .enable-payment-btn {
+            background: #28a745;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.75em;
             font-weight: 600;
-            color: #2d3748;
             cursor: pointer;
+            transition: all 0.2s;
+            margin-left: 8px;
         }
 
-        @media (max-height: 600px) {
-            .header {
-                padding: 12px 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.4em;
-            }
-            
-            .header p {
-                font-size: 0.75em;
-            }
-        }
-
-        @supports (padding: max(0px)) {
-            body {
-                padding-left: max(0px, env(safe-area-inset-left));
-                padding-right: max(0px, env(safe-area-inset-right));
-                padding-top: max(0px, env(safe-area-inset-top));
-                padding-bottom: max(0px, env(safe-area-inset-bottom));
-            }
-        }
-
-        @media print {
-            body {
-                background: white;
-            }
-            .header, .tabs, .logout-btn, .edit-btn, .delete-btn, .pdf-btn, .whatsapp-btn, .back-btn {
-                display: none !important;
-            }
-            .content {
-                padding: 0;
-                padding-bottom: 0;
-            }
+        .enable-payment-btn:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
 <body>
-    <!-- AUTH CONTAINER -->
-    <div class="auth-container active" id="authContainer">
-        <div class="auth-box">
-            <div id="authMessage"></div>
-            
-            <!-- LOGIN FORM -->
-            <div id="loginForm" class="auth-form-section active">
-                <h2>🔐 Login</h2>
-                <p class="auth-subtitle">Access your loan account</p>
-                <form id="authFormLogin" onsubmit="handleLogin(event)">
-                    <div class="auth-form-group">
-                        <label>👤 Username *</label>
-                        <input type="text" id="loginUsername" placeholder="Enter username" required>
-                    </div>
 
-                    <div class="auth-form-group">
-                        <label>🔒 Password *</label>
-                        <input type="password" id="loginPassword" placeholder="Enter password" required>
-                    </div>
+<!-- AUTH CONTAINER -->
+<div id="authContainer" class="auth-container active">
+    <div class="auth-box">
+        <div id="authMessage"></div>
 
-                    <button type="submit" class="auth-btn">🚀 Login</button>
-                </form>
-
-                <div class="auth-links">
-                    <a onclick="showForgotPassword()">Forgot Password?</a>
-                </div>
-
-                <div class="auth-toggle">
-                    <p>New user? <a onclick="showRegisterForm()">Register here</a></p>
-                </div>
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-form-section active">
+            <h2>Welcome Back</h2>
+            <p class="auth-subtitle">Sign in to manage your loans</p>
+            <div class="auth-form-group">
+                <label>Email/Username</label>
+                <input type="text" id="loginUsername" placeholder="Enter your email">
             </div>
-
-            <!-- REGISTER FORM -->
-            <div id="registerForm" class="auth-form-section">
-                <h2>💰 Register</h2>
-                <p class="auth-subtitle">Create new account</p>
-                <form id="authFormRegister" onsubmit="handleRegister(event)">
-                    <div class="auth-form-group">
-                        <label>👤 Username *</label>
-                        <input type="text" id="regUsername" placeholder="Create username" required>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label>📧 Email *</label>
-                        <input type="email" id="regEmail" placeholder="Enter your email" required>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label>📱 Phone Number (for notifications) *</label>
-                        <input type="tel" id="regPhone" placeholder="Enter your phone number" required>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label>🏠 Address *</label>
-                        <input type="text" id="regAddress" placeholder="Enter your address" required>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label>🔒 Password *</label>
-                        <input type="password" id="regPassword" placeholder="Create a password" required>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label>🔐 Confirm Password *</label>
-                        <input type="password" id="regConfirmPassword" placeholder="Confirm password" required>
-                    </div>
-
-                    <button type="submit" class="auth-btn">✅ Register</button>
-                </form>
-
-                <div class="auth-toggle">
-                    <p>Already have an account? <a onclick="showLoginForm()">Login here</a></p>
-                </div>
+            <div class="auth-form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
             </div>
+            <button class="auth-btn" onclick="handleLogin()">Login</button>
+            <div class="auth-toggle">
+                Don't have an account? <a onclick="toggleAuthForm()">Sign Up</a>
+            </div>
+        </div>
 
-            <!-- FORGOT PASSWORD FORM -->
-            <div id="forgotForm" class="auth-form-section">
-                <h2>🔑 Forgot Password</h2>
-                <p class="auth-subtitle">Reset your password</p>
-                <form id="authFormForgot" onsubmit="handleForgotPassword(event)">
-                    <div class="auth-form-group">
-                        <label>👤 Username or Email *</label>
-                        <input type="text" id="forgotUsername" placeholder="Enter username or email" required>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label>📧 Registered Email *</label>
-                        <input type="email" id="forgotEmail" placeholder="Enter registered email" required>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label>🔒 New Password *</label>
-                        <input type="password" id="forgotNewPassword" placeholder="Enter new password" required>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label>🔐 Confirm New Password *</label>
-                        <input type="password" id="forgotConfirmPassword" placeholder="Confirm new password" required>
-                    </div>
-
-                    <button type="submit" class="auth-btn">🔄 Reset Password</button>
-                </form>
-
-                <div class="back-link">
-                    <a onclick="showLoginForm()">← Back to Login</a>
-                </div>
+        <!-- Signup Form -->
+        <div id="signupForm" class="auth-form-section">
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">Join us to get started</p>
+            <div class="auth-form-group">
+                <label>Full Name</label>
+                <input type="text" id="signupName" placeholder="Enter your name">
+            </div>
+            <div class="auth-form-group">
+                <label>Email</label>
+                <input type="email" id="signupEmail" placeholder="Enter your email">
+            </div>
+            <div class="auth-form-group">
+                <label>Password</label>
+                <input type="password" id="signupPassword" placeholder="Create a password">
+            </div>
+            <button class="auth-btn" onclick="handleSignup()">Sign Up</button>
+            <div class="auth-toggle">
+                Already have an account? <a onclick="toggleAuthForm()">Login</a>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- MAIN CONTAINER -->
-    <div class="container" id="mainContainer">
-        <div class="header">
-            <div class="header-content">
-                <h1>💰 Loan Manager</h1>
-                <p>Professional Loan Tracking</p>
-            </div>
-            <div class="user-section">
-                <span class="user-name">👤 <span id="userDisplay"></span></span>
-                <button class="logout-btn" onclick="logout()">Logout</button>
-            </div>
+<!-- MAIN APP CONTAINER -->
+<div id="appContainer" class="container">
+    <div class="header">
+        <div class="header-content">
+            <h1>💰 Loan Manager</h1>
+            <p>Professional Loan Tracking</p>
         </div>
-        
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab(event, 'home')">🏠 Home</button>
-            <button class="tab-btn" onclick="showTab(event, 'create')">➕ New Loan</button>
-            <button class="tab-btn" onclick="showTab(event, 'info')">ℹ️ Features</button>
-        </div>
-        
-        <div class="content">
-            <!-- HOME TAB -->
-            <div id="home" class="tab-content active">
-                <div id="homeMessage"></div>
-                <div id="summaryCards" class="summary-grid"></div>
-                <div id="loansList"></div>
-                <div id="detailsView" class="details-view"></div>
-                <div id="paymentView" class="payment-view"></div>
-                <div id="editView" class="edit-view"></div>
-            </div>
-            
-            <!-- CREATE LOAN TAB -->
-            <div id="create" class="tab-content">
-                <h3>➕ Create New Loan Agreement</h3>
-                <form id="loanForm">
-                    <div class="form-group">
-                        <label>👤 Borrower Name *</label>
-                        <input type="text" id="borrowerName" placeholder="Full name of borrower" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>👨‍🦱 Father's Name *</label>
-                        <input type="text" id="fatherName" placeholder="Father's name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>📱 Phone Number *</label>
-                        <input type="tel" id="borrowerPhone" placeholder="Borrower's phone number" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>🏠 Address *</label>
-                        <textarea id="borrowerAddress" placeholder="Full address of borrower" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>💵 Loan Amount (₹) *</label>
-                        <input type="number" id="loanAmount" placeholder="Enter loan amount" required min="0" step="1" oninput="calculateInterest()">
-                    </div>
-
-                    <div class="form-group">
-                        <label>📊 Rate of Interest (%) Per Month *</label>
-                        <input type="number" id="interestRate" placeholder="e.g., 2.5" required min="0" step="0.01" oninput="calculateInterest()">
-                    </div>
-
-                    <div class="form-group">
-                        <label>📅 Start Date *</label>
-                        <input type="date" id="startDate" required oninput="calculateInterest()">
-                    </div>
-
-                    <div class="form-group">
-                        <label>📆 Agreement Duration (Months) *</label>
-                        <input type="number" id="agreementMonths" placeholder="e.g., 12" required min="1" step="1" oninput="calculateInterest()">
-                    </div>
-
-                    <div class="form-group">
-                        <label>📝 Description/Notes</label>
-                        <textarea id="loanDescription" placeholder="Additional notes about the loan"></textarea>
-                    </div>
-
-                    <div id="calculationResult" class="calculation-box" style="display: none;">
-                        <div class="calculation-item">
-                            <span class="calculation-label">Principal Amount:</span>
-                            <span class="calculation-value">₹<span id="displayPrincipal">0</span></span>
-                        </div>
-                        <div class="calculation-item">
-                            <span class="calculation-label">Monthly Interest Amount:</span>
-                            <span class="calculation-value">₹<span id="displayMonthlyInterest">0</span></span>
-                        </div>
-                        <div class="calculation-item">
-                            <span class="calculation-label">Duration:</span>
-                            <span class="calculation-value"><span id="displayDuration">0</span> Months</span>
-                        </div>
-                        <div class="calculation-item">
-                            <span class="calculation-label">Total Interest Amount:</span>
-                            <span class="calculation-value total-amount">₹<span id="displayTotalInterest">0</span></span>
-                        </div>
-                        <div class="calculation-item">
-                            <span class="calculation-label">Total Payable Amount:</span>
-                            <span class="calculation-value total-amount">₹<span id="displayTotalAmount">0</span></span>
-                        </div>
-                    </div>
-
-                    <div class="button-group">
-                        <button type="submit" class="btn-primary">💾 Create Loan</button>
-                        <button type="button" class="btn-secondary" onclick="resetLoanForm()">🔄 Clear</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- FEATURES/INFO TAB -->
-            <div id="info" class="tab-content">
-                <h3>ℹ️ Features & Information</h3>
-                
-                <div class="info-card">
-                    <div class="info-card-title">📋 Loan Management</div>
-                    <div class="info-card-desc">Create and manage loan agreements with automatic interest calculations for monthly payments.</div>
-                </div>
-
-                <div class="info-card">
-                    <div class="info-card-title">📊 Payment Tracking</div>
-                    <div class="info-card-desc">Track payment schedules with date ranges (e.g., 04/April/2026 - 04/May/2026) and mark payments as completed.</div>
-                </div>
-
-                <div class="info-card">
-                    <div class="info-card-title">💰 Interest Calculation</div>
-                    <div class="info-card-desc">Automatic calculation of monthly interest amounts and total payable amounts based on principal and interest rate.</div>
-                </div>
-
-                <div class="info-card">
-                    <div class="info-card-title">✏️ Separate Edit Page</div>
-                    <div class="info-card-desc">Each loan has its own dedicated edit page for managing payment records and loan details separately.</div>
-                </div>
-
-                <div class="info-card">
-                    <div class="info-card-title">📱 Mobile Optimized</div>
-                    <div class="info-card-desc">Fully responsive design optimized for mobile devices with smooth animations and touch-friendly interface.</div>
-                </div>
-
-                <div class="info-card">
-                    <div class="info-card-title">🔔 Smart Notifications</div>
-                    <div class="info-card-desc">Automatic WhatsApp notifications to YOUR number for overdue payments and reminders for pending payments.</div>
-                </div>
-
-                <div class="info-card">
-                    <div class="info-card-title">📄 PDF Export</div>
-                    <div class="info-card-desc">Export complete loan details and payment history as PDF for record keeping.</div>
-                </div>
-            </div>
+        <div class="user-section">
+            <span class="user-name" id="userName">User</span>
+            <button class="logout-btn" onclick="handleLogout()">Logout</button>
         </div>
     </div>
 
-    <!-- Notification Modal -->
-    <div class="modal" id="notificationModal">
-        <div class="modal-content">
-            <div class="modal-title">🔔 Send Notification</div>
-            <div class="modal-form-group">
-                <label>Notification Type</label>
-                <select id="notificationType" style="width: 100%; padding: 10px; border: 2px solid #e0e7ff; border-radius: 8px;">
-                    <option value="whatsapp">📱 WhatsApp</option>
-                    <option value="sms">💬 SMS</option>
+    <div class="tabs">
+        <button class="active" onclick="switchTab('home')">Home</button>
+        <button onclick="switchTab('new-loan')">New Loan</button>
+    </div>
+
+    <div class="content">
+        <!-- HOME TAB -->
+        <div id="home" class="tab-content active">
+            <div id="loansList"></div>
+        </div>
+
+        <!-- NEW LOAN TAB -->
+        <div id="new-loan" class="tab-content">
+            <h3>Create New Loan</h3>
+            <div class="form-group">
+                <label>Loan Name</label>
+                <input type="text" id="loanName" placeholder="e.g., Car Loan">
+            </div>
+            <div class="form-group">
+                <label>Borrower Name</label>
+                <input type="text" id="borrowerName" placeholder="Enter borrower name">
+            </div>
+            <div class="form-group">
+                <label>Principal Amount (₹)</label>
+                <input type="number" id="principalAmount" placeholder="Enter amount">
+            </div>
+            <div class="form-group">
+                <label>Annual Interest Rate (%)</label>
+                <input type="number" id="interestRate" step="0.01" placeholder="e.g., 10">
+            </div>
+            <div class="form-group">
+                <label>Duration (Months)</label>
+                <input type="number" id="loanDuration" placeholder="e.g., 12">
+            </div>
+            <div class="form-group">
+                <label>Start Date</label>
+                <input type="date" id="startDate">
+            </div>
+            <div class="form-group">
+                <label>Payment Frequency</label>
+                <select id="paymentFrequency">
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
                 </select>
             </div>
-            <div class="modal-form-group">
-                <label>Message Preview</label>
-                <textarea id="notificationMessage" placeholder="Message will appear here" style="width: 100%; padding: 10px; border: 2px solid #e0e7ff; border-radius: 8px; min-height: 120px;" readonly></textarea>
+            <div class="form-group">
+                <label>Notes</label>
+                <textarea id="loanNotes" placeholder="Add any notes..."></textarea>
             </div>
-            <div class="modal-buttons">
-                <button class="modal-btn save" onclick="sendNotification()">Send</button>
-                <button class="modal-btn cancel" onclick="closeNotificationModal()">Cancel</button>
+            <div class="button-group">
+                <button class="btn-primary" onclick="createLoan()">Create Loan</button>
+            </div>
+        </div>
+
+        <!-- LOAN DETAILS VIEW -->
+        <div id="detailsView" class="details-view">
+            <button class="back-btn" onclick="backToHome()">← Back</button>
+            
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-label">Total Amount</div>
+                    <div class="summary-value" id="detailsTotalAmount">₹0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Status</div>
+                    <div class="summary-value" id="detailsStatus">-</div>
+                </div>
+            </div>
+
+            <div class="details-section">
+                <div class="section-title">Loan Information</div>
+                <div id="loanDetailsInfo"></div>
+            </div>
+
+            <div class="details-section">
+                <div class="section-title">Actions</div>
+                <button class="edit-btn" onclick="editLoan()">✏️ Edit</button>
+                <button class="pdf-btn" onclick="generatePDF()">📄 PDF</button>
+                <button class="whatsapp-btn" onclick="shareWhatsApp()">💬 WhatsApp</button>
+                <button class="delete-btn" onclick="deleteLoan()">🗑️ Delete</button>
+            </div>
+        </div>
+
+        <!-- PAYMENT VIEW -->
+        <div id="paymentView" class="payment-view">
+            <button class="back-btn" onclick="backToHome()">← Back</button>
+            
+            <div class="details-section">
+                <div class="section-title">Payment Schedule</div>
+                <div id="paymentsList"></div>
+            </div>
+
+            <div class="details-section">
+                <div class="section-title">Payment Statistics</div>
+                <div class="payment-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Paid</span>
+                        <span class="stat-value" id="totalPaid">₹0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Remaining</span>
+                        <span class="stat-value" id="totalRemaining">₹0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Paid Installments</span>
+                        <span class="stat-value" id="paidCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Pending Installments</span>
+                        <span class="stat-value" id="pendingCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EDIT VIEW -->
+        <div id="editView" class="edit-view">
+            <button class="back-btn" onclick="backToHome()">← Back</button>
+            
+            <div class="edit-mode">
+                <div style="color: #667eea; font-weight: 600; margin-bottom: 8px;">📝 Edit Loan Details</div>
+                <p style="font-size: 0.85em; color: #555;">Modify payment status below</p>
+            </div>
+
+            <div class="details-section">
+                <div class="section-title">Update Payment Status</div>
+                <div id="editPaymentsList"></div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="saveEditPayments()">Save Changes</button>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        // Database storage using localStorage
-        const DB = {
-            users: {},
-            loans: {}
+<script>
+    // Initialize LocalStorage Data Structure
+    let currentUser = null;
+    let currentLoanId = null;
+
+    function initApp() {
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            showApp();
+            loadLoans();
+        }
+    }
+
+    function showAuthPage() {
+        document.getElementById('authContainer').classList.add('active');
+        document.getElementById('appContainer').classList.remove('active');
+    }
+
+    function showApp() {
+        document.getElementById('authContainer').classList.remove('active');
+        document.getElementById('appContainer').classList.add('active');
+        document.getElementById('userName').textContent = currentUser.name;
+    }
+
+    function showMessage(message, type) {
+        const msgEl = document.getElementById('authMessage');
+        msgEl.textContent = message;
+        msgEl.className = type === 'success' ? 'success' : 'error';
+        setTimeout(() => {
+            msgEl.className = '';
+        }, 3000);
+    }
+
+    function toggleAuthForm() {
+        document.getElementById('loginForm').classList.toggle('active');
+        document.getElementById('signupForm').classList.toggle('active');
+    }
+
+    function handleLogin() {
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+
+        if (!username || !password) {
+            showMessage('Please fill all fields', 'error');
+            return;
+        }
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => (u.email === username || u.name === username) && u.password === password);
+
+        if (user) {
+            currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            showMessage('Login successful!', 'success');
+            setTimeout(() => {
+                showApp();
+                loadLoans();
+            }, 500);
+        } else {
+            showMessage('Invalid credentials', 'error');
+        }
+    }
+
+    function handleSignup() {
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+
+        if (!name || !email || !password) {
+            showMessage('Please fill all fields', 'error');
+            return;
+        }
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (users.find(u => u.email === email)) {
+            showMessage('Email already registered', 'error');
+            return;
+        }
+
+        const newUser = { id: Date.now(), name, email, password };
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+
+        currentUser = newUser;
+        localStorage.setItem('currentUser', JSON.stringify(newUser));
+        showMessage('Account created successfully!', 'success');
+        setTimeout(() => {
+            showApp();
+            loadLoans();
+        }, 500);
+    }
+
+    function handleLogout() {
+        currentUser = null;
+        localStorage.removeItem('currentUser');
+        document.getElementById('loginUsername').value = '';
+        document.getElementById('loginPassword').value = '';
+        document.getElementById('signupName').value = '';
+        document.getElementById('signupEmail').value = '';
+        document.getElementById('signupPassword').value = '';
+        document.getElementById('loginForm').classList.add('active');
+        document.getElementById('signupForm').classList.remove('active');
+        showAuthPage();
+    }
+
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    function createLoan() {
+        if (!currentUser) return;
+
+        const name = document.getElementById('loanName').value;
+        const borrowerName = document.getElementById('borrowerName').value;
+        const principal = parseFloat(document.getElementById('principalAmount').value);
+        const interestRate = parseFloat(document.getElementById('interestRate').value);
+        const duration = parseInt(document.getElementById('loanDuration').value);
+        const startDate = document.getElementById('startDate').value;
+        const frequency = document.getElementById('paymentFrequency').value;
+        const notes = document.getElementById('loanNotes').value;
+
+        if (!name || !borrowerName || !principal || !interestRate || !duration || !startDate) {
+            alert('Please fill all required fields');
+            return;
+        }
+
+        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
+        
+        // Generate payment schedule
+        const payments = generatePaymentSchedule(startDate, duration, principal, interestRate, frequency);
+
+        const newLoan = {
+            id: Date.now(),
+            name,
+            borrowerName,
+            principal,
+            interestRate,
+            duration,
+            startDate,
+            frequency,
+            notes,
+            payments,
+            createdAt: new Date().toISOString()
         };
 
-        let currentEditingLoan = null;
+        loans.push(newLoan);
+        localStorage.setItem(`loans_${currentUser.id}`, JSON.stringify(loans));
 
-        // Load data from localStorage
-        function loadDatabase() {
-            const saved = localStorage.getItem('loanManagerDB');
-            if (saved) {
-                const data = JSON.parse(saved);
-                Object.assign(DB, data);
+        alert('Loan created successfully!');
+        document.getElementById('loanName').value = '';
+        document.getElementById('borrowerName').value = '';
+        document.getElementById('principalAmount').value = '';
+        document.getElementById('interestRate').value = '';
+        document.getElementById('loanDuration').value = '';
+        document.getElementById('startDate').value = '';
+        document.getElementById('paymentFrequency').value = 'monthly';
+        document.getElementById('loanNotes').value = '';
+
+        loadLoans();
+        switchTab('home');
+    }
+
+    function generatePaymentSchedule(startDate, months, principal, annualRate, frequency) {
+        const payments = [];
+        const monthlyRate = annualRate / 12 / 100;
+        let balance = principal;
+        
+        let start = new Date(startDate);
+        let paymentNumber = 0;
+
+        if (frequency === 'monthly') {
+            // Monthly payments
+            for (let i = 0; i < months; i++) {
+                const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+                const interest = balance * monthlyRate;
+                const principalPayment = emi - interest;
+                balance -= principalPayment;
+
+                const dueDate = new Date(start);
+                dueDate.setMonth(dueDate.getMonth() + i);
+
+                payments.push({
+                    id: Date.now() + i,
+                    dueDate: dueDate.toISOString().split('T')[0],
+                    amount: emi.toFixed(2),
+                    principal: principalPayment.toFixed(2),
+                    interest: interest.toFixed(2),
+                    paid: false,
+                    paymentNumber: i + 1
+                });
+            }
+        } else if (frequency === 'yearly') {
+            // Yearly payments
+            const yearsCount = Math.ceil(months / 12);
+            const yearlyRate = annualRate / 100;
+            
+            for (let i = 0; i < yearsCount; i++) {
+                const dueDate = new Date(start);
+                dueDate.setFullYear(dueDate.getFullYear() + i);
+
+                const yearInterest = principal * yearlyRate;
+                const yearPrincipal = i === yearsCount - 1 ? balance : principal / yearsCount;
+                balance -= yearPrincipal;
+
+                payments.push({
+                    id: Date.now() + i,
+                    dueDate: dueDate.toISOString().split('T')[0],
+                    amount: (yearPrincipal + yearInterest).toFixed(2),
+                    principal: yearPrincipal.toFixed(2),
+                    interest: yearInterest.toFixed(2),
+                    paid: false,
+                    paymentNumber: i + 1
+                });
             }
         }
 
-        // Save data to localStorage
-        function saveDatabase() {
-            localStorage.setItem('loanManagerDB', JSON.stringify(DB));
+        return payments;
+    }
+
+    function loadLoans() {
+        if (!currentUser) return;
+
+        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
+        const loansList = document.getElementById('loansList');
+
+        if (loans.length === 0) {
+            loansList.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <div class="empty-text">No loans yet</div>
+                    <p>Create your first loan to get started</p>
+                </div>
+            `;
+            return;
         }
 
-        // Format date as DD/MMMM/YYYY
-        function formatDate(dateStr) {
-            const date = new Date(dateStr + 'T00:00:00');
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = months[date.getMonth()];
-            const year = date.getFullYear();
-            return `${day}/${month}/${year}`;
-        }
+        loansList.innerHTML = loans.map(loan => {
+            const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
+            const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+            const paidCount = loan.payments.filter(p => p.paid).length;
+            const statusBadge = loan.payments.every(p => p.paid) ? 'Completed' : 
+                               loan.payments.some(p => p.paid) ? 'Active' : 'Pending';
+            const statusClass = statusBadge === 'Completed' ? 'status-closed' : 
+                               statusBadge === 'Active' ? 'status-active' : 'status-pending';
 
-        // Add months to date
-        function addMonths(dateStr, months) {
-            const date = new Date(dateStr + 'T00:00:00');
-            date.setMonth(date.getMonth() + months);
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
-
-        // Get date range for payment period
-        function getPaymentDateRange(startDate, monthIndex) {
-            const startMonth = addMonths(startDate, monthIndex);
-            const endMonth = addMonths(startDate, monthIndex + 1);
-            return `${formatDate(startMonth)} - ${formatDate(endMonth)}`;
-        }
-
-        // Check if payment is overdue
-        function isPaymentOverdue(startDate, monthIndex) {
-            const endDate = new Date(addMonths(startDate, monthIndex + 1) + 'T00:00:00');
-            return new Date() > endDate;
-        }
-
-        // AUTH FUNCTIONS
-        function showLoginForm() {
-            document.getElementById('loginForm').classList.add('active');
-            document.getElementById('registerForm').classList.remove('active');
-            document.getElementById('forgotForm').classList.remove('active');
-        }
-
-        function showRegisterForm() {
-            document.getElementById('loginForm').classList.remove('active');
-            document.getElementById('registerForm').classList.add('active');
-            document.getElementById('forgotForm').classList.remove('active');
-        }
-
-        function showForgotPassword() {
-            document.getElementById('loginForm').classList.remove('active');
-            document.getElementById('registerForm').classList.remove('active');
-            document.getElementById('forgotForm').classList.add('active');
-        }
-
-        function showAuthMessage(message, type) {
-            const msgEl = document.getElementById('authMessage');
-            msgEl.textContent = message;
-            msgEl.className = type;
-            setTimeout(() => msgEl.className = '', 3000);
-        }
-
-        function handleLogin(event) {
-            event.preventDefault();
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (DB.users[username] && DB.users[username].password === password) {
-                sessionStorage.setItem('currentUser', username);
-                document.getElementById('authContainer').classList.remove('active');
-                document.getElementById('mainContainer').classList.add('active');
-                document.getElementById('userDisplay').textContent = username;
-                showHomeTab();
-            } else {
-                showAuthMessage('Invalid username or password', 'error');
-            }
-        }
-
-        function handleRegister(event) {
-            event.preventDefault();
-            const username = document.getElementById('regUsername').value;
-            const email = document.getElementById('regEmail').value;
-            const phone = document.getElementById('regPhone').value;
-            const address = document.getElementById('regAddress').value;
-            const password = document.getElementById('regPassword').value;
-            const confirmPassword = document.getElementById('regConfirmPassword').value;
-
-            if (password !== confirmPassword) {
-                showAuthMessage('Passwords do not match', 'error');
-                return;
-            }
-
-            if (DB.users[username]) {
-                showAuthMessage('Username already exists', 'error');
-                return;
-            }
-
-            DB.users[username] = { email, phone, address, password };
-            saveDatabase();
-            showAuthMessage('Registration successful! Please login.', 'success');
-            setTimeout(showLoginForm, 1500);
-        }
-
-        function handleForgotPassword(event) {
-            event.preventDefault();
-            const username = document.getElementById('forgotUsername').value;
-            const email = document.getElementById('forgotEmail').value;
-            const newPassword = document.getElementById('forgotNewPassword').value;
-            const confirmPassword = document.getElementById('forgotConfirmPassword').value;
-
-            if (newPassword !== confirmPassword) {
-                showAuthMessage('Passwords do not match', 'error');
-                return;
-            }
-
-            if (!DB.users[username] || DB.users[username].email !== email) {
-                showAuthMessage('Invalid username or email', 'error');
-                return;
-            }
-
-            DB.users[username].password = newPassword;
-            saveDatabase();
-            showAuthMessage('Password reset successful! Please login.', 'success');
-            setTimeout(showLoginForm, 1500);
-        }
-
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                sessionStorage.removeItem('currentUser');
-                document.getElementById('mainContainer').classList.remove('active');
-                document.getElementById('authContainer').classList.add('active');
-                document.getElementById('authMessage').className = '';
-                showLoginForm();
-            }
-        }
-
-        // LOAN FUNCTIONS
-        function calculateInterest() {
-            const amount = parseFloat(document.getElementById('loanAmount').value) || 0;
-            const rate = parseFloat(document.getElementById('interestRate').value) || 0;
-            const months = parseInt(document.getElementById('agreementMonths').value) || 0;
-
-            if (amount > 0 && rate > 0 && months > 0) {
-                const monthlyInterest = (amount * rate) / 100;
-                const totalInterest = monthlyInterest * months;
-                const totalAmount = amount + totalInterest;
-
-                document.getElementById('displayPrincipal').textContent = amount.toLocaleString();
-                document.getElementById('displayMonthlyInterest').textContent = Math.round(monthlyInterest).toLocaleString();
-                document.getElementById('displayDuration').textContent = months;
-                document.getElementById('displayTotalInterest').textContent = Math.round(totalInterest).toLocaleString();
-                document.getElementById('displayTotalAmount').textContent = Math.round(totalAmount).toLocaleString();
-                document.getElementById('calculationResult').style.display = 'block';
-            } else {
-                document.getElementById('calculationResult').style.display = 'none';
-            }
-        }
-
-        function resetLoanForm() {
-            document.getElementById('loanForm').reset();
-            document.getElementById('calculationResult').style.display = 'none';
-        }
-
-        function saveLoan(event) {
-            event.preventDefault();
-            const currentUser = sessionStorage.getItem('currentUser');
-            if (!currentUser) return;
-
-            const loanData = {
-                id: Date.now().toString(),
-                borrowerName: document.getElementById('borrowerName').value,
-                fatherName: document.getElementById('fatherName').value,
-                phone: document.getElementById('borrowerPhone').value,
-                address: document.getElementById('borrowerAddress').value,
-                amount: parseFloat(document.getElementById('loanAmount').value),
-                rate: parseFloat(document.getElementById('interestRate').value),
-                startDate: document.getElementById('startDate').value,
-                months: parseInt(document.getElementById('agreementMonths').value),
-                description: document.getElementById('loanDescription').value,
-                createdAt: new Date().toISOString(),
-                principalReceived: false,
-                principalReceivedDate: null,
-                payments: {}
-            };
-
-            // Initialize payment tracking
-            for (let i = 0; i < loanData.months; i++) {
-                loanData.payments[i] = { paid: false, paidDate: null };
-            }
-
-            if (!DB.loans[currentUser]) {
-                DB.loans[currentUser] = {};
-            }
-
-            DB.loans[currentUser][loanData.id] = loanData;
-            saveDatabase();
-
-            alert('✅ Loan created successfully!');
-            resetLoanForm();
-            showHomeTab();
-        }
-
-        function showHomeTab() {
-            showTab(null, 'home');
-            displayLoans();
-        }
-
-        function displayLoans() {
-            const currentUser = sessionStorage.getItem('currentUser');
-            if (!currentUser) return;
-
-            const loansList = document.getElementById('loansList');
-            const userLoans = DB.loans[currentUser] || {};
-            const loans = Object.values(userLoans);
-
-            if (loans.length === 0) {
-                loansList.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">📋</div>
-                        <div class="empty-text">No loans yet</div>
-                        <p>Create your first loan agreement to get started</p>
+            return `
+                <div class="loan-card" onclick="viewLoanDetails('${loan.id}')">
+                    <div class="loan-header">
+                        <div class="loan-name">${loan.name}</div>
+                        <div class="status-badge ${statusClass}">${statusBadge}</div>
                     </div>
-                `;
-                document.getElementById('summaryCards').innerHTML = '';
-                return;
+                    <div class="loan-info">
+                        <div class="info-item">
+                            <div class="info-label">Borrower</div>
+                            <div class="info-value">${loan.borrowerName}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Amount</div>
+                            <div class="info-value">₹${parseFloat(loan.principal).toLocaleString()}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Paid</div>
+                            <div class="info-value">₹${totalPaid.toLocaleString()}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Progress</div>
+                            <div class="info-value">${paidCount}/${loan.payments.length}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function viewLoanDetails(loanId) {
+        currentLoanId = loanId;
+        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
+        const loan = loans.find(l => l.id == loanId);
+
+        if (!loan) return;
+
+        const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        const paidCount = loan.payments.filter(p => p.paid).length;
+        const statusBadge = loan.payments.every(p => p.paid) ? 'Completed' : 
+                           loan.payments.some(p => p.paid) ? 'Active' : 'Pending';
+
+        document.getElementById('detailsTotalAmount').textContent = `₹${totalAmount.toLocaleString()}`;
+        document.getElementById('detailsStatus').textContent = statusBadge;
+
+        const infoHtml = `
+            <div class="info-card">
+                <div class="info-card-title">Borrower</div>
+                <div class="info-card-desc">${loan.borrowerName}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">Start Date</div>
+                <div class="info-card-desc">${new Date(loan.startDate).toLocaleDateString()}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">Principal Amount</div>
+                <div class="info-card-desc">₹${parseFloat(loan.principal).toLocaleString()}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">Interest Rate</div>
+                <div class="info-card-desc">${loan.interestRate}% per annum</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">Payment Frequency</div>
+                <div class="info-card-desc">${loan.frequency.charAt(0).toUpperCase() + loan.frequency.slice(1)}</div>
+            </div>
+            ${loan.notes ? `
+            <div class="info-card">
+                <div class="info-card-title">Notes</div>
+                <div class="info-card-desc">${loan.notes}</div>
+            </div>
+            ` : ''}
+        `;
+
+        document.getElementById('loanDetailsInfo').innerHTML = infoHtml;
+
+        // Show payment view
+        document.querySelectorAll('.details-view, .payment-view, .edit-view').forEach(el => el.classList.remove('active'));
+        document.getElementById('home').classList.remove('active');
+        document.getElementById('detailsView').classList.add('active');
+
+        loadPayments(loan);
+    }
+
+    function loadPayments(loan) {
+        const paymentsList = document.getElementById('paymentsList');
+        const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        const paidCount = loan.payments.filter(p => p.paid).length;
+
+        document.getElementById('totalPaid').textContent = `₹${totalPaid.toLocaleString()}`;
+        document.getElementById('totalRemaining').textContent = `₹${(totalAmount - totalPaid).toLocaleString()}`;
+        document.getElementById('paidCount').textContent = paidCount;
+        document.getElementById('pendingCount').textContent = loan.payments.length - paidCount;
+
+        paymentsList.innerHTML = loan.payments.map(payment => {
+            const isPaid = payment.paid;
+            const dueDate = new Date(payment.dueDate);
+            const isOverdue = dueDate < new Date() && !isPaid;
+
+            return `
+                <div class="payment-item ${isPaid ? 'paid' : ''} ${isOverdue ? 'overdue' : ''}">
+                    <div class="payment-info">
+                        <div class="payment-month">${dueDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</div>
+                        <div class="payment-amount">Amount: ₹${parseFloat(payment.amount).toLocaleString()}</div>
+                    </div>
+                    <input type="checkbox" class="payment-checkbox" ${isPaid ? 'checked disabled' : ''} onchange="togglePayment(${payment.id}, this.checked)">
+                </div>
+            `;
+        }).join('');
+    }
+
+    function togglePayment(paymentId, isPaid) {
+        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
+        const loan = loans.find(l => l.id == currentLoanId);
+
+        if (loan) {
+            const payment = loan.payments.find(p => p.id == paymentId);
+            if (payment) {
+                payment.paid = isPaid;
+                localStorage.setItem(`loans_${currentUser.id}`, JSON.stringify(loans));
+                loadPayments(loan);
             }
+        }
+    }
 
-            let totalLoans = 0;
-            let totalAmount = 0;
-            let totalPaid = 0;
+    function editLoan() {
+        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
+        const loan = loans.find(l => l.id == currentLoanId);
 
-            loans.forEach(loan => {
-                totalLoans++;
-                totalAmount += loan.amount;
-                const paidPayments = Object.values(loan.payments).filter(p => p.paid).length;
-                totalPaid += paidPayments * (loan.amount * loan.rate / 100);
+        if (!loan) return;
+
+        const editPaymentsList = document.getElementById('editPaymentsList');
+        editPaymentsList.innerHTML = loan.payments.map(payment => {
+            const dueDate = new Date(payment.dueDate);
+            const isPaid = payment.paid;
+
+            return `
+                <div class="payment-item ${isPaid ? 'paid edit-mode' : ''}" id="edit-payment-${payment.id}">
+                    <div class="payment-info">
+                        <div class="payment-month">${dueDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</div>
+                        <div class="payment-amount">Amount: ₹${parseFloat(payment.amount).toLocaleString()}</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" class="payment-checkbox edit-check" data-id="${payment.id}" ${isPaid ? 'checked' : ''}>
+                        ${isPaid ? `<button class="enable-payment-btn" onclick="resetPayment(${payment.id})">Reset</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        document.getElementById('detailsView').classList.remove('active');
+        document.getElementById('editView').classList.add('active');
+    }
+
+    function resetPayment(paymentId) {
+        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
+        const loan = loans.find(l => l.id == currentLoanId);
+
+        if (loan) {
+            const payment = loan.payments.find(p => p.id == paymentId);
+            if (payment) {
+                payment.paid = false;
+                document.querySelector(`#edit-payment-${paymentId} input`).checked = false;
+                document.querySelector(`#edit-payment-${paymentId}`).classList.remove('paid', 'edit-mode');
+                document.querySelector(`#edit-payment-${paymentId} .enable-payment-btn`)?.remove();
+            }
+        }
+    }
+
+    function saveEditPayments() {
+        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
+        const loan = loans.find(l => l.id == currentLoanId);
+
+        if (loan) {
+            document.querySelectorAll('.edit-check').forEach(checkbox => {
+                const paymentId = parseInt(checkbox.dataset.id);
+                const payment = loan.payments.find(p => p.id == paymentId);
+                if (payment) {
+                    payment.paid = checkbox.checked;
+                }
             });
 
-            document.getElementById('summaryCards').innerHTML = `
-                <div class="summary-card">
-                    <div class="summary-label">Total Loans</div>
-                    <div class="summary-value">${totalLoans}</div>
-                </div>
-                <div class="summary-card">
-                    <div class="summary-label">Total Amount</div>
-                    <div class="summary-value">₹${totalAmount.toLocaleString()}</div>
-                </div>
-            `;
-
-            loansList.innerHTML = loans.map(loan => {
-                const paidCount = Object.values(loan.payments).filter(p => p.paid).length;
-                const progressPercent = (paidCount / loan.months) * 100;
-                const overdueCount = Object.entries(loan.payments)
-                    .filter(([idx, p]) => !p.paid && isPaymentOverdue(loan.startDate, parseInt(idx)))
-                    .length;
-
-                let statusClass = 'status-active';
-                let statusText = '⏳ ACTIVE';
-
-                if (paidCount === loan.months) {
-                    statusClass = 'status-closed';
-                    statusText = '✓ CLOSED';
-                } else if (overdueCount > 0) {
-                    statusClass = 'status-overdue';
-                    statusText = `⚠️ ${overdueCount} OVERDUE`;
-                } else if (!loan.principalReceived) {
-                    statusClass = 'status-pending';
-                    statusText = '⏱️ PENDING';
-                }
-
-                return `
-                    <div class="loan-card" onclick="showPaymentPage('${loan.id}')">
-                        <div class="loan-header">
-                            <span class="loan-name">${loan.borrowerName}</span>
-                            <span class="status-badge ${statusClass}">${statusText}</span>
-                        </div>
-                        <div class="loan-info">
-                            <div class="info-item">
-                                <span class="info-label">Amount</span>
-                                <span class="info-value">₹${loan.amount.toLocaleString()}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Start Date</span>
-                                <span class="info-value">${formatDate(loan.startDate)}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Rate/Month</span>
-                                <span class="info-value">${loan.rate}%</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Progress</span>
-                                <span class="info-value">${Math.round(progressPercent)}%</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            localStorage.setItem(`loans_${currentUser.id}`, JSON.stringify(loans));
+            alert('Payment status updated!');
+            viewLoanDetails(currentLoanId);
         }
+    }
 
-        function showPaymentPage(loanId) {
-            const currentUser = sessionStorage.getItem('currentUser');
-            const loan = DB.loans[currentUser][loanId];
-            const paymentView = document.getElementById('paymentView');
+    function generatePDF() {
+        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
+        const loan = loans.find(l => l.id == currentLoanId);
 
-            let monthlyInterest = (loan.amount * loan.rate) / 100;
-            const paidCount = Object.values(loan.payments).filter(p => p.paid).length;
-            const progressPercent = (paidCount / loan.months) * 100;
+        if (!loan) return;
 
-            let paymentHTML = `
-                <button class="back-btn" onclick="hiddenPaymentPage()">← Back to Loans</button>
-                
-                <div class="calculation-box">
-                    <h3>${loan.borrowerName}'s Loan Details</h3>
-                    <div style="margin-top: 12px; font-size: 0.9em;">
-                        <p><strong>Father's Name:</strong> ${loan.fatherName}</p>
-                        <p><strong>Address:</strong> ${loan.address}</p>
-                        <p style="margin-top: 8px;"><strong>Started:</strong> ${formatDate(loan.startDate)}</p>
-                    </div>
-                </div>
+        const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
 
-                <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
-                    <button class="edit-btn" onclick="showEditPage('${loanId}')">✏️ Edit</button>
-                    <button class="pdf-btn" onclick="exportPDF('${loanId}')">📄 Export PDF</button>
-                    <button class="whatsapp-btn" onclick="openNotificationModal('${loanId}')">📱 Notify Me</button>
-                    <button class="delete-btn" onclick="deleteLoan('${loanId}')">🗑️ Delete</button>
-                </div>
-
-                <div class="principal-section">
-                    <div class="principal-item">
-                        <span class="principal-label">📦 Principal Amount</span>
-                        <span class="principal-value">₹${loan.amount.toLocaleString()}</span>
-                    </div>
-                    <div class="principal-item">
-                        <span class="principal-label">Status</span>
-                        <span class="principal-value" style="color: ${loan.principalReceived ? '#28a745' : '#dc3545'}">
-                            ${loan.principalReceived ? '✅ Received' : '❌ Not Received'}
-                        </span>
-                    </div>
-                    ${loan.principalReceivedDate ? `
-                    <div class="principal-item">
-                        <span class="principal-label">Received Date</span>
-                        <span class="principal-value">${formatDate(loan.principalReceivedDate.split('T')[0])}</span>
-                    </div>
-                    ` : ''}
-                    <div class="principal-item" style="margin-top: 12px;">
-                        <label style="margin: 0; flex: 1; font-weight: 700;">Mark as Received</label>
-                        <input type="checkbox" ${loan.principalReceived ? 'checked' : ''} onchange="togglePrincipalReceived('${loanId}')" style="width: 24px; height: 24px; cursor: pointer; accent-color: #28a745;">
-                    </div>
-                </div>
-
-                <div class="payment-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Monthly Interest</span>
-                        <span class="stat-value">₹${Math.round(monthlyInterest).toLocaleString()}</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Payments Completed</span>
-                        <span class="stat-value">${paidCount}/${loan.months}</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Progress</span>
-                        <span class="stat-value">${Math.round(progressPercent)}%</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Total Interest Paid</span>
-                        <span class="stat-value">₹${Math.round(monthlyInterest * paidCount).toLocaleString()}</span>
-                    </div>
-                </div>
-
-                <div class="details-section">
-                    <h3>💳 Payment Schedule</h3>
-                    <div id="paymentsList">
-            `;
-
-            for (let i = 0; i < loan.months; i++) {
-                const dateRange = getPaymentDateRange(loan.startDate, i);
-                const payment = loan.payments[i];
-                const isPaid = payment.paid;
-                const overdue = !isPaid && isPaymentOverdue(loan.startDate, i);
-
-                paymentHTML += `
-                    <div class="payment-item ${isPaid ? 'paid' : ''} ${overdue ? 'overdue' : ''}">
-                        <div class="payment-info">
-                            <div class="payment-month">📅 ${dateRange}</div>
-                            <div class="payment-amount">₹${Math.round(monthlyInterest).toLocaleString()} ${isPaid ? '✅' : overdue ? '⚠️' : ''}</div>
-                            ${isPaid && payment.paidDate ? `<div class="payment-amount" style="color: #28a745; margin-top: 2px;">Paid: ${formatDate(payment.paidDate.split('T')[0])}</div>` : ''}
-                        </div>
-                        <input 
-                            type="checkbox" 
-                            class="payment-checkbox" 
-                            ${isPaid ? 'checked disabled' : ''}
-                            onchange="togglePayment('${loanId}', ${i})"
-                        >
-                    </div>
-                `;
-            }
-
-            paymentHTML += `
-                    </div>
-                </div>
-
-                <button class="back-btn" onclick="hiddenPaymentPage()" style="display: block; width: 100%; text-align: center; margin-top: 20px;">← Back to Loans</button>
-            `;
-
-            paymentView.innerHTML = paymentHTML;
-            
-            // Hide loans list and show payment view
-            document.getElementById('loansList').style.display = 'none';
-            document.getElementById('summaryCards').style.display = 'none';
-            paymentView.classList.add('active');
-        }
-
-        function hiddenPaymentPage() {
-            document.getElementById('paymentView').classList.remove('active');
-            document.getElementById('editView').classList.remove('active');
-            document.getElementById('loansList').style.display = 'block';
-            document.getElementById('summaryCards').style.display = 'grid';
-            displayLoans();
-        }
-
-        function togglePayment(loanId, paymentIndex) {
-            const currentUser = sessionStorage.getItem('currentUser');
-            const loan = DB.loans[currentUser][loanId];
-            
-            if (!loan.payments[paymentIndex].paid) {
-                loan.payments[paymentIndex].paid = true;
-                loan.payments[paymentIndex].paidDate = new Date().toISOString();
-            }
-            
-            saveDatabase();
-            showPaymentPage(loanId);
-        }
-
-        function togglePrincipalReceived(loanId) {
-            const currentUser = sessionStorage.getItem('currentUser');
-            const loan = DB.loans[currentUser][loanId];
-            
-            loan.principalReceived = !loan.principalReceived;
-            if (loan.principalReceived) {
-                loan.principalReceivedDate = new Date().toISOString();
-            } else {
-                loan.principalReceivedDate = null;
-            }
-            
-            saveDatabase();
-            showPaymentPage(loanId);
-        }
-
-        function showEditPage(loanId) {
-            const currentUser = sessionStorage.getItem('currentUser');
-            const loan = DB.loans[currentUser][loanId];
-            currentEditingLoan = loanId;
-            
-            const editView = document.getElementById('editView');
-            
-            let editHTML = `
-                <button class="back-btn" onclick="hiddenPaymentPage()">← Back</button>
-                
-                <h3>✏️ Edit Loan - ${loan.borrowerName}</h3>
-                
-                <form id="editLoanForm">
-                    <div class="form-group">
-                        <label>👤 Borrower Name</label>
-                        <input type="text" id="editBorrowerName" value="${loan.borrowerName}" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>👨‍🦱 Father's Name</label>
-                        <input type="text" id="editFatherName" value="${loan.fatherName}" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>📱 Phone Number</label>
-                        <input type="tel" id="editPhone" value="${loan.phone}" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>🏠 Address</label>
-                        <textarea id="editAddress" required>${loan.address}</textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>💵 Loan Amount (₹)</label>
-                        <input type="number" id="editAmount" value="${loan.amount}" required min="0" step="1">
-                    </div>
-
-                    <div class="form-group">
-                        <label>📊 Rate of Interest (%) Per Month</label>
-                        <input type="number" id="editRate" value="${loan.rate}" required min="0" step="0.01">
-                    </div>
-
-                    <div class="form-group">
-                        <label>📝 Description/Notes</label>
-                        <textarea id="editDescription">${loan.description || ''}</textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="resetPrincipal" ${loan.principalReceived ? 'checked' : ''}>
-                            <label for="resetPrincipal">Principal Received</label>
-                        </div>
-                    </div>
-
-                    <div class="button-group">
-                        <button type="button" class="btn-primary" onclick="saveLoanEdit('${loanId}')">💾 Save Changes</button>
-                        <button type="button" class="btn-secondary" onclick="hiddenPaymentPage()">Cancel</button>
-                    </div>
-                </form>
-            `;
-            
-            editView.innerHTML = editHTML;
-            document.getElementById('paymentView').classList.remove('active');
-            editView.classList.add('active');
-        }
-
-        function saveLoanEdit(loanId) {
-            const currentUser = sessionStorage.getItem('currentUser');
-            const loan = DB.loans[currentUser][loanId];
-            
-            loan.borrowerName = document.getElementById('editBorrowerName').value;
-            loan.fatherName = document.getElementById('editFatherName').value;
-            loan.phone = document.getElementById('editPhone').value;
-            loan.address = document.getElementById('editAddress').value;
-            loan.amount = parseFloat(document.getElementById('editAmount').value);
-            loan.rate = parseFloat(document.getElementById('editRate').value);
-            loan.description = document.getElementById('editDescription').value;
-            loan.principalReceived = document.getElementById('resetPrincipal').checked;
-            
-            if (loan.principalReceived && !loan.principalReceivedDate) {
-                loan.principalReceivedDate = new Date().toISOString();
-            } else if (!loan.principalReceived) {
-                loan.principalReceivedDate = null;
-            }
-            
-            saveDatabase();
-            alert('✅ Loan updated successfully!');
-            hiddenPaymentPage();
-        }
-
-        function deleteLoan(loanId) {
-            if (confirm('⚠️ Are you sure you want to delete this loan? This action cannot be undone.')) {
-                const currentUser = sessionStorage.getItem('currentUser');
-                delete DB.loans[currentUser][loanId];
-                saveDatabase();
-                alert('✅ Loan deleted successfully!');
-                hiddenPaymentPage();
-            }
-        }
-
-        function exportPDF(loanId) {
-            const currentUser = sessionStorage.getItem('currentUser');
-            const loan = DB.loans[currentUser][loanId];
-            
-            let monthlyInterest = (loan.amount * loan.rate) / 100;
-            const paidCount = Object.values(loan.payments).filter(p => p.paid).length;
-            
-            let pdfContent = `
-                <div style="font-family: Arial, sans-serif; padding: 20px;">
-                    <h1 style="text-align: center; color: #667eea;">💰 LOAN AGREEMENT DOCUMENT</h1>
-                    
-                    <hr>
-                    
-                    <h2>📋 BORROWER DETAILS</h2>
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Borrower Name:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.borrowerName}</td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Father's Name:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.fatherName}</td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Phone:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.phone}</td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Address:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.address}</td>
-                        </tr>
-                    </table>
-                    
-                    <h2 style="margin-top: 20px;">💰 LOAN DETAILS</h2>
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Loan Amount:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px;">₹${loan.amount.toLocaleString()}</td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Interest Rate:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.rate}% per month</td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Monthly Interest:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px;">₹${Math.round(monthlyInterest).toLocaleString()}</td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Duration:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.months} Months</td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Start Date:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px;">${formatDate(loan.startDate)}</td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Total Interest:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px; background: #fff3cd;">₹${Math.round(monthlyInterest * loan.months).toLocaleString()}</td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Total Payable:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px; background: #d4edda; font-weight: bold;">₹${Math.round(loan.amount + monthlyInterest * loan.months).toLocaleString()}</td>
-                        </tr>
-                    </table>
-
-                    <h2 style="margin-top: 20px;">📦 PRINCIPAL STATUS</h2>
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Status:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.principalReceived ? '✅ Received' : '❌ Not Received'}</td>
-                        </tr>
-                        ${loan.principalReceivedDate ? `
-                        <tr>
-                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Received Date:</strong></td>
-                            <td style="border: 1px solid #ccc; padding: 10px;">${formatDate(loan.principalReceivedDate.split('T')[0])}</td>
-                        </tr>
-                        ` : ''}
-                    </table>
-
-                    <h2 style="margin-top: 20px;">📊 PAYMENT STATUS</h2>
-                    <p><strong>Payments Completed: ${paidCount}/${loan.months}</strong></p>
-                    
-                    <h2 style="margin-top: 20px;">📝 PAYMENT HISTORY</h2>
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background: #667eea; color: white;">
-                                <th style="border: 1px solid #ccc; padding: 10px;">Period</th>
-                                <th style="border: 1px solid #ccc; padding: 10px;">Amount (₹)</th>
-                                <th style="border: 1px solid #ccc; padding: 10px;">Status</th>
-                                <th style="border: 1px solid #ccc; padding: 10px;">Paid Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-            
-            for (let i = 0; i < loan.months; i++) {
-                const dateRange = getPaymentDateRange(loan.startDate, i);
-                const payment = loan.payments[i];
-                const isPaid = payment.paid;
-                
-                pdfContent += `
-                    <tr>
-                        <td style="border: 1px solid #ccc; padding: 10px;">${dateRange}</td>
-                        <td style="border: 1px solid #ccc; padding: 10px;">₹${Math.round(monthlyInterest).toLocaleString()}</td>
-                        <td style="border: 1px solid #ccc; padding: 10px; background: ${isPaid ? '#d4edda' : '#f8d7da'};">${isPaid ? '✅ Paid' : '❌ Pending'}</td>
-                        <td style="border: 1px solid #ccc; padding: 10px;">${isPaid && payment.paidDate ? formatDate(payment.paidDate.split('T')[0]) : '-'}</td>
+        const htmlContent = `
+            <div style="font-family: Arial, sans-serif; padding: 20px;">
+                <h1>Loan Statement</h1>
+                <p><strong>Loan Name:</strong> ${loan.name}</p>
+                <p><strong>Borrower:</strong> ${loan.borrowerName}</p>
+                <p><strong>Principal:</strong> ₹${parseFloat(loan.principal).toLocaleString()}</p>
+                <p><strong>Interest Rate:</strong> ${loan.interestRate}%</p>
+                <p><strong>Start Date:</strong> ${new Date(loan.startDate).toLocaleDateString()}</p>
+                <p><strong>Total Amount:</strong> ₹${totalAmount.toLocaleString()}</p>
+                <p><strong>Total Paid:</strong> ₹${totalPaid.toLocaleString()}</p>
+                <p><strong>Remaining:</strong> ₹${(totalAmount - totalPaid).toLocaleString()}</p>
+                <h2>Payment Schedule</h2>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Amount</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
                     </tr>
-                `;
-            }
-            
-            pdfContent += `
-                        </tbody>
-                    </table>
+                    ${loan.payments.map(p => `
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${new Date(p.dueDate).toLocaleDateString()}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">₹${parseFloat(p.amount).toLocaleString()}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${p.paid ? 'Paid' : 'Pending'}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+            </div>
+        `;
 
-                    <div style="margin-top: 30px; border-top: 2px solid #667eea; padding-top: 20px; text-align: center; color: #666;">
-                        <p>Generated on: ${new Date().toLocaleString()}</p>
-                        <p>This is a computer-generated document from Loan Manager System</p>
-                    </div>
-                </div>
-            `;
-            
-            const element = document.createElement('div');
-            element.innerHTML = pdfContent;
-            
-            const opt = {
-                margin: 10,
-                filename: `Loan_${loan.borrowerName}_${new Date().toISOString().split('T')[0]}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
-            };
-            
-            html2pdf().set(opt).from(element).save();
-        }
+        const element = document.createElement('div');
+        element.innerHTML = htmlContent;
 
-        function openNotificationModal(loanId) {
-            document.getElementById('notificationModal').classList.add('active');
-            document.getElementById('notificationModal').dataset.loanId = loanId;
-            
-            const currentUser = sessionStorage.getItem('currentUser');
-            const loan = DB.loans[currentUser][loanId];
-            
-            // Find unpaid months
-            let unpaidMonths = [];
-            for (let i = 0; i < loan.months; i++) {
-                if (!loan.payments[i].paid) {
-                    const dateRange = getPaymentDateRange(loan.startDate, i);
-                    unpaidMonths.push(dateRange);
-                }
-            }
-            
-            let message = `Loan Update - ${loan.borrowerName}\n\n`;
-            message += `Borrower: ${loan.borrowerName}\n`;
-            message += `Loan Amount: ₹${loan.amount.toLocaleString()}\n`;
-            message += `Interest Rate: ${loan.rate}% per month\n\n`;
-            
-            if (unpaidMonths.length > 0) {
-                message += `⚠️ UNPAID PAYMENTS:\n`;
-                unpaidMonths.slice(0, 3).forEach(month => {
-                    message += `• ${month}\n`;
-                });
-                if (unpaidMonths.length > 3) {
-                    message += `• and ${unpaidMonths.length - 3} more...\n`;
-                }
-            } else {
-                message += `✅ All payments completed!\n`;
-            }
-            
-            message += `\nPlease contact the borrower regarding pending payments.`;
-            
-            document.getElementById('notificationMessage').value = message;
-        }
+        const opt = {
+            margin: 10,
+            filename: `${loan.name}_statement.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+        };
 
-        function closeNotificationModal() {
-            document.getElementById('notificationModal').classList.remove('active');
-        }
+        html2pdf().set(opt).from(element).save();
+    }
 
-        function sendNotification() {
-            const currentUser = sessionStorage.getItem('currentUser');
-            const userPhone = DB.users[currentUser].phone;
-            const notificationType = document.getElementById('notificationType').value;
-            const message = document.getElementById('notificationMessage').value;
-            
-            const phoneNumber = userPhone.replace(/[^0-9]/g, '');
-            
-            if (notificationType === 'whatsapp') {
-                // WhatsApp link
-                const encodedMessage = encodeURIComponent(message);
-                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-                window.open(whatsappUrl, '_blank');
-            } else if (notificationType === 'sms') {
-                // SMS link
-                const encodedMessage = encodeURIComponent(message);
-                window.location.href = `sms:${phoneNumber}?body=${encodedMessage}`;
-            }
-            
-            alert(`✅ Notification prepared for WhatsApp/SMS!`);
-            closeNotificationModal();
-        }
+    function shareWhatsApp() {
+        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
+        const loan = loans.find(l => l.id == currentLoanId);
 
-        function showTab(event, tabName) {
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(c => c.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
+        if (!loan) return;
 
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(b => b.classList.remove('active'));
-            
-            if (event) {
-                event.target.classList.add('active');
-            } else {
-                document.querySelector(`button[onclick="showTab(event, '${tabName}')"]`)?.classList.add('active');
-            }
+        const totalAmount = loan.payments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        const totalPaid = loan.payments.filter(p => p.paid).reduce((sum, p) => sum + parseFloat(p.amount), 0);
 
-            if (tabName === 'home') {
-                displayLoans();
-            }
-        }
+        const message = `
+💰 Loan Summary
+Loan: ${loan.name}
+Borrower: ${loan.borrowerName}
+Principal: ₹${parseFloat(loan.principal).toLocaleString()}
+Interest: ${loan.interestRate}%
+Total Amount: ₹${totalAmount.toLocaleString()}
+Paid: ₹${totalPaid.toLocaleString()}
+Remaining: ₹${(totalAmount - totalPaid).toLocaleString()}
+        `.trim();
 
-        // Initialize
-        loadDatabase();
-        const currentUser = sessionStorage.getItem('currentUser');
-        if (currentUser) {
-            document.getElementById('authContainer').classList.remove('active');
-            document.getElementById('mainContainer').classList.add('active');
-            document.getElementById('userDisplay').textContent = currentUser;
-            showHomeTab();
-        }
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+    }
 
-        // Attach form submit handler
-        document.getElementById('loanForm').addEventListener('submit', saveLoan);
-    </script>
+    function deleteLoan() {
+        if (!confirm('Are you sure you want to delete this loan?')) return;
+
+        const loans = JSON.parse(localStorage.getItem(`loans_${currentUser.id}`) || '[]');
+        const filteredLoans = loans.filter(l => l.id != currentLoanId);
+        localStorage.setItem(`loans_${currentUser.id}`, JSON.stringify(filteredLoans));
+
+        alert('Loan deleted successfully');
+        backToHome();
+    }
+
+    function backToHome() {
+        currentLoanId = null;
+        document.querySelectorAll('.details-view, .payment-view, .edit-view').forEach(el => el.classList.remove('active'));
+        document.getElementById('home').classList.add('active');
+        loadLoans();
+    }
+
+    // Initialize app on load
+    window.onload = initApp;
+</script>
+
 </body>
 </html>
