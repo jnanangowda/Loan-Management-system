@@ -6,8 +6,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Loan Manager">
-    <meta name="theme-color" content="#667eea">
-    <title> My Lendings management</title>
+    <meta name="theme-color" content="#4f46e5">
+    <title>My Lendings Management</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
@@ -21,30 +21,29 @@
             width: 100%;
             height: 100%;
             overflow-x: hidden;
+            background-color: #f8fafc;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
-            padding: 0;
-            margin: 0;
-            position: fixed;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
         }
 
-        /* AUTH CONTAINER */
-        .auth-container {
+        /* AUTH CONTAINER BACKGROUND */
+        .auth-wrapper {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            min-height: 100vh;
             width: 100%;
-            height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
+        }
+
+        .auth-container {
+            width: 100%;
             display: none;
+            justify-content: center;
         }
 
         .auth-container.active {
@@ -53,114 +52,124 @@
 
         .auth-box {
             background: white;
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 24px;
+            padding: 40px 32px;
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.5s ease;
+            max-width: 420px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             max-height: 90vh;
             overflow-y: auto;
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .auth-box h2 {
             text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            font-size: 1.8em;
-            font-weight: 700;
+            color: #1e1b4b;
+            margin-bottom: 8px;
+            font-size: 2em;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .auth-subtitle {
             text-align: center;
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 25px;
+            color: #64748b;
+            font-size: 0.95em;
+            margin-bottom: 32px;
             font-weight: 500;
         }
 
         .auth-form-group {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .auth-form-group label {
             display: block;
             font-weight: 600;
-            margin-bottom: 6px;
-            color: #2d3748;
-            font-size: 0.92em;
+            margin-bottom: 8px;
+            color: #334155;
+            font-size: 0.88em;
         }
 
         .auth-form-group input {
             width: 100%;
-            padding: 12px 14px;
-            border: 2px solid #e0e7ff;
-            border-radius: 10px;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
             font-size: 16px;
-            font-family: inherit;
-            transition: all 0.3s;
+            transition: all 0.2s ease;
+            background-color: #f8fafc;
+        }
+
+        .auth-form-group input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
         }
 
         .auth-btn {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 14px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1em;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            margin-top: 12px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+
+        .auth-btn:active {
+            transform: scale(0.98);
         }
 
         .auth-btn.admin-mode-btn {
-            background: linear-gradient(135deg, #ed8936 0%, #ed64a6 100%);
-            box-shadow: 0 4px 12px rgba(237, 137, 54, 0.3);
-            margin-top: 8px;
+            background: white;
+            color: #4f46e5;
+            border: 2px solid #e2e8f0;
+            box-shadow: none;
+            margin-top: 12px;
+        }
+        
+        .auth-btn.admin-mode-btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 24px;
+            color: #64748b;
+            font-size: 0.9em;
+        }
+
+        .auth-toggle a {
+            color: #4f46e5;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 700;
         }
 
         .auth-links {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
-            font-size: 0.85em;
+            margin-top: 20px;
+            font-size: 0.88em;
         }
 
         .auth-links a {
-            color: #667eea;
+            color: #4f46e5;
             cursor: pointer;
             text-decoration: none;
-            font-weight: 600;
-        }
-
-        .auth-toggle {
-            text-align: center;
-            margin-top: 16px;
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .auth-toggle a {
-            color: #667eea;
-            cursor: pointer;
-            text-decoration: underline;
             font-weight: 600;
         }
 
@@ -172,15 +181,13 @@
             display: block !important;
         }
 
-        /* MAIN APP STYLES */
+        /* APP MAIN STRUCTURE */
         .container {
             width: 100%;
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background: #f7fafc;
-            border-radius: 0;
             display: none;
+            flex-direction: column;
+            background: #f8fafc;
         }
 
         .container.active {
@@ -188,89 +195,94 @@
         }
         
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 16px 20px;
+            background: white;
+            color: #0f172a;
+            padding: 20px 32px;
             flex-shrink: 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            border-bottom: 1px solid #e2e8f0;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .header-content h1 {
-            font-size: 1.4em;
-            font-weight: 700;
+            font-size: 1.6em;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #1e1b4b;
         }
         
         .header-content p {
-            font-size: 0.8em;
-            opacity: 0.9;
+            font-size: 0.88em;
+            color: #64748b;
+            font-weight: 500;
+            margin-top: 2px;
         }
 
         .user-section {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 14px;
         }
 
         .user-name {
-            font-size: 0.85em;
-            font-weight: 600;
-            color: white;
-            background: rgba(255,255,255,0.15);
-            padding: 6px 12px;
-            border-radius: 20px;
+            font-size: 0.88em;
+            font-weight: 700;
+            color: #4f46e5;
+            background: #e0e7ff;
+            padding: 8px 16px;
+            border-radius: 9999px;
         }
 
         .logout-btn {
-            background: #dc3545;
-            color: white;
+            background: #fee2e2;
+            color: #ef4444;
             border: none;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 0.8em;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 0.88em;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
         }
 
         .logout-btn:hover {
-            background: #c82333;
+            background: #fecaca;
         }
         
         .tabs {
             display: flex;
             background: white;
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
             flex-shrink: 0;
+            padding: 0 32px;
         }
         
         .tabs button {
-            flex: 1;
-            padding: 14px 8px;
+            padding: 16px 24px;
             border: none;
             background: transparent;
             cursor: pointer;
-            font-size: 0.85em;
-            font-weight: 600;
-            color: #4a5568;
-            transition: all 0.2s;
+            font-size: 0.9em;
+            font-weight: 700;
+            color: #64748b;
+            transition: all 0.2s ease;
             border-bottom: 3px solid transparent;
-            text-align: center;
         }
         
         .tabs button.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-            background: #f7fafc;
+            color: #4f46e5;
+            border-bottom-color: #4f46e5;
         }
         
         .content {
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding: 20px;
+            padding: 32px;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
         }
         
         .tab-content {
@@ -279,141 +291,139 @@
         
         .tab-content.active {
             display: block !important;
-            animation: fadeIn 0.25s ease-out;
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .form-group {
-            margin-bottom: 16px;
-        }
-        
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #2d3748;
-            font-size: 0.9em;
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 12px 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 15px;
-            font-family: inherit;
-            background-color: white;
-            color: #2d3748;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
-        }
-        
-        .loan-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 16px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .loan-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.08);
-        }
-        
-        .status-badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.75em;
-            font-weight: 700;
-        }
-        
-        .status-active {
-            background: #edf2f7;
-            color: #4a5568;
-        }
-        
-        .status-closed {
-            background: #e6fffa;
-            color: #319795;
-        }
-
-        .status-overdue-alert {
-            background: #fff5f5;
-            border: 1px solid #fed7d7;
-            color: #e53e3e;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.85em;
-            font-weight: 700;
-            margin-top: 10px;
-        }
-        
-        .loan-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 14px;
-        }
-        
-        .info-item {
-            background: #f7fafc;
-            padding: 10px 14px;
-            border-radius: 8px;
-            border-left: 3px solid #667eea;
-        }
-
-        .info-label {
-            font-size: 0.75em;
-            color: #718096;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .info-value {
-            font-size: 1em;
-            font-weight: 700;
-            color: #2d3748;
-            margin-top: 2px;
-        }
-        
+        /* DASHBOARD SUMMARY KPI CARDS */
         .summary-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
         }
         
         .summary-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 16px;
-            border-radius: 14px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
         }
 
         .summary-label {
-            font-size: 0.75em;
-            opacity: 0.85;
+            font-size: 0.8em;
+            font-weight: 700;
+            color: #64748b;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .summary-value {
-            font-size: 1.4em;
+            font-size: 1.8em;
+            font-weight: 800;
+            color: #0f172a;
+            margin-top: 6px;
+        }
+
+        /* SEARCH FILTER COMPONENT */
+        .filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        
+        /* LOAN CARD LAYOUT */
+        .loan-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.01), 0 2px 4px -1px rgba(0,0,0,0.01);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .loan-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -8px rgba(79, 70, 229, 0.08);
+            border-color: #c7d2fe;
+        }
+
+        .loan-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 0.78em;
             font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        
+        .status-active {
+            background: #ecfdf5;
+            color: #065f46;
+        }
+        
+        .status-closed {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .status-overdue-alert {
+            background: #fff7ed;
+            border: 1px solid #ffedd5;
+            color: #c2410c;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 0.88em;
+            font-weight: 600;
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .loan-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .info-item {
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border-left: 4px solid #4f46e5;
+        }
+
+        .info-label {
+            font-size: 0.75em;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1.1em;
+            font-weight: 800;
+            color: #1e293b;
             margin-top: 4px;
         }
 
@@ -423,30 +433,33 @@
             overflow-x: auto;
             background: white;
             border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border-radius: 16px;
+            margin-top: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.01);
         }
 
         .admin-table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.92em;
+            font-size: 0.95em;
         }
 
         .admin-table th {
-            background-color: #f7fafc;
-            color: #4a5568;
+            background-color: #f8fafc;
+            color: #475569;
             font-weight: 700;
-            padding: 14px 16px;
+            padding: 16px 20px;
             border-bottom: 2px solid #e2e8f0;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 0.5px;
         }
 
         .admin-table td {
-            padding: 14px 16px;
+            padding: 16px 20px;
             border-bottom: 1px solid #e2e8f0;
-            color: #2d3748;
+            color: #334155;
         }
 
         .admin-table tr:last-child td {
@@ -454,115 +467,86 @@
         }
 
         .admin-action-btn {
-            padding: 6px 12px;
-            background: #fff5f5;
-            border: 1px solid #fed7d7;
-            color: #e53e3e;
-            border-radius: 6px;
-            font-size: 0.8em;
+            padding: 6px 14px;
+            background: #fef2f2;
+            border: 1px solid #fee2e2;
+            color: #ef4444;
+            border-radius: 8px;
+            font-size: 0.85em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .admin-action-btn:hover {
-            background: #e53e3e;
+            background: #ef4444;
             color: white;
+            border-color: #ef4444;
         }
     </style>
 </head>
 <body>
-    <div class="auth-container active" id="authContainer">
-        <div class="auth-box">
-            <div id="authMessage"></div>
-            
-            <div id="loginForm" class="auth-form-section active">
-                <h2 id="loginGreetingTitle">🔐 Login</h2>
-                <p class="auth-subtitle" id="loginGreetingSubtitle">Access your loan account</p>
-                <form id="authFormLogin" onsubmit="handleLogin(event)">
-                    <div class="auth-form-group">
-                        <label id="usernameFieldLabel">👤 Username *</label>
-                        <input type="text" id="loginUsername" placeholder="Enter username" required>
+    <div id="authWrapper" class="auth-wrapper">
+        <div class="auth-container active" id="authContainer">
+            <div class="auth-box">
+                <div id="authMessage"></div>
+                
+                <div id="loginForm" class="auth-form-section active">
+                    <h2 id="loginGreetingTitle">🔐 Login</h2>
+                    <p class="auth-subtitle" id="loginGreetingSubtitle">Access your loan account</p>
+                    <form id="authFormLogin" onsubmit="handleLogin(event)">
+                        <div class="auth-form-group">
+                            <label id="usernameFieldLabel">👤 Username *</label>
+                            <input type="text" id="loginUsername" placeholder="Enter username" required>
+                        </div>
+
+                        <div class="auth-form-group">
+                            <label>🔒 Password *</label>
+                            <input type="password" id="loginPassword" placeholder="Enter password" required>
+                        </div>
+
+                        <button type="submit" id="mainSubmitAuthBtn" class="auth-btn">🚀 Login</button>
+                        <button type="button" id="adminToggleModeBtn" class="auth-btn admin-mode-btn" onclick="toggleAdminViewMode(true)">🛠️ Admin Console Login</button>
+                    </form>
+
+                    <div class="auth-links" id="authActionLinksRow">
+                        <a onclick="showForgotPassword()">Forgot Password?</a>
+                        <a id="cancelAdminModeLink" style="display:none; color:#ef4444;" onclick="toggleAdminViewMode(false)">← Cancel Admin</a>
                     </div>
 
-                    <div class="auth-form-group">
-                        <label>🔒 Password *</label>
-                        <input type="password" id="loginPassword" placeholder="Enter password" required>
+                    <div class="auth-toggle" id="registerToggleNoticeBlock">
+                        <p>New user? <a onclick="showRegisterForm()">Register here</a></p>
                     </div>
-
-                    <button type="submit" id="mainSubmitAuthBtn" class="auth-btn">🚀 Login</button>
-                    <button type="button" id="adminToggleModeBtn" class="auth-btn admin-mode-btn" onclick="toggleAdminViewMode(true)">🛠️ Admin Console Login</button>
-                </form>
-
-                <div class="auth-links" id="authActionLinksRow">
-                    <a onclick="showForgotPassword()">Forgot Password?</a>
-                    <a id="cancelAdminModeLink" style="display:none; color:#dc3545;" onclick="toggleAdminViewMode(false)">← Cancel Admin</a>
                 </div>
 
-                <div class="auth-toggle" id="registerToggleNoticeBlock">
-                    <p>New user? <a onclick="showRegisterForm()">Register here</a></p>
+                <div id="registerForm" class="auth-form-section">
+                    <h2>💰 Register</h2>
+                    <p class="auth-subtitle">Create new account</p>
+                    <form id="authFormRegister" onsubmit="handleRegister(event)">
+                        <div class="auth-form-group"><label>👤 Username *</label><input type="text" id="regUsername" placeholder="Create username" required></div>
+                        <div class="auth-form-group"><label>📧 Email *</label><input type="email" id="regEmail" placeholder="Enter your email" required></div>
+                        <div class="auth-form-group"><label>📱 Phone Number *</label><input type="tel" id="regPhone" placeholder="Enter your phone number" required></div>
+                        <div class="auth-form-group"><label>🏠 Address *</label><input type="text" id="regAddress" placeholder="Enter your address" required></div>
+                        <div class="auth-form-group"><label>🔒 Password *</label><input type="password" id="regPassword" placeholder="Create a password" required></div>
+                        <div class="auth-form-group"><label>🔐 Confirm Password *</label><input type="password" id="regConfirmPassword" placeholder="Confirm password" required></div>
+                        <button type="submit" class="auth-btn">✅ Register</button>
+                    </form>
+                    <div class="auth-toggle">
+                        <p>Already have an account? <a onclick="showLoginForm()">Login here</a></p>
+                    </div>
                 </div>
-            </div>
 
-            <div id="registerForm" class="auth-form-section">
-                <h2>💰 Register</h2>
-                <p class="auth-subtitle">Create new account</p>
-                <form id="authFormRegister" onsubmit="handleRegister(event)">
-                    <div class="auth-form-group">
-                        <label>👤 Username *</label>
-                        <input type="text" id="regUsername" placeholder="Create username" required>
-                    </div>
-                    <div class="auth-form-group">
-                        <label>📧 Email *</label>
-                        <input type="email" id="regEmail" placeholder="Enter your email" required>
-                    </div>
-                    <div class="auth-form-group">
-                        <label>📱 Phone Number *</label>
-                        <input type="tel" id="regPhone" placeholder="Enter your phone number" required>
-                    </div>
-                    <div class="auth-form-group">
-                        <label>🏠 Address *</label>
-                        <input type="text" id="regAddress" placeholder="Enter your address" required>
-                    </div>
-                    <div class="auth-form-group">
-                        <label>🔒 Password *</label>
-                        <input type="password" id="regPassword" placeholder="Create a password" required>
-                    </div>
-                    <div class="auth-form-group">
-                        <label>🔐 Confirm Password *</label>
-                        <input type="password" id="regConfirmPassword" placeholder="Confirm password" required>
-                    </div>
-                    <button type="submit" class="auth-btn">✅ Register</button>
-                </form>
-                <div class="auth-toggle">
-                    <p>Already have an account? <a onclick="showLoginForm()">Login here</a></p>
-                </div>
-            </div>
-
-            <div id="forgotForm" class="auth-form-section">
-                <h2>🔑 Forgot Password</h2>
-                <p class="auth-subtitle">Reset your password</p>
-                <form id="authFormForgot" onsubmit="handleForgotPassword(event)">
-                    <div class="auth-form-group">
-                        <label>👤 Username or Email *</label>
-                        <input type="text" id="forgotUsername" placeholder="Enter username or email" required>
-                    </div>
-                    <div class="auth-form-group">
-                        <label>📧 Registered Email *</label>
-                        <input type="email" id="forgotEmail" placeholder="Enter registered email" required>
-                    </div>
-                    <div class="auth-form-group">
-                        <label>🔒 New Password *</label>
-                        <input type="password" id="forgotNewPassword" placeholder="Enter new password" required>
-                    </div>
-                    <div class="auth-form-group">
-                        <label>🔐 Confirm New Password *</label>
-                        <input type="password" id="forgotConfirmPassword" placeholder="Confirm new password" required>
-                    </div>
-                    <button type="submit" class="auth-btn">🔄 Reset Password</button>
-                </form>
-                <div class="back-link">
-                    <a onclick="showLoginForm()">← Back to Login</a>
+                <div id="forgotForm" class="auth-form-section">
+                    <h2>🔑 Forgot Password</h2>
+                    <p class="auth-subtitle">Reset your password</p>
+                    <form id="authFormForgot" onsubmit="handleForgotPassword(event)">
+                        <div class="auth-form-group"><label>👤 Username or Email *</label><input type="text" id="forgotUsername" placeholder="Enter username or email" required></div>
+                        <div class="auth-form-group"><label>📧 Registered Email *</label><input type="email" id="forgotEmail" placeholder="Enter registered email" required></div>
+                        <div class="auth-form-group"><label>🔒 New Password *</label><input type="password" id="forgotNewPassword" placeholder="Enter new password" required></div>
+                        <div class="auth-form-group"><label>🔐 Confirm New Password *</label><input type="password" id="forgotConfirmPassword" placeholder="Confirm new password" required></div>
+                        <button type="submit" class="auth-btn">🔄 Reset Password</button>
+                    </form>
+                    <div class="back-link auth-toggle"><p><a onclick="showLoginForm()">← Back to Login</a></p></div>
                 </div>
             </div>
         </div>
@@ -580,8 +564,7 @@
             </div>
         </div>
         
-        <div class="tabs" id="appTabsRow">
-            </div>
+        <div class="tabs" id="appTabsRow"></div>
         
         <div class="content">
             <div id="home" class="tab-content">
@@ -599,37 +582,38 @@
             
             <div id="create" class="tab-content">
                 <h3>➕ Create New Loan Agreement</h3>
-                <form id="loanForm" style="margin-top:14px;">
+                <form id="loanForm" style="margin-top:20px;">
                     <div class="form-group"><label>👤 Borrower Name *</label><input type="text" id="borrowerName" required></div>
                     <div class="form-group"><label>👨‍🦱 Father's Name *</label><input type="text" id="fatherName" required></div>
                     <div class="form-group"><label>📱 Phone Number *</label><input type="tel" id="borrowerPhone" required></div>
-                    <div class="form-group"><label>🏠 Address *</label><textarea id="borrowerAddress" required></textarea></div>
+                    <div class="form-group"><label>🏠 Address *</label><textarea id="borrowerAddress" required rows="3"></textarea></div>
                     <div class="form-group"><label>💵 Loan Amount (₹) *</label><input type="number" id="loanAmount" required min="0" oninput="calculateInterest()"></div>
                     <div class="form-group"><label>📊 Rate of Interest (%) Per Month *</label><input type="number" id="interestRate" required min="0" step="0.01" oninput="calculateInterest()"></div>
                     <div class="form-group"><label>📅 Loan Given Date *</label><input type="date" id="startDate" required oninput="calculateInterest()"></div>
                     <div class="form-group"><label>📆 Agreement Duration (Months) *</label><input type="number" id="agreementMonths" required min="1" oninput="calculateInterest()"></div>
-                    <div class="form-group"><label>📝 Description/Notes</label><textarea id="loanDescription"></textarea></div>
+                    <div class="form-group"><label>📝 Description/Notes</label><textarea id="loanDescription" rows="2"></textarea></div>
 
-                    <div id="calculationResult" class="calculation-box" style="display: none;">
-                        <div class="calculation-item"><span class="calculation-label">Monthly Interest:</span><span class="calculation-value" id="displayMonthlyInterest">₹0</span></div>
-                        <div class="calculation-item"><span class="calculation-label">Total Payable:</span><span class="calculation-value total-amount" id="displayTotalAmount">₹0</span></div>
+                    <div id="calculationResult" class="info-item" style="display: none; margin-bottom: 20px; border-left-color: #10b981;">
+                        <p style="font-size:0.9em;color:#475569;margin-bottom:4px;"><span id="displayMonthlyInterest">Monthly Interest: ₹0</span></p>
+                        <p style="font-size:1.1em;font-weight:800;color:#065f46;"><span id="displayTotalAmount">Total Payable: ₹0</span></p>
                     </div>
-                    <div class="button-group">
-                        <button type="submit" class="btn-primary">💾 Create Loan</button>
-                    </div>
+                    <button type="submit" class="auth-btn" style="margin-top:0;">💾 Create Loan Agreement</button>
                 </form>
             </div>
 
             <div id="info" class="tab-content">
-                <h3>ℹ️ System Features</h3>
-                <div class="info-card" style="margin-top:14px;"><div class="info-card-title">📋 Storage Infrastructure</div><div class="info-card-desc">Tracks metrics securely via sandbox storage pools directly inside your local client machine environment layers.</div></div>
+                <h3>ℹ️ System Specifications</h3>
+                <div class="info-item" style="margin-top:16px;">
+                    <span class="info-label">📋 Sandbox Isolation Data Engine</span>
+                    <p style="font-size: 0.95em; margin-top:6px; color:#475569; line-height:1.5;">Your platform registers data models via specialized secure sandboxed internal localized arrays completely enclosed inside this machine layer container matrix structure context.</p>
+                </div>
             </div>
 
             <div id="adminPanel" class="tab-content">
                 <h3>🛠️ Admin Control Panel</h3>
-                <div class="summary-grid" style="margin-top:14px;">
-                    <div class="summary-card" style="background: linear-gradient(135deg, #38ef7d 0%, #11998e 100%);"><div class="summary-label">Total Active Users</div><div class="summary-value" id="adminTotalUsers">0</div></div>
-                    <div class="summary-card" style="background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);"><div class="summary-label">Total System Loans</div><div class="summary-value" id="adminTotalLoans">0</div></div>
+                <div class="summary-grid" style="margin-top:20px;">
+                    <div class="summary-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);"><div class="summary-label">Total Active Users</div><div class="summary-value" id="adminTotalUsers">0</div></div>
+                    <div class="summary-card" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);"><div class="summary-label">Total System Loans</div><div class="summary-value" id="adminTotalLoans">0</div></div>
                 </div>
                 <div class="admin-table-container">
                     <table class="admin-table">
@@ -684,6 +668,7 @@
         }
 
         function showLoginForm() {
+            document.getElementById('authWrapper').style.display = 'flex';
             document.querySelectorAll('.auth-form-section').forEach(f => f.classList.remove('active'));
             document.getElementById('loginForm').classList.add('active');
             toggleAdminViewMode(false);
@@ -723,6 +708,7 @@
         }
 
         function setupSessionUI(user) {
+            document.getElementById('authWrapper').style.display = 'none';
             document.getElementById('authContainer').classList.remove('active');
             document.getElementById('mainContainer').classList.add('active');
             
@@ -768,7 +754,7 @@
 
             if (selectedLoanId !== "ALL") { loans = loans.filter(l => l.id === selectedLoanId); }
             if (loans.length === 0) {
-                loansList.innerHTML = `<div class="empty-state"><div class="empty-text">No active records parsed.</div></div>`;
+                loansList.innerHTML = `<div class="info-item" style="border-left-color:#cbd5e1;"><p style="color:#64748b;font-weight:600;">No accounts mapped to active tracking indexes.</p></div>`;
                 return;
             }
 
@@ -787,8 +773,8 @@
 
                 return `
                     <div class="loan-card" onclick="showPaymentPage('${loan.id}')">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-weight:700; font-size:1.1em; color:#2d3748;">${loan.borrowerName}</span>
+                        <div class="loan-card-top">
+                            <span style="font-weight:800; font-size:1.2em; color:#0f172a;">${loan.borrowerName}</span>
                             <span class="status-badge ${statusClass}">${statusText}</span>
                         </div>
                         ${overdueCount > 0 ? `<div class="status-overdue-alert">⚠️ Attention: ${overdueCount} Default Arrears Pending</div>` : ''}
@@ -840,7 +826,6 @@
         function logout() {
             sessionStorage.removeItem('currentUser');
             document.getElementById('mainContainer').classList.remove('active');
-            document.getElementById('authContainer').classList.add('active');
             showLoginForm();
         }
 
@@ -849,9 +834,9 @@
             const r = parseFloat(document.getElementById('interestRate').value) || 0;
             const m = parseInt(document.getElementById('agreementMonths').value) || 0;
             if (a && r && m) {
-                document.getElementById('displayMonthlyInterest').textContent = `₹${Math.round((a * r) / 100).toLocaleString()}`;
-                document.getElementById('displayTotalAmount').textContent = `₹${Math.round(a + ((a * r) / 100) * m).toLocaleString()}`;
-                document.getElementById('calculationResult').style.display = 'block';
+                document.getElementById('displayMonthlyInterest').textContent = `Monthly Interest: ₹${Math.round((a * r) / 100).toLocaleString()}`;
+                document.getElementById('displayTotalAmount').textContent = `Total Payable: ₹${Math.round(a + ((a * r) / 100) * m).toLocaleString()}`;
+                document.getElementById('calculationResult').style.style.display = 'block';
             } else { document.getElementById('calculationResult').style.display = 'none'; }
         }
 
@@ -902,9 +887,10 @@
             const view = document.getElementById('paymentView');
             let interest = (loan.amount * loan.rate) / 100;
 
-            let html = `<button class="back-btn" onclick="hiddenPaymentPage()" style="margin-bottom:14px; background:#4a5568; color:white; padding:8px 14px; border:none; border-radius:6px; font-weight:600; cursor:pointer;">← Dashboard</button>
-                        <div class="calculation-box" style="background:white; border:1px solid #e2e8f0; padding:16px; border-radius:12px; margin-bottom:14px;">
-                            <h4>👤 ${loan.borrowerName}</h4><p style="font-size:0.85em; color:#718096; margin-top:4px;">Father: ${loan.fatherName} | Address: ${loan.address}</p>
+            let html = `<button class="logout-btn" onclick="hiddenPaymentPage()" style="margin-bottom:20px; background:#475569; color:white;">← Back to Dashboard</button>
+                        <div class="info-item" style="margin-bottom:20px; border-left-color:#4f46e5; background:white;">
+                            <h4 style="font-size:1.2em; font-weight:800; color:#0f172a;">👤 ${loan.borrowerName}</h4>
+                            <p style="font-size:0.88em; color:#64748b; margin-top:4px; font-weight:500;">Father: ${loan.fatherName} | Address: ${loan.address}</p>
                         </div><div class="admin-table-container">
                         <table class="admin-table"><thead><tr><th>Installment Window Period</th><th>Amount</th><th>Status Actions</th></tr></thead><tbody>`;
 
@@ -913,7 +899,7 @@
                 const isPaid = loan.payments[i].paid;
                 const isOverdue = !isPaid && isPaymentOverdue(loan.startDate, i);
                 html += `<tr><td>${activeRange}</td><td><b>₹${Math.round(interest).toLocaleString()}</b></td>
-                         <td><input type="checkbox" ${isPaid ? 'checked disabled' : ''} onchange="processPayment('${loan.id}', ${i})" style="width:20px; height:20px; accent-color:#319795;"> ${isPaid ? 'Paid' : isOverdue ? '<span style="color:#e53e3e;font-weight:700;">Overdue</span>' : 'Pending'}</td></tr>`;
+                         <td><input type="checkbox" ${isPaid ? 'checked disabled' : ''} onchange="processPayment('${loan.id}', ${i})" style="width:18px; height:18px; accent-color:#4f46e5; vertical-align:middle;"> <span style="font-weight:600; margin-left:4px;">${isPaid ? 'Paid' : isOverdue ? '<span style="color:#ef4444;font-weight:700;">Overdue</span>' : 'Pending'}</span></td></tr>`;
             }
 
             view.innerHTML = html + '</tbody></table></div>';
@@ -937,7 +923,6 @@
             saveDatabase(); showPaymentPage(loanId);
         }
 
-        // Bootstrapping System Core Initialization Routing
         loadDatabase();
         const activeUser = sessionStorage.getItem('currentUser');
         if (activeUser) { setupSessionUI(activeUser); } else { showLoginForm(); }
@@ -945,5 +930,3 @@
     </script>
 </body>
 </html>
-
-```
