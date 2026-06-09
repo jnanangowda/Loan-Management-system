@@ -198,6 +198,28 @@
             display: block;
         }
 
+        /* EXTRACTED CORE CORRECTION: STRICT FORM SECTION VISIBILITY CONTROL */
+        .auth-form-section {
+            display: none !important;
+        }
+
+        .auth-form-section.active {
+            display: block !important;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 0.85em;
+        }
+
+        .back-link a {
+            color: #667eea;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
         /* MAIN APP STYLES */
         .container {
             width: 100%;
@@ -351,7 +373,6 @@
             border-radius: 10px;
             font-size: 16px;
             font-family: inherit;
-            transition: all 0.3s;
             background-color: white;
         }
         
@@ -770,6 +791,7 @@
             document.getElementById('cancelAdminModeLink').style.display = enableAdmin ? "block" : "none";
         }
 
+        /* FIXED SECTION TOGGLING LOGIC: FORCES REMOVAL OF UNWANTED VIEWS */
         function showLoginForm() {
             document.getElementById('loginForm').classList.add('active');
             document.getElementById('registerForm').classList.remove('active');
@@ -779,11 +801,13 @@
 
         function showRegisterForm() {
             document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('forgotForm').classList.remove('active');
             document.getElementById('registerForm').classList.add('active');
         }
 
         function showForgotPassword() {
             document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('registerForm').classList.remove('active');
             document.getElementById('forgotForm').classList.add('active');
         }
 
@@ -873,7 +897,6 @@
                 return;
             }
 
-            // Global totals should always represent true account balances
             const allLoansArr = Object.values(userLoans);
             let totalAmount = 0;
             allLoansArr.forEach(l => totalAmount += l.amount);
@@ -888,7 +911,6 @@
                 const overdueCount = Object.entries(loan.payments)
                     .filter(([idx, p]) => !p.paid && isPaymentOverdue(loan.startDate, parseInt(idx))).length;
 
-                // STABLE APP STATUS BADGES (ACTIVE OR CLOSED ONLY)
                 let statusClass = 'status-active';
                 let statusText = '⏳ ACTIVE';
 
