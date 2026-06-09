@@ -827,7 +827,7 @@
                 const paidCount = Object.values(loan.payments).filter(p => p.paid).length;
                 const overdueCount = Object.entries(loan.payments).filter(([idx, p]) => !p.paid && isPaymentOverdue(loan.startDate, parseInt(idx))).length;
                 
-                // CRITICAL STATUS BADGE ADDITION: STRICTLY ACTIVE OR CLOSED ONLY
+                // STATUS BADGE CONFIGURATION: ACTIVE OR CLOSED ONLY
                 const statusText = (paidCount === loan.months) ? '✓ CLOSED' : '⏳ ACTIVE';
                 const statusClass = (paidCount === loan.months) ? 'status-closed' : 'status-active';
 
@@ -1044,7 +1044,7 @@
             }
         }
 
-        // ENHANCED PDF EXPORT REWRITE: INCLUDES DETAILED TRANSACTION TRACKING METRICS
+        // ENHANCED INDIVIDUAL LEDGER EXPORT LOGIC
         function exportPDF(loanId) {
             const user = sessionStorage.getItem('currentUser');
             const loan = DB.loans[user][loanId];
@@ -1054,11 +1054,8 @@
             const paidMonths = Object.values(loan.payments).filter(p => p.paid).length;
             const pendingMonths = totalMonths - paidMonths;
             
-            const totalInterestExpected = monthlyInterest * totalMonths;
             const totalInterestPaid = monthlyInterest * paidMonths;
             const totalInterestPending = monthlyInterest * pendingMonths;
-            
-            const totalPayableExpected = loan.amount + totalInterestExpected;
             const totalRemainingBalance = loan.amount + totalInterestPending;
 
             let pdfContent = `
@@ -1084,7 +1081,7 @@
                         <tr><td style="padding:10px; border:1px solid #e2e8f0;">Agreement Tenure Duration</td><td style="padding:10px; border:1px solid #e2e8f0;">${totalMonths} Months</td></tr>
                         <tr style="background:#f0fdf4;"><td style="padding:10px; border:1px solid #e2e8f0; color:#15803d; font-weight:700;">Total Interest Paid to Date (${paidMonths} Mon)</td><td style="padding:10px; border:1px solid #e2e8f0; color:#15803d; font-weight:700;">₹${Math.round(totalInterestPaid).toLocaleString()}</td></tr>
                         <tr style="background:#fff7ed;"><td style="padding:10px; border:1px solid #e2e8f0; color:#c2410c; font-weight:700;">Total Interest Pending (${pendingMonths} Mon)</td><td style="padding:10px; border:1px solid #e2e8f0; color:#c2410c; font-weight:700;">₹${Math.round(totalInterestPending).toLocaleString()}</td></tr>
-                        <tr style="background:#e0e7ff;"><td style="padding:10px; border:1px solid #e2e8f0; color:#4f46e5; font-weight:800;">Total Outstanding Balance Payable</td><td style="padding:10px; border:1px solid #e2e8f0; color:#4f46e5; font-weight:800; font-size:1.1em;">₹${Math.round(totalRemainingBalance).toLocaleString()}</td></tr>
+                        <tr style="background:#e0e7ff;"><td style="padding:10px; border:1px solid #e2e8f0; color:#4f46e5; font-weight:800;">Total Outstanding Balance Payable (Principal + Pending Interest)</td><td style="padding:10px; border:1px solid #e2e8f0; color:#4f46e5; font-weight:800; font-size:1.1em;">₹${Math.round(totalRemainingBalance).toLocaleString()}</td></tr>
                     </table>
 
                     <p style="font-size:10px; text-align:center; color:#94a3b8; margin-top:40px;">Report compiled securely on: ${new Date().toLocaleString()}</p>
@@ -1102,22 +1099,22 @@
             }).from(element).save();
         }
 
-        // REWRITE FEATURE ADDITION: BULK EXPORT ALL DATA PACKAGES AT ONCE
+        // BULK EXPORT LOGIC FOR ALL SYSTEM LOANS AT ONCE
         function exportAllUserLoansPDF() {
             const user = sessionStorage.getItem('currentUser');
             const userLoans = DB.loans[user] || {};
             const loans = Object.values(userLoans);
 
             if (loans.length === 0) {
-                alert("❌ No data available inside your logging directory profile to run export packages.");
+                alert("❌ No accounts inside your ledger database directory to run bulk export passes.");
                 return;
             }
 
             let combinedHTML = `
                 <div style="font-family: Arial, sans-serif; padding: 20px; color:#1e293b; background: white;">
                     <h1 style="color: #4f46e5; text-align: center; font-size:26px; margin-bottom:5px;">📊 COMPREHENSIVE PLATFORM PORTFOLIO REPORT</h1>
-                    <p style="text-align:center; font-size:13px; color:#64748b; margin-bottom:30px;">Account Matrix Master Consolidation File Ledger</p>
-                    <p style="font-size:13px; margin-bottom:15px;"><strong>Lender Account Holder:</strong> ${user}</p>
+                    <p style="text-align:center; font-size:13px; color:#64748b; margin-bottom:30px;">Account Matrix Master Master Portfolio Balance</p>
+                    <p style="font-size:13px; margin-bottom:15px;"><strong>Account Holder Profile Link:</strong> ${user}</p>
                     <hr style="border:0; border-top:2px solid #4f46e5; margin-bottom:30px;">
             `;
 
@@ -1125,18 +1122,20 @@
                 let monthlyInterest = (loan.amount * loan.rate) / 100;
                 const paidMonths = Object.values(loan.payments).filter(p => p.paid).length;
                 const pendingMonths = loan.months - paidMonths;
-                const outstandingBalance = loan.amount + (monthlyInterest * pendingMonths);
+                const totalInterestPending = monthlyInterest * pendingMonths;
+                const outstandingBalance = loan.amount + totalInterestPending;
 
                 combinedHTML += `
                     <div style="margin-bottom: 35px; padding: 15px; border: 1px solid #e2e8f0; border-radius: 12px; background:#fafafa;">
-                        <h3 style="color:#4f46e5; margin-bottom:8px;">File #${index + 1}: Borrower - ${loan.borrowerName}</h3>
-                        <p style="font-size:12px; margin-bottom:8px;">Father Name: ${loan.fatherName} | Phone: ${loan.phone}</p>
+                        <h3 style="color:#4f46e5; margin-bottom:8px;">File #${index + 1}: Borrower Record - ${loan.borrowerName}</h3>
+                        <p style="font-size:12px; margin-bottom:8px; color:#64748b;">Parent Guardian Reference: ${loan.fatherName} | Registry Link: ${loan.phone}</p>
                         <table style="width:100%; border-collapse:collapse; font-size:12px; background: white;">
-                            <tr><td style="padding:6px; border:1px solid #e2e8f0; width:50%;">Principal Amount Taken</td><td style="padding:6px; border:1px solid #e2e8f0; font-weight:700;">₹${loan.amount.toLocaleString()}</td></tr>
-                            <tr><td style="padding:6px; border:1px solid #e2e8f0;">Interest Rate Mechanics</td><td style="padding:6px; border:1px solid #e2e8f0;">${loan.rate}% Per Month</td></tr>
-                            <tr><td style="padding:6px; border:1px solid #e2e8f0;">Monthly Installment Target</td><td style="padding:6px; border:1px solid #e2e8f0;">₹${Math.round(monthlyInterest).toLocaleString()}</td></tr>
-                            <tr><td style="padding:6px; border:1px solid #e2e8f0;">Tenure Tracking Matrix</td><td style="padding:6px; border:1px solid #e2e8f0;">${paidMonths} Paid / ${pendingMonths} Pending (Total ${loan.months} Mon)</td></tr>
-                            <tr style="background:#e0e7ff;"><td style="padding:6px; border:1px solid #e2e8f0; font-weight:700; color:#4f46e5;">Remaining Due Outstanding Balance</td><td style="padding:6px; border:1px solid #e2e8f0; font-weight:700; color:#4f46e5;">₹${Math.round(outstandingBalance).toLocaleString()}</td></tr>
+                            <tr><td style="padding:6px; border:1px solid #e2e8f0; width:50%;">Principal Capital Allocation Amount</td><td style="padding:6px; border:1px solid #e2e8f0; font-weight:700;">₹${loan.amount.toLocaleString()}</td></tr>
+                            <tr><td style="padding:6px; border:1px solid #e2e8f0;">Interest Index Ratio Metrics</td><td style="padding:6px; border:1px solid #e2e8f0;">${loan.rate}% Per Month</td></tr>
+                            <tr><td style="padding:6px; border:1px solid #e2e8f0;">Monthly Interest Installment Target</td><td style="padding:6px; border:1px solid #e2e8f0;">₹${Math.round(monthlyInterest).toLocaleString()}</td></tr>
+                            <tr><td style="padding:6px; border:1px solid #e2e8f0;">Completed Payment Windows Span</td><td style="padding:6px; border:1px solid #e2e8f0;">${paidMonths} Months Settled / ${pendingMonths} Remaining (Total ${loan.months} Mon)</td></tr>
+                            <tr style="background:#fff7ed;"><td style="padding:6px; border:1px solid #e2e8f0; color:#c2410c;">Unpaid Remaining Interest Balances</td><td style="padding:6px; border:1px solid #e2e8f0; font-weight:700; color:#c2410c;">₹${Math.round(totalInterestPending).toLocaleString()}</td></tr>
+                            <tr style="background:#e0e7ff;"><td style="padding:6px; border:1px solid #e2e8f0; font-weight:700; color:#4f46e5;">Total Remainder Balance Balance (Principal + Pending Interest)</td><td style="padding:6px; border:1px solid #e2e8f0; font-weight:700; color:#4f46e5;">₹${Math.round(outstandingBalance).toLocaleString()}</td></tr>
                         </table>
                     </div>
                 `;
@@ -1159,24 +1158,7 @@
             }).from(element).save();
         }
 
-        function showTab(event, tabName) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            if(event) {
-                document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
-                event.target.classList.add('active');
-            }
-            const activeTab = document.getElementById(tabName);
-            if (activeTab) activeTab.classList.add('active');
-
-            if (tabName === 'home') {
-                populateBorrowerDropdown();
-                displayLoans();
-            } else if (tabName === 'adminPanel') {
-                renderAdminDashboard();
-            }
-        }
-
-        // Initialize System Startup Pipelines
+        // Bootstrapping System Core Initialization Routing
         loadDatabase();
         const activeUser = sessionStorage.getItem('currentUser');
         if (activeUser) { setupSessionUI(activeUser); } else { showLoginForm(); }
