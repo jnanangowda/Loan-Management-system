@@ -48,7 +48,7 @@
         }
 
         .auth-container.active {
-            display: flex !important;
+            display: flex;
         }
 
         .auth-box {
@@ -198,13 +198,13 @@
             display: block;
         }
 
-        /* FIX: FORCE FORMS TO BE HIDDEN UNLESS OVERRIDDEN BY THE ACTIVE CLASS */
+        /* FORM SECTIONS */
         .auth-form-section {
-            display: none !important;
+            display: none;
         }
 
         .auth-form-section.active {
-            display: block !important;
+            display: block;
         }
 
         .back-link {
@@ -325,6 +325,10 @@
             border-bottom-color: #667eea;
         }
         
+        .tabs button:active {
+            background: #f9f9f9;
+        }
+        
         .content {
             flex: 1;
             overflow-y: auto;
@@ -332,26 +336,32 @@
             padding: 16px;
             padding-bottom: 65px;
         }
-
-        /* FILTER / DROPDOWN STYLING */
-        .filter-section {
-            background: #f8f9ff;
-            padding: 12px;
-            border-radius: 12px;
-            border: 2px solid #e0e7ff;
-            margin-bottom: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+        
+        .content::-webkit-scrollbar {
+            width: 6px;
         }
-
-        .filter-section select {
-            width: 100%;
-            padding: 10px;
-            font-size: 0.95em;
-            border-radius: 8px;
-            border: 2px solid #cbd5e0;
-            background-color: white;
+        
+        .content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .content::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .form-group {
@@ -373,6 +383,10 @@
             border-radius: 10px;
             font-size: 16px;
             font-family: inherit;
+            transition: all 0.3s;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
             background-color: white;
         }
         
@@ -383,6 +397,92 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .btn-small {
+            padding: 10px 12px;
+            font-size: 0.85em;
+            flex: none;
+        }
+        
+        .alert {
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            animation: slideIn 0.3s;
+            font-weight: 500;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
         .loan-card {
             background: linear-gradient(135deg, #f8f9ff 0%, #f0f7ff 100%);
             border: 2px solid #e0e7ff;
@@ -390,13 +490,33 @@
             padding: 16px;
             margin-bottom: 14px;
             cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
             box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
         }
-
-        .loan-header-status-row {
+        
+        .loan-card:active {
+            border-color: #667eea;
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .loan-header {
             display: flex;
-            gap: 6px;
+            justify-content: space-between;
             align-items: center;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+        
+        .loan-name {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 1.08em;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         
         .status-badge {
@@ -408,34 +528,30 @@
         }
         
         .status-active {
-            background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%);
-            color: #2d3748;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
         }
         
         .status-closed {
-            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
-            color: #22543d;
+            background: linear-gradient(135deg, #e2e3e5 0%, #d3d4d6 100%);
+            color: #383d41;
         }
 
-        .status-overdue-alert {
-            background: #fff5f5;
-            border: 1px solid #fed7d7;
-            color: #c53030;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.8em;
-            font-weight: 700;
-            margin-top: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+        .status-pending {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            color: #856404;
+        }
+
+        .status-overdue {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
         }
         
         .loan-info {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-top: 12px;
+            margin-bottom: 12px;
             font-size: 0.85em;
         }
         
@@ -446,6 +562,112 @@
             padding: 10px;
             border-radius: 8px;
             border-left: 3px solid #667eea;
+        }
+        
+        .info-label {
+            color: #667eea;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .info-value {
+            color: #2d3748;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+        
+        .empty-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .empty-text {
+            font-size: 1em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .details-section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.05em;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .payment-item {
+            background: white;
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.1);
+            transition: all 0.3s;
+        }
+
+        .payment-item.paid {
+            background: #e8f5e9;
+            border-left-color: #28a745;
+            opacity: 0.7;
+        }
+
+        .payment-item.paid .payment-checkbox {
+            accent-color: #28a745;
+        }
+
+        .payment-item.overdue {
+            background: #ffebee;
+            border-left-color: #dc3545;
+        }
+        
+        .payment-info {
+            flex: 1;
+        }
+        
+        .payment-month {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 0.95em;
+        }
+
+        .payment-item.paid .payment-month {
+            text-decoration: line-through;
+            color: #999;
+        }
+        
+        .payment-amount {
+            font-size: 0.85em;
+            color: #667eea;
+            margin-top: 3px;
+            font-weight: 600;
+        }
+        
+        .payment-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            flex-shrink: 0;
+            accent-color: #667eea;
+        }
+
+        .payment-item.paid .payment-checkbox {
+            cursor: not-allowed;
         }
         
         .summary-grid {
@@ -461,8 +683,349 @@
             padding: 14px;
             border-radius: 12px;
             text-align: center;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .summary-label {
+            font-size: 0.75em;
+            opacity: 0.95;
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .summary-value {
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+        
+        .back-btn {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+            color: white;
+            padding: 11px 16px;
+            display: inline-block;
+            margin-bottom: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+        
+        .back-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .details-view {
+            display: none;
+        }
+        
+        .details-view.active {
+            display: block;
         }
 
+        .payment-view {
+            display: none;
+        }
+
+        .payment-view.active {
+            display: block;
+        }
+
+        .edit-view {
+            display: none;
+        }
+
+        .edit-view.active {
+            display: block;
+        }
+        
+        .calculation-box {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+            border: 2px solid #667eea;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .calculation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e7ff;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .calculation-item:last-child {
+            border-bottom: none;
+        }
+        
+        .calculation-label {
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 0.92em;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .calculation-value {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.05em;
+        }
+        
+        .total-amount {
+            color: #28a745;
+            font-size: 1.15em;
+        }
+        
+        .edit-mode {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f7ff 100%);
+            border-left: 4px solid #667eea;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+        
+        .info-card-title {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+        
+        .info-card-desc {
+            font-size: 0.85em;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        h3 {
+            margin-bottom: 16px;
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .edit-btn, .delete-btn, .pdf-btn, .whatsapp-btn {
+            background: #667eea;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.8em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+        }
+
+        .pdf-btn {
+            background: #28a745;
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+        }
+
+        .edit-btn:active, .delete-btn:active, .pdf-btn:active, .whatsapp-btn:active {
+            transform: scale(0.95);
+        }
+
+        .payment-stats {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+            border: 2px solid #667eea;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e7ff;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .principal-section {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+            border: 2px solid #667eea;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .principal-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e7ff;
+        }
+
+        .principal-item:last-child {
+            border-bottom: none;
+        }
+
+        .principal-label {
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .principal-value {
+            color: #28a745;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 16px;
+        }
+
+        .modal-form-group {
+            margin-bottom: 16px;
+        }
+
+        .modal-form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #2d3748;
+            font-size: 0.92em;
+        }
+
+        .modal-form-group input, .modal-form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .modal-form-group input:focus, .modal-form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: #f8f9ff;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-btn.save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .modal-btn.cancel {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f8f9ff;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            flex: 1;
+            font-weight: 600;
+            color: #2d3748;
+            cursor: pointer;
+        }
+
+        /* ADMIN SPECIFIC LAYOUTS */
         .admin-table-container {
             width: 100%;
             overflow-x: auto;
@@ -470,6 +1033,7 @@
             border: 2px solid #e0e7ff;
             border-radius: 12px;
             margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .admin-table {
@@ -482,6 +1046,65 @@
         .admin-table th, .admin-table td {
             padding: 12px 14px;
             border-bottom: 1px solid #e0e7ff;
+        }
+
+        .admin-table th {
+            background-color: #f8f9ff;
+            color: #667eea;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8em;
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .admin-action-btn {
+            padding: 6px 10px;
+            background: #dc3545;
+            color: white;
+            border-radius: 6px;
+            font-size: 0.8em;
+            font-weight: 600;
+            min-width: auto;
+            flex: none;
+        }
+
+        @media (max-height: 600px) {
+            .header {
+                padding: 12px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.4em;
+            }
+            
+            .header p {
+                font-size: 0.75em;
+            }
+        }
+
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(0px, env(safe-area-inset-left));
+                padding-right: max(0px, env(safe-area-inset-right));
+                padding-top: max(0px, env(safe-area-inset-top));
+                padding-bottom: max(0px, env(safe-area-inset-bottom));
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .header, .tabs, .logout-btn, .edit-btn, .delete-btn, .pdf-btn, .whatsapp-btn, .back-btn {
+                display: none !important;
+            }
+            .content {
+                padding: 0;
+                padding-bottom: 0;
+            }
         }
     </style>
 </head>
@@ -505,6 +1128,7 @@
                     </div>
 
                     <button type="submit" id="mainSubmitAuthBtn" class="auth-btn">🚀 Login</button>
+                    
                     <button type="button" id="adminToggleModeBtn" class="auth-btn admin-mode-btn" onclick="toggleAdminViewMode(true)">🛠️ Admin Console Login</button>
                 </form>
 
@@ -526,28 +1150,35 @@
                         <label>👤 Username *</label>
                         <input type="text" id="regUsername" placeholder="Create username" required>
                     </div>
+
                     <div class="auth-form-group">
                         <label>📧 Email *</label>
                         <input type="email" id="regEmail" placeholder="Enter your email" required>
                     </div>
+
                     <div class="auth-form-group">
-                        <label>📱 Phone Number *</label>
+                        <label>📱 Phone Number (for notifications) *</label>
                         <input type="tel" id="regPhone" placeholder="Enter your phone number" required>
                     </div>
+
                     <div class="auth-form-group">
                         <label>🏠 Address *</label>
                         <input type="text" id="regAddress" placeholder="Enter your address" required>
                     </div>
+
                     <div class="auth-form-group">
                         <label>🔒 Password *</label>
                         <input type="password" id="regPassword" placeholder="Create a password" required>
                     </div>
+
                     <div class="auth-form-group">
                         <label>🔐 Confirm Password *</label>
                         <input type="password" id="regConfirmPassword" placeholder="Confirm password" required>
                     </div>
+
                     <button type="submit" class="auth-btn">✅ Register</button>
                 </form>
+
                 <div class="auth-toggle">
                     <p>Already have an account? <a onclick="showLoginForm()">Login here</a></p>
                 </div>
@@ -561,20 +1192,25 @@
                         <label>👤 Username or Email *</label>
                         <input type="text" id="forgotUsername" placeholder="Enter username or email" required>
                     </div>
+
                     <div class="auth-form-group">
                         <label>📧 Registered Email *</label>
                         <input type="email" id="forgotEmail" placeholder="Enter registered email" required>
                     </div>
+
                     <div class="auth-form-group">
                         <label>🔒 New Password *</label>
                         <input type="password" id="forgotNewPassword" placeholder="Enter new password" required>
                     </div>
+
                     <div class="auth-form-group">
                         <label>🔐 Confirm New Password *</label>
                         <input type="password" id="forgotConfirmPassword" placeholder="Confirm new password" required>
                     </div>
+
                     <button type="submit" class="auth-btn">🔄 Reset Password</button>
                 </form>
+
                 <div class="back-link">
                     <a onclick="showLoginForm()">← Back to Login</a>
                 </div>
@@ -604,14 +1240,6 @@
             <div id="home" class="tab-content active">
                 <div id="homeMessage"></div>
                 <div id="summaryCards" class="summary-grid"></div>
-                
-                <div class="filter-section" id="borrowerFilterBlock" style="display: none;">
-                    <label>🔍 Select/Search Borrower Profile</label>
-                    <select id="borrowerFilterSelect" onchange="filterLoansBySelect()">
-                        <option value="ALL">✨ Show All Active & Closed Loans</option>
-                    </select>
-                </div>
-
                 <div id="loansList"></div>
                 <div id="detailsView" class="details-view"></div>
                 <div id="paymentView" class="payment-view"></div>
@@ -625,45 +1253,68 @@
                         <label>👤 Borrower Name *</label>
                         <input type="text" id="borrowerName" placeholder="Full name of borrower" required>
                     </div>
+
                     <div class="form-group">
                         <label>👨‍🦱 Father's Name *</label>
                         <input type="text" id="fatherName" placeholder="Father's name" required>
                     </div>
+
                     <div class="form-group">
                         <label>📱 Phone Number *</label>
                         <input type="tel" id="borrowerPhone" placeholder="Borrower's phone number" required>
                     </div>
+
                     <div class="form-group">
                         <label>🏠 Address *</label>
                         <textarea id="borrowerAddress" placeholder="Full address of borrower" required></textarea>
                     </div>
+                    
                     <div class="form-group">
                         <label>💵 Loan Amount (₹) *</label>
                         <input type="number" id="loanAmount" placeholder="Enter loan amount" required min="0" step="1" oninput="calculateInterest()">
                     </div>
+
                     <div class="form-group">
                         <label>📊 Rate of Interest (%) Per Month *</label>
                         <input type="number" id="interestRate" placeholder="e.g., 2.5" required min="0" step="0.01" oninput="calculateInterest()">
                     </div>
+
                     <div class="form-group">
                         <label>📅 loan given Date *</label>
                         <input type="date" id="startDate" required oninput="calculateInterest()">
                     </div>
+
                     <div class="form-group">
                         <label>📆 Agreement Duration (Months) *</label>
                         <input type="number" id="agreementMonths" placeholder="e.g., 12" required min="1" step="1" oninput="calculateInterest()">
                     </div>
+
                     <div class="form-group">
                         <label>📝 Description/Notes</label>
                         <textarea id="loanDescription" placeholder="Additional notes about the loan"></textarea>
                     </div>
 
                     <div id="calculationResult" class="calculation-box" style="display: none;">
-                        <div class="calculation-item"><span class="calculation-label">Principal Amount:</span><span class="calculation-value">₹<span id="displayPrincipal">0</span></span></div>
-                        <div class="calculation-item"><span class="calculation-label">Monthly Interest Amount:</span><span class="calculation-value">₹<span id="displayMonthlyInterest">0</span></span></div>
-                        <div class="calculation-item"><span class="calculation-label">Duration:</span><span class="calculation-value"><span id="displayDuration">0</span> Months</span></div>
-                        <div class="calculation-item"><span class="calculation-label">Total Interest Amount:</span><span class="calculation-value total-amount">₹<span id="displayTotalInterest">0</span></span></div>
-                        <div class="calculation-item"><span class="calculation-label">Total Payable Amount:</span><span class="calculation-value total-amount">₹<span id="displayTotalAmount">0</span></span></div>
+                        <div class="calculation-item">
+                            <span class="calculation-label">Principal Amount:</span>
+                            <span class="calculation-value">₹<span id="displayPrincipal">0</span></span>
+                        </div>
+                        <div class="calculation-item">
+                            <span class="calculation-label">Monthly Interest Amount:</span>
+                            <span class="calculation-value">₹<span id="displayMonthlyInterest">0</span></span>
+                        </div>
+                        <div class="calculation-item">
+                            <span class="calculation-label">Duration:</span>
+                            <span class="calculation-value"><span id="displayDuration">0</span> Months</span>
+                        </div>
+                        <div class="calculation-item">
+                            <span class="calculation-label">Total Interest Amount:</span>
+                            <span class="calculation-value total-amount">₹<span id="displayTotalInterest">0</span></span>
+                        </div>
+                        <div class="calculation-item">
+                            <span class="calculation-label">Total Payable Amount:</span>
+                            <span class="calculation-value total-amount">₹<span id="displayTotalAmount">0</span></span>
+                        </div>
                     </div>
 
                     <div class="button-group">
@@ -675,18 +1326,27 @@
 
             <div id="info" class="tab-content">
                 <h3>ℹ️ Features & Information</h3>
+                
                 <div class="info-card">
                     <div class="info-card-title">📋 Loan Management</div>
                     <div class="info-card-desc">Create and manage loan agreements with automatic interest calculations for monthly payments.</div>
                 </div>
+
                 <div class="info-card">
                     <div class="info-card-title">📊 Payment Tracking</div>
                     <div class="info-card-desc">Track payment schedules with date ranges and mark payments as completed.</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-title">🔔 Smart Notifications</div>
+                    <div class="info-card-desc">Automatic WhatsApp notifications to YOUR number for overdue payments and reminders for pending payments.</div>
                 </div>
             </div>
 
             <div id="adminPanel" class="tab-content">
                 <h3>🛠️ Admin Control Panel</h3>
+                <p style="color: #666; font-size:0.9em; margin-bottom: 15px;">Monitor configuration frameworks, extract registration structures, and audit security keys.</p>
+                
                 <div class="summary-grid">
                     <div class="summary-card" style="background: linear-gradient(135deg, #38ef7d 0%, #11998e 100%);">
                         <div class="summary-label">Total Active Users</div>
@@ -697,6 +1357,7 @@
                         <div class="summary-value" id="adminTotalLoans">0</div>
                     </div>
                 </div>
+
                 <div class="admin-table-container">
                     <table class="admin-table">
                         <thead>
@@ -708,10 +1369,12 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="adminUserTableBody"></tbody>
+                        <tbody id="adminUserTableBody">
+                            </tbody>
                     </table>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -720,14 +1383,14 @@
             <div class="modal-title">🔔 Send Notification</div>
             <div class="modal-form-group">
                 <label>Notification Type</label>
-                <select id="notificationType">
+                <select id="notificationType" style="width: 100%; padding: 10px; border: 2px solid #e0e7ff; border-radius: 8px;">
                     <option value="whatsapp">📱 WhatsApp</option>
                     <option value="sms">💬 SMS</option>
                 </select>
             </div>
             <div class="modal-form-group">
                 <label>Message Preview</label>
-                <textarea id="notificationMessage" readonly></textarea>
+                <textarea id="notificationMessage" placeholder="Message will appear here" style="width: 100%; padding: 10px; border: 2px solid #e0e7ff; border-radius: 8px; min-height: 120px;" readonly></textarea>
             </div>
             <div class="modal-buttons">
                 <button class="modal-btn save" onclick="sendNotification()">Send</button>
@@ -737,70 +1400,129 @@
     </div>
 
     <script>
-        const DB = { users: {}, loans: {} };
+        // Database storage using localStorage
+        const DB = {
+            users: {},
+            loans: {}
+        };
+
+        // MASTER ADMIN ROOT VALUES
         const ADMIN_USERNAME = "Naveen";
         const ADMIN_PASSWORD = "Naveen@123";
         let isAdminModeActive = false;
+
         let currentEditingLoan = null;
 
+        // Load data from localStorage
         function loadDatabase() {
             const saved = localStorage.getItem('loanManagerDB');
-            if (saved) { Object.assign(DB, JSON.parse(saved)); }
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.assign(DB, data);
+            }
         }
 
-        function saveDatabase() { localStorage.setItem('loanManagerDB', JSON.stringify(DB)); }
+        // Save data to localStorage
+        function saveDatabase() {
+            localStorage.setItem('loanManagerDB', JSON.stringify(DB));
+        }
 
+        // Format date as DD/MMMM/YYYY
         function formatDate(dateStr) {
             const date = new Date(dateStr + 'T00:00:00');
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            return `${String(date.getDate()).padStart(2, '0')}/${months[date.getMonth()]}/${date.getFullYear()}`;
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
         }
 
+        // Add months to date
         function addMonths(dateStr, months) {
             const date = new Date(dateStr + 'T00:00:00');
             date.setMonth(date.getMonth() + months);
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
         }
 
+        // Get date range for payment period
         function getPaymentDateRange(startDate, monthIndex) {
-            return `${formatDate(addMonths(startDate, monthIndex))} - ${formatDate(addMonths(startDate, monthIndex + 1))}`;
+            const startMonth = addMonths(startDate, monthIndex);
+            const endMonth = addMonths(startDate, monthIndex + 1);
+            return `${formatDate(startMonth)} - ${formatDate(endMonth)}`;
         }
 
+        // Check if payment is overdue
         function isPaymentOverdue(startDate, monthIndex) {
-            return new Date() > new Date(addMonths(startDate, monthIndex + 1) + 'T00:00:00');
+            const endDate = new Date(addMonths(startDate, monthIndex + 1) + 'T00:00:00');
+            return new Date() > endDate;
         }
 
+        // TOGGLE ADMIN LOGIN FORM LOOK
         function toggleAdminViewMode(enableAdmin) {
             isAdminModeActive = enableAdmin;
+            const heading = document.getElementById('loginGreetingTitle');
+            const subtitle = document.getElementById('loginGreetingSubtitle');
+            const userLabel = document.getElementById('usernameFieldLabel');
+            const mainSubmitBtn = document.getElementById('mainSubmitAuthBtn');
+            const adminSwitchBtn = document.getElementById('adminToggleModeBtn');
+            const regNotice = document.getElementById('registerToggleNoticeBlock');
+            const forgotLink = document.querySelector('#authActionLinksRow a:first-child');
+            const cancelLink = document.getElementById('cancelAdminModeLink');
+
+            // Clear fields out to protect inputs
             document.getElementById('loginUsername').value = "";
             document.getElementById('loginPassword').value = "";
-            
-            document.getElementById('loginGreetingTitle').innerHTML = enableAdmin ? "🛠️ Admin Login" : "🔐 Login";
-            document.getElementById('mainSubmitAuthBtn').textContent = enableAdmin ? "⚡ Unlock Console" : "🚀 Login";
-            document.getElementById('adminToggleModeBtn').style.display = enableAdmin ? "none" : "block";
-            document.getElementById('registerToggleNoticeBlock').style.display = enableAdmin ? "none" : "block";
-            document.getElementById('cancelAdminModeLink').style.display = enableAdmin ? "block" : "none";
+
+            if (enableAdmin) {
+                heading.innerHTML = "🛠️ Admin Login";
+                subtitle.textContent = "Authorized System Terminal Entry";
+                userLabel.innerHTML = "👤 Admin Identity Identifier *";
+                mainSubmitBtn.textContent = "⚡ Unlock Console";
+                mainSubmitBtn.style.background = "linear-gradient(135deg, #ed8936 0%, #ed64a6 100%)";
+                adminSwitchBtn.style.display = "none";
+                regNotice.style.display = "none";
+                forgotLink.style.display = "none";
+                cancelLink.style.display = "block";
+            } else {
+                heading.innerHTML = "🔐 Login";
+                subtitle.textContent = "Access your loan account";
+                userLabel.innerHTML = "👤 Username *";
+                mainSubmitBtn.textContent = "🚀 Login";
+                mainSubmitBtn.style.background = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+                adminSwitchBtn.style.display = "block";
+                regNotice.style.display = "block";
+                forgotLink.style.display = "block";
+                cancelLink.style.display = "none";
+            }
         }
 
+        // AUTH FUNCTIONS
         function showLoginForm() {
-            document.querySelectorAll('.auth-form-section').forEach(f => f.classList.remove('active'));
             document.getElementById('loginForm').classList.add('active');
+            document.getElementById('registerForm').classList.remove('active');
+            document.getElementById('forgotForm').classList.remove('active');
             toggleAdminViewMode(false);
         }
 
         function showRegisterForm() {
-            document.querySelectorAll('.auth-form-section').forEach(f => f.classList.remove('active'));
+            document.getElementById('loginForm').classList.remove('active');
             document.getElementById('registerForm').classList.add('active');
+            document.getElementById('forgotForm').classList.remove('active');
         }
 
         function showForgotPassword() {
-            document.querySelectorAll('.auth-form-section').forEach(f => f.classList.remove('active'));
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('registerForm').classList.remove('active');
             document.getElementById('forgotForm').classList.add('active');
         }
 
         function showAuthMessage(message, type) {
             const msgEl = document.getElementById('authMessage');
-            msgEl.textContent = message; msgEl.className = type;
+            msgEl.textContent = message;
+            msgEl.className = type;
             setTimeout(() => msgEl.className = '', 3000);
         }
 
@@ -809,12 +1531,21 @@
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
 
+            // EXPLICIT MASTER SECURITY AUDIT PASS (NAVEEN CONSOLE)
             if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
                 sessionStorage.setItem('currentUser', ADMIN_USERNAME);
                 document.getElementById('authContainer').classList.remove('active');
                 document.getElementById('mainContainer').classList.add('active');
                 document.getElementById('userDisplay').textContent = "Naveen 🛠️";
+                document.getElementById('headerSubtitle').textContent = "Platform Central Management Console";
+                
                 configureAdminTabs();
+                return;
+            }
+
+            // Fallback error trap if someone inputs Admin identity values inside Standard routing setup
+            if (username.toLowerCase() === "naveen" && !isAdminModeActive) {
+                showAuthMessage('Please turn on Admin Console Mode to pass security.', 'error');
                 return;
             }
 
@@ -823,6 +1554,8 @@
                 document.getElementById('authContainer').classList.remove('active');
                 document.getElementById('mainContainer').classList.add('active');
                 document.getElementById('userDisplay').textContent = username;
+                document.getElementById('headerSubtitle').textContent = "Professional Loan Tracking";
+                
                 configureStandardTabs();
                 showHomeTab();
             } else {
@@ -831,190 +1564,161 @@
         }
 
         function configureAdminTabs() {
-            document.getElementById('appTabsRow').innerHTML = `
+            const tabsRow = document.getElementById('appTabsRow');
+            tabsRow.innerHTML = `
                 <button class="tab-btn active" onclick="showTab(event, 'adminPanel')">🛠️ Admin Control</button>
                 <button class="tab-btn" onclick="showTab(event, 'info')">ℹ️ System Specs</button>
             `;
-            document.getElementById('borrowerFilterBlock').style.display = 'none';
             showTab(null, 'adminPanel');
         }
 
         function configureStandardTabs() {
-            document.getElementById('appTabsRow').innerHTML = `
+            const tabsRow = document.getElementById('appTabsRow');
+            tabsRow.innerHTML = `
                 <button class="tab-btn active" id="tabHomeBtn" onclick="showTab(event, 'home')">🏠 Home</button>
                 <button class="tab-btn" id="tabCreateBtn" onclick="showTab(event, 'create')">➕ New Loan</button>
                 <button class="tab-btn" id="tabInfoBtn" onclick="showTab(event, 'info')">ℹ️ Features</button>
             `;
-            document.getElementById('borrowerFilterBlock').style.display = 'block';
-        }
-
-        function populateBorrowerDropdown() {
-            const currentUser = sessionStorage.getItem('currentUser');
-            const selectEl = document.getElementById('borrowerFilterSelect');
-            const userLoans = DB.loans[currentUser] || {};
-            
-            selectEl.innerHTML = '<option value="ALL">✨ Show All Active & Closed Loans</option>';
-            Object.values(userLoans).forEach(loan => {
-                const opt = document.createElement('option');
-                opt.value = loan.id;
-                opt.textContent = `👤 ${loan.borrowerName} (₹${loan.amount.toLocaleString()})`;
-                selectEl.appendChild(opt);
-            });
-        }
-
-        function filterLoansBySelect() {
-            const targetLoanId = document.getElementById('borrowerFilterSelect').value;
-            displayLoans(targetLoanId);
-        }
-
-        function displayLoans(selectedLoanId = "ALL") {
-            const currentUser = sessionStorage.getItem('currentUser');
-            if (!currentUser || currentUser === ADMIN_USERNAME) return;
-
-            const loansList = document.getElementById('loansList');
-            const userLoans = DB.loans[currentUser] || {};
-            let loans = Object.values(userLoans);
-
-            if (selectedLoanId !== "ALL") {
-                loans = loans.filter(l => l.id === selectedLoanId);
-            }
-
-            if (loans.length === 0) {
-                loansList.innerHTML = `<div class="empty-state"><div class="empty-text">No matching accounts found</div></div>`;
-                return;
-            }
-
-            const allLoansArr = Object.values(userLoans);
-            let totalAmount = 0;
-            allLoansArr.forEach(l => totalAmount += l.amount);
-            document.getElementById('summaryCards').innerHTML = `
-                <div class="summary-card"><div class="summary-label">Total Loans</div><div class="summary-value">${allLoansArr.length}</div></div>
-                <div class="summary-card"><div class="summary-label">Total Amount</div><div class="summary-value">₹${totalAmount.toLocaleString()}</div></div>
-            `;
-
-            loansList.innerHTML = loans.map(loan => {
-                const paidCount = Object.values(loan.payments).filter(p => p.paid).length;
-                const progressPercent = (paidCount / loan.months) * 100;
-                const overdueCount = Object.entries(loan.payments)
-                    .filter(([idx, p]) => !p.paid && isPaymentOverdue(loan.startDate, parseInt(idx))).length;
-
-                let statusClass = 'status-active';
-                let statusText = '⏳ ACTIVE';
-
-                if (paidCount === loan.months) {
-                    statusClass = 'status-closed';
-                    statusText = '✓ CLOSED';
-                }
-
-                return `
-                    <div class="loan-card" onclick="showPaymentPage('${loan.id}')">
-                        <div class="loan-header">
-                            <span class="loan-name">${loan.borrowerName}</span>
-                            <div class="loan-header-status-row">
-                                <span class="status-badge ${statusClass}">${statusText}</span>
-                            </div>
-                        </div>
-                        
-                        ${overdueCount > 0 ? `
-                            <div class="status-overdue-alert">
-                                ⚠️ Alert: ${overdueCount} Installment Overdue
-                            </div>
-                        ` : ''}
-
-                        <div class="loan-info">
-                            <div class="info-item"><span class="info-label">Amount</span><span class="info-value">₹${loan.amount.toLocaleString()}</span></div>
-                            <div class="info-item"><span class="info-label">Start Date</span><span class="info-value">${formatDate(loan.startDate)}</span></div>
-                            <div class="info-item"><span class="info-label">Rate/Month</span><span class="info-value">${loan.rate}%</span></div>
-                            <div class="info-item"><span class="info-label">Progress</span><span class="info-value">${Math.round(progressPercent)}%</span></div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
         }
 
         function renderAdminDashboard() {
             const userTableBody = document.getElementById('adminUserTableBody');
+            const totalUsersEl = document.getElementById('adminTotalUsers');
+            const totalLoansEl = document.getElementById('adminTotalLoans');
+            
             const users = Object.keys(DB.users);
-            let totalLoansCount = 0;
+            let loanCountTotal = 0;
+
+            totalUsersEl.textContent = users.length;
 
             userTableBody.innerHTML = users.map(username => {
                 const userObj = DB.users[username];
                 const totalUserLoans = DB.loans[username] ? Object.keys(DB.loans[username]).length : 0;
-                totalLoansCount += totalUserLoans;
+                loanCountTotal += totalUserLoans;
 
                 return `
                     <tr>
-                        <td style="font-weight:700;">${username}</td>
-                        <td style="font-family:monospace;">${userObj.password}</td>
+                        <td style="font-weight:700; color:#2d3748;">${username}</td>
+                        <td style="font-family:monospace; background:#f4f6ff; border-radius:4px;">${userObj.password}</td>
                         <td>${userObj.phone || 'N/A'}</td>
-                        <td>${totalUserLoans}</td>
-                        <td><button class="admin-action-btn" onclick="adminDeleteUser('${username}')">Delete</button></td>
+                        <td style="text-align:center; font-weight:700;">${totalUserLoans}</td>
+                        <td>
+                            <button class="admin-action-btn" onclick="adminDeleteUser('${username}')">Delete</button>
+                        </td>
                     </tr>
                 `;
             }).join('');
 
-            document.getElementById('adminTotalUsers').textContent = users.length;
-            document.getElementById('adminTotalLoans').textContent = totalLoansCount;
+            totalLoansEl.textContent = loanCountTotal;
         }
 
         function adminDeleteUser(username) {
-            if (confirm(` Erase user "${username}"?`)) {
+            if (confirm(`⚠️ CRITICAL WARNING:\nAre you sure you want to permanently erase user "${username}" along with all their structural loan history?`)) {
                 delete DB.users[username];
-                if (DB.loans[username]) delete DB.loans[username];
-                saveDatabase(); renderAdminDashboard();
+                if (DB.loans[username]) {
+                    delete DB.loans[username];
+                }
+                saveDatabase();
+                alert(`User ${username} stripped from platform data allocation structures.`);
+                renderAdminDashboard();
             }
         }
 
         function handleRegister(event) {
             event.preventDefault();
             const username = document.getElementById('regUsername').value.trim();
-            if (username.toLowerCase() === ADMIN_USERNAME.toLowerCase() || DB.users[username]) {
-                showAuthMessage('Username unavailable', 'error'); return;
+            const email = document.getElementById('regEmail').value;
+            const phone = document.getElementById('regPhone').value;
+            const address = document.getElementById('regAddress').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (username.toLowerCase() === ADMIN_USERNAME.toLowerCase()) {
+                showAuthMessage('Username reserved by platform authority', 'error');
+                return;
             }
-            DB.users[username] = { 
-                email: document.getElementById('regEmail').value, 
-                phone: document.getElementById('regPhone').value, 
-                address: document.getElementById('regAddress').value, 
-                password: document.getElementById('regPassword').value 
-            };
-            saveDatabase(); showAuthMessage('Registered! Logging in...', 'success'); setTimeout(showLoginForm, 1500);
+
+            if (password !== confirmPassword) {
+                showAuthMessage('Passwords do not match', 'error');
+                return;
+            }
+
+            if (DB.users[username]) {
+                showAuthMessage('Username already exists', 'error');
+                return;
+            }
+
+            DB.users[username] = { email, phone, address, password };
+            saveDatabase();
+            showAuthMessage('Registration successful! Please login.', 'success');
+            setTimeout(showLoginForm, 1500);
         }
 
         function handleForgotPassword(event) {
             event.preventDefault();
             const username = document.getElementById('forgotUsername').value.trim();
-            if (DB.users[username]) {
-                DB.users[username].password = document.getElementById('forgotNewPassword').value;
-                saveDatabase(); showAuthMessage('Password reset complete.', 'success'); setTimeout(showLoginForm, 1500);
+            const email = document.getElementById('forgotEmail').value;
+            const newPassword = document.getElementById('forgotNewPassword').value;
+            const confirmPassword = document.getElementById('forgotConfirmPassword').value;
+
+            if (newPassword !== confirmPassword) {
+                showAuthMessage('Passwords do not match', 'error');
+                return;
             }
+
+            if (!DB.users[username] || DB.users[username].email !== email) {
+                showAuthMessage('Invalid username or email', 'error');
+                return;
+            }
+
+            DB.users[username].password = newPassword;
+            saveDatabase();
+            showAuthMessage('Password reset successful! Please login.', 'success');
+            setTimeout(showLoginForm, 1500);
         }
 
         function logout() {
-            sessionStorage.removeItem('currentUser');
-            document.getElementById('mainContainer').classList.remove('active');
-            document.getElementById('authContainer').classList.add('active');
-            showLoginForm();
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('currentUser');
+                document.getElementById('mainContainer').classList.remove('active');
+                document.getElementById('authContainer').classList.add('active');
+                document.getElementById('authMessage').className = '';
+                showLoginForm();
+            }
         }
 
+        // LOAN FUNCTIONS
         function calculateInterest() {
             const amount = parseFloat(document.getElementById('loanAmount').value) || 0;
             const rate = parseFloat(document.getElementById('interestRate').value) || 0;
             const months = parseInt(document.getElementById('agreementMonths').value) || 0;
+
             if (amount > 0 && rate > 0 && months > 0) {
+                const monthlyInterest = (amount * rate) / 100;
+                const totalInterest = monthlyInterest * months;
+                const totalAmount = amount + totalInterest;
+
                 document.getElementById('displayPrincipal').textContent = amount.toLocaleString();
-                document.getElementById('displayMonthlyInterest').textContent = Math.round((amount * rate) / 100).toLocaleString();
+                document.getElementById('displayMonthlyInterest').textContent = Math.round(monthlyInterest).toLocaleString();
                 document.getElementById('displayDuration').textContent = months;
-                document.getElementById('displayTotalInterest').textContent = Math.round(((amount * rate) / 100) * months).toLocaleString();
-                document.getElementById('displayTotalAmount').textContent = Math.round(amount + ((amount * rate) / 100) * months).toLocaleString();
+                document.getElementById('displayTotalInterest').textContent = Math.round(totalInterest).toLocaleString();
+                document.getElementById('displayTotalAmount').textContent = Math.round(totalAmount).toLocaleString();
                 document.getElementById('calculationResult').style.display = 'block';
-            } else { document.getElementById('calculationResult').style.display = 'none'; }
+            } else {
+                document.getElementById('calculationResult').style.display = 'none';
+            }
         }
 
-        function resetLoanForm() { document.getElementById('loanForm').reset(); document.getElementById('calculationResult').style.display = 'none'; }
+        function resetLoanForm() {
+            document.getElementById('loanForm').reset();
+            document.getElementById('calculationResult').style.display = 'none';
+        }
 
         function saveLoan(event) {
             event.preventDefault();
             const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) return;
+
             const loanData = {
                 id: Date.now().toString(),
                 borrowerName: document.getElementById('borrowerName').value,
@@ -1026,100 +1730,481 @@
                 startDate: document.getElementById('startDate').value,
                 months: parseInt(document.getElementById('agreementMonths').value),
                 description: document.getElementById('loanDescription').value,
-                principalReceived: false, principalReceivedDate: null, payments: {}
+                createdAt: new Date().toISOString(),
+                principalReceived: false,
+                principalReceivedDate: null,
+                payments: {}
             };
-            for (let i = 0; i < loanData.months; i++) { loanData.payments[i] = { paid: false, paidDate: null }; }
-            if (!DB.loans[currentUser]) DB.loans[currentUser] = {};
+
+            for (let i = 0; i < loanData.months; i++) {
+                loanData.payments[i] = { paid: false, paidDate: null };
+            }
+
+            if (!DB.loans[currentUser]) {
+                DB.loans[currentUser] = {};
+            }
+
             DB.loans[currentUser][loanData.id] = loanData;
-            saveDatabase(); alert('Loan tracking agreement activated!'); resetLoanForm(); showHomeTab();
+            saveDatabase();
+
+            alert(' Loan created successfully!');
+            resetLoanForm();
+            showHomeTab();
         }
 
-        function showHomeTab() { 
-            showTab(null, 'home'); 
-            populateBorrowerDropdown(); 
-            displayLoans(); 
+        function showHomeTab() {
+            showTab(null, 'home');
+            displayLoans();
+        }
+
+        function displayLoans() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) return;
+
+            const loansList = document.getElementById('loansList');
+            const userLoans = DB.loans[currentUser] || {};
+            const loans = Object.values(userLoans);
+
+            if (loans.length === 0) {
+                loansList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <div class="empty-text">No loans yet</div>
+                        <p>Create your first loan agreement to get started</p>
+                    </div>
+                `;
+                document.getElementById('summaryCards').innerHTML = '';
+                return;
+            }
+
+            let totalLoans = 0;
+            let totalAmount = 0;
+
+            loans.forEach(loan => {
+                totalLoans++;
+                totalAmount += loan.amount;
+            });
+
+            document.getElementById('summaryCards').innerHTML = `
+                <div class="summary-card">
+                    <div class="summary-label">Total Loans</div>
+                    <div class="summary-value">${totalLoans}</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Total Amount</div>
+                    <div class="summary-value">₹${totalAmount.toLocaleString()}</div>
+                </div>
+            `;
+
+            loansList.innerHTML = loans.map(loan => {
+                const paidCount = Object.values(loan.payments).filter(p => p.paid).length;
+                const progressPercent = (paidCount / loan.months) * 100;
+                const overdueCount = Object.entries(loan.payments)
+                    .filter(([idx, p]) => !p.paid && isPaymentOverdue(loan.startDate, parseInt(idx)))
+                    .length;
+
+                let statusClass = 'status-active';
+                let statusText = '⏳ ACTIVE';
+
+                if (paidCount === loan.months) {
+                    statusClass = 'status-closed';
+                    statusText = '✓ CLOSED';
+                } else if (overdueCount > 0) {
+                    statusClass = 'status-overdue';
+                    statusText = `⚠️ ${overdueCount} OVERDUE`;
+                } else if (!loan.principalReceived) {
+                    statusClass = 'status-pending';
+                    statusText = '⏱️ PENDING';
+                }
+
+                return `
+                    <div class="loan-card" onclick="showPaymentPage('${loan.id}')">
+                        <div class="loan-header">
+                            <span class="loan-name">${loan.borrowerName}</span>
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="loan-info">
+                            <div class="info-item">
+                                <span class="info-label">Amount</span>
+                                <span class="info-value">₹${loan.amount.toLocaleString()}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Start Date</span>
+                                <span class="info-value">${formatDate(loan.startDate)}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Rate/Month</span>
+                                <span class="info-value">${loan.rate}%</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Progress</span>
+                                <span class="info-value">${Math.round(progressPercent)}%</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         function showPaymentPage(loanId) {
             const currentUser = sessionStorage.getItem('currentUser');
             const loan = DB.loans[currentUser][loanId];
             const paymentView = document.getElementById('paymentView');
+
             let monthlyInterest = (loan.amount * loan.rate) / 100;
             const paidCount = Object.values(loan.payments).filter(p => p.paid).length;
+            const progressPercent = (paidCount / loan.months) * 100;
 
             let paymentHTML = `
-                <button class="back-btn" onclick="hiddenPaymentPage()">← Back to Dashboard</button>
+                <button class="back-btn" onclick="hiddenPaymentPage()">← Back to Loans</button>
+                
                 <div class="calculation-box">
-                    <h3>${loan.borrowerName}'s Statement</h3>
-                    <p style="margin-top:6px;"><strong>Father's Name:</strong> ${loan.fatherName}</p>
-                    <p><strong>Address:</strong> ${loan.address}</p>
+                    <h3>${loan.borrowerName}'s Loan Details</h3>
+                    <div style="margin-top: 12px; font-size: 0.9em;">
+                        <p><strong>Father's Name:</strong> ${loan.fatherName}</p>
+                        <p><strong>Address:</strong> ${loan.address}</p>
+                        <p style="margin-top: 8px;"><strong>Started:</strong> ${formatDate(loan.startDate)}</p>
+                    </div>
                 </div>
-                <div style="margin-bottom:15px;">
-                    <button class="edit-btn" onclick="showEditPage('${loan.id}')">✏️ Edit Details</button>
-                    <button class="delete-btn" onclick="deleteLoan('${loan.id}')">🗑️ Remove File</button>
+
+                <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+                    <button class="edit-btn" onclick="showEditPage('${loanId}')">✏️ Edit</button>
+                    <button class="pdf-btn" onclick="exportPDF('${loanId}')">📄 Export PDF</button>
+                    <button class="whatsapp-btn" onclick="openNotificationModal('${loanId}')">📱 Notify Me</button>
+                    <button class="delete-btn" onclick="deleteLoan('${loanId}')">🗑️ Delete</button>
                 </div>
+
+                <div class="principal-section">
+                    <div class="principal-item">
+                        <span class="principal-label">📦 Principal Amount</span>
+                        <span class="principal-value">₹${loan.amount.toLocaleString()}</span>
+                    </div>
+                    <div class="principal-item">
+                        <span class="principal-label">Status</span>
+                        <span class="principal-value" style="color: ${loan.principalReceived ? '#28a745' : '#dc3545'}">
+                            ${loan.principalReceived ? '✅ Received' : '❌ Not Received'}
+                        </span>
+                    </div>
+                    ${loan.principalReceivedDate ? `
+                    <div class="principal-item">
+                        <span class="principal-label">Received Date</span>
+                        <span class="principal-value">${formatDate(loan.principalReceivedDate.split('T')[0])}</span>
+                    </div>
+                    ` : ''}
+                    <div class="principal-item" style="margin-top: 12px;">
+                        <label style="margin: 0; flex: 1; font-weight: 700;">Mark as Received</label>
+                        <input type="checkbox" ${loan.principalReceived ? 'checked' : ''} onchange="togglePrincipalReceived('${loanId}')" style="width: 24px; height: 24px; cursor: pointer; accent-color: #28a745;">
+                    </div>
+                </div>
+
                 <div class="payment-stats">
-                    <div class="stat-item"><span class="stat-label">Monthly Interest Installment</span><span class="stat-value">₹${Math.round(monthlyInterest).toLocaleString()}</span></div>
-                    <div class="stat-item"><span class="stat-label">Progress Metrics</span><span class="stat-value">${paidCount}/${loan.months} Months Completed</span></div>
+                    <div class="stat-item">
+                        <span class="stat-label">Monthly Interest</span>
+                        <span class="stat-value">₹${Math.round(monthlyInterest).toLocaleString()}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Payments Completed</span>
+                        <span class="stat-value">${paidCount}/${loan.months}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Progress</span>
+                        <span class="stat-value">${Math.round(progressPercent)}%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Interest Paid</span>
+                        <span class="stat-value">₹${Math.round(monthlyInterest * paidCount).toLocaleString()}</span>
+                    </div>
                 </div>
+
                 <div class="details-section">
-                    <h3>💳 Payment Logs</h3>
+                    <h3>💳 Payment Schedule</h3>
                     <div id="paymentsList">
             `;
 
             for (let i = 0; i < loan.months; i++) {
-                const range = getPaymentDateRange(loan.startDate, i);
-                const p = loan.payments[i];
+                const dateRange = getPaymentDateRange(loan.startDate, i);
+                const payment = loan.payments[i];
+                const isPaid = payment.paid;
+                const overdue = !isPaid && isPaymentOverdue(loan.startDate, i);
+
                 paymentHTML += `
-                    <div class="payment-item ${p.paid ? 'paid' : ''} ${!p.paid && isPaymentOverdue(loan.startDate, i) ? 'overdue' : ''}">
+                    <div class="payment-item ${isPaid ? 'paid' : ''} ${overdue ? 'overdue' : ''}">
                         <div class="payment-info">
-                            <div class="payment-month">${range}</div>
-                            <div class="payment-amount">₹${Math.round(monthlyInterest).toLocaleString()}</div>
+                            <div class="payment-month">📅 ${dateRange}</div>
+                            <div class="payment-amount">₹${Math.round(monthlyInterest).toLocaleString()} ${isPaid ? '✅' : overdue ? '⚠️' : ''}</div>
+                            ${isPaid && payment.paidDate ? `<div class="payment-amount" style="color: #28a745; margin-top: 2px;">Paid: ${formatDate(payment.paidDate.split('T')[0])}</div>` : ''}
                         </div>
-                        <input type="checkbox" class="payment-checkbox" ${p.paid ? 'checked disabled' : ''} onchange="togglePayment('${loan.id}', ${i})">
+                        <input 
+                            type="checkbox" 
+                            class="payment-checkbox" 
+                            ${isPaid ? 'checked disabled' : ''}
+                            onchange="togglePayment('${loanId}', ${i})"
+                        >
                     </div>
                 `;
             }
 
-            paymentView.innerHTML = pHTML = paymentHTML + `</div></div>`;
+            paymentHTML += `
+                    </div>
+                </div>
+
+                <button class="back-btn" onclick="hiddenPaymentPage()" style="display: block; width: 100%; text-align: center; margin-top: 20px;">← Back to Loans</button>
+            `;
+
+            paymentView.innerHTML = paymentHTML;
+            
             document.getElementById('loansList').style.display = 'none';
             document.getElementById('summaryCards').style.display = 'none';
-            document.getElementById('borrowerFilterBlock').style.display = 'none';
             paymentView.classList.add('active');
         }
 
         function hiddenPaymentPage() {
             document.getElementById('paymentView').classList.remove('active');
+            document.getElementById('editView').classList.remove('active');
             document.getElementById('loansList').style.display = 'block';
             document.getElementById('summaryCards').style.display = 'grid';
-            document.getElementById('borrowerFilterBlock').style.display = 'block';
-            populateBorrowerDropdown();
             displayLoans();
         }
 
-        function togglePayment(loanId, idx) {
+        function togglePayment(loanId, paymentIndex) {
             const currentUser = sessionStorage.getItem('currentUser');
-            DB.loans[currentUser][loanId].payments[idx] = { paid: true, paidDate: new Date().toISOString() };
-            saveDatabase(); showPaymentPage(loanId);
+            const loan = DB.loans[currentUser][loanId];
+            
+            if (!loan.payments[paymentIndex].paid) {
+                loan.payments[paymentIndex].paid = true;
+                loan.payments[paymentIndex].paidDate = new Date().toISOString();
+            }
+            
+            saveDatabase();
+            showPaymentPage(loanId);
+        }
+
+        function togglePrincipalReceived(loanId) {
+            const currentUser = sessionStorage.getItem('currentUser');
+            const loan = DB.loans[currentUser][loanId];
+            
+            loan.principalReceived = !loan.principalReceived;
+            if (loan.principalReceived) {
+                loan.principalReceivedDate = new Date().toISOString();
+            } else {
+                loan.principalReceivedDate = null;
+            }
+            
+            saveDatabase();
+            showPaymentPage(loanId);
+        }
+
+        function showEditPage(loanId) {
+            const currentUser = sessionStorage.getItem('currentUser');
+            const loan = DB.loans[currentUser][loanId];
+            currentEditingLoan = loanId;
+            
+            const editView = document.getElementById('editView');
+            
+            let editHTML = `
+                <button class="back-btn" onclick="hiddenPaymentPage()">← Back</button>
+                
+                <h3>✏️ Edit Loan - ${loan.borrowerName}</h3>
+                
+                <form id="editLoanForm">
+                    <div class="form-group">
+                        <label>👤 Borrower Name</label>
+                        <input type="text" id="editBorrowerName" value="${loan.borrowerName}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>👨‍🦱 Father's Name</label>
+                        <input type="text" id="editFatherName" value="${loan.fatherName}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📱 Phone Number</label>
+                        <input type="tel" id="editPhone" value="${loan.phone}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🏠 Address</label>
+                        <textarea id="editAddress" required>${loan.address}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>💵 Loan Amount (₹)</label>
+                        <input type="number" id="editAmount" value="${loan.amount}" required min="0" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>📊 Rate of Interest (%) Per Month</label>
+                        <input type="number" id="editRate" value="${loan.rate}" required min="0" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label>📝 Description/Notes</label>
+                        <textarea id="editDescription">${loan.description || ''}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="resetPrincipal" ${loan.principalReceived ? 'checked' : ''}>
+                            <label for="resetPrincipal">Principal Received</label>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn-primary" onclick="saveLoanEdit('${loanId}')">💾 Save Changes</button>
+                        <button type="button" class="btn-secondary" onclick="hiddenPaymentPage()">Cancel</button>
+                    </div>
+                </form>
+            `;
+            
+            editView.innerHTML = editHTML;
+            document.getElementById('paymentView').classList.remove('active');
+            editView.classList.add('active');
+        }
+
+        function saveLoanEdit(loanId) {
+            const currentUser = sessionStorage.getItem('currentUser');
+            const loan = DB.loans[currentUser][loanId];
+            
+            loan.borrowerName = document.getElementById('editBorrowerName').value;
+            loan.fatherName = document.getElementById('editFatherName').value;
+            loan.phone = document.getElementById('editPhone').value;
+            loan.address = document.getElementById('editAddress').value;
+            loan.amount = parseFloat(document.getElementById('editAmount').value);
+            loan.rate = parseFloat(document.getElementById('editRate').value);
+            loan.description = document.getElementById('editDescription').value;
+            loan.principalReceived = document.getElementById('resetPrincipal').checked;
+            
+            if (loan.principalReceived && !loan.principalReceivedDate) {
+                loan.principalReceivedDate = new Date().toISOString();
+            } else if (!loan.principalReceived) {
+                loan.principalReceivedDate = null;
+            }
+            
+            saveDatabase();
+            alert('✅ Loan updated successfully!');
+            hiddenPaymentPage();
+        }
+
+        function deleteLoan(loanId) {
+            if (confirm('⚠️ Are you sure you want to delete this loan? This action cannot be undone.')) {
+                const currentUser = sessionStorage.getItem('currentUser');
+                delete DB.loans[currentUser][loanId];
+                saveDatabase();
+                alert('✅ Loan deleted successfully!');
+                hiddenPaymentPage();
+            }
+        }
+
+        function exportPDF(loanId) {
+            const currentUser = sessionStorage.getItem('currentUser');
+            const loan = DB.loans[currentUser][loanId];
+            
+            let pdfContent = `
+                <div style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h1 style="text-align: center; color: #667eea;">💰 LOAN AGREEMENT DOCUMENT</h1>
+                    <hr>
+                    <h2>📋 BORROWER DETAILS</h2>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Borrower Name:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">${loan.borrowerName}</td></tr>
+                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Father's Name:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">${loan.fatherName}</td></tr>
+                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Phone:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">${loan.phone}</td></tr>
+                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Address:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">${loan.address}</td></tr>
+                    </table>
+                </div>
+            `;
+            
+            const element = document.createElement('div');
+            element.innerHTML = pdfContent;
+            
+            const opt = {
+                margin: 10,
+                filename: `Loan_${loan.borrowerName}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+            
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function openNotificationModal(loanId) {
+            document.getElementById('notificationModal').classList.add('active');
+            document.getElementById('notificationModal').dataset.loanId = loanId;
+            
+            const currentUser = sessionStorage.getItem('currentUser');
+            const loan = DB.loans[currentUser][loanId];
+            
+            let message = `Loan Update - ${loan.borrowerName}\n\n`;
+            message += `Borrower: ${loan.borrowerName}\n`;
+            message += `Loan Amount: ₹${loan.amount.toLocaleString()}\n`;
+            
+            document.getElementById('notificationMessage').value = message;
+        }
+
+        function closeNotificationModal() {
+            document.getElementById('notificationModal').classList.remove('active');
+        }
+
+        function sendNotification() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            const userPhone = DB.users[currentUser] ? DB.users[currentUser].phone : '';
+            const notificationType = document.getElementById('notificationType').value;
+            const message = document.getElementById('notificationMessage').value;
+            
+            const phoneNumber = userPhone ? userPhone.replace(/[^0-9]/g, '') : '';
+            
+            if (notificationType === 'whatsapp') {
+                window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+            } else {
+                window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
+            }
+            
+            alert(`✅ Notification ready!`);
+            closeNotificationModal();
         }
 
         function showTab(event, tabName) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            const target = document.getElementById(tabName);
-            if(target) target.classList.add('active');
-            if (tabName === 'home') showHomeTab();
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(c => c.classList.remove('active'));
+            
+            const targetedTab = document.getElementById(tabName);
+            if(targetedTab) {
+                targetedTab.classList.add('active');
+            }
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            
+            if (event) {
+                event.target.classList.add('active');
+            }
+
+            if (tabName === 'home') {
+                displayLoans();
+            } else if (tabName === 'adminPanel') {
+                renderAdminDashboard();
+            }
         }
 
+        // Initialize
         loadDatabase();
-        const sessionUser = sessionStorage.getItem('currentUser');
-        if (sessionUser) {
+        const currentUser = sessionStorage.getItem('currentUser');
+        if (currentUser) {
             document.getElementById('authContainer').classList.remove('active');
             document.getElementById('mainContainer').classList.add('active');
-            document.getElementById('userDisplay').textContent = sessionUser === ADMIN_USERNAME ? "Naveen 🛠️" : sessionUser;
-            if (sessionUser === ADMIN_USERNAME) { configureAdminTabs(); } else { configureStandardTabs(); showHomeTab(); }
-        } else {
-            showLoginForm();
+            
+            if(currentUser === ADMIN_USERNAME) {
+                document.getElementById('userDisplay').textContent = "Naveen 🛠️";
+                document.getElementById('headerSubtitle').textContent = "Platform Central Management Console";
+                configureAdminTabs();
+            } else {
+                document.getElementById('userDisplay').textContent = currentUser;
+                document.getElementById('headerSubtitle').textContent = "Professional Loan Tracking";
+                configureStandardTabs();
+                showHomeTab();
+            }
         }
+
         document.getElementById('loanForm').addEventListener('submit', saveLoan);
     </script>
 </body>
