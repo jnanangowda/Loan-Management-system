@@ -137,6 +137,11 @@
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
 
+        .auth-btn.admin-mode-btn {
+            background: linear-gradient(135deg, #ed8936 0%, #ed64a6 100%);
+            box-shadow: 0 4px 12px rgba(237, 137, 54, 0.3);
+        }
+
         .auth-btn:active {
             transform: scale(0.98);
         }
@@ -156,8 +161,9 @@
         }
 
         .auth-links {
-            text-align: center;
-            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
             font-size: 0.85em;
         }
 
@@ -166,7 +172,6 @@
             cursor: pointer;
             text-decoration: none;
             font-weight: 600;
-            margin: 0 5px;
         }
 
         #authMessage {
@@ -338,7 +343,7 @@
         
         .content::-webkit-scrollbar-track {
             background: #f1f1f1;
-            }
+        }
         
         .content::-webkit-scrollbar-thumb {
             background: #667eea;
@@ -1109,11 +1114,11 @@
             <div id="authMessage"></div>
             
             <div id="loginForm" class="auth-form-section active">
-                <h2>🔐 Login</h2>
-                <p class="auth-subtitle">Access your loan account</p>
+                <h2 id="loginGreetingTitle">🔐 Login</h2>
+                <p class="auth-subtitle" id="loginGreetingSubtitle">Access your loan account</p>
                 <form id="authFormLogin" onsubmit="handleLogin(event)">
                     <div class="auth-form-group">
-                        <label>👤 Username *</label>
+                        <label id="usernameFieldLabel">👤 Username *</label>
                         <input type="text" id="loginUsername" placeholder="Enter username" required>
                     </div>
 
@@ -1122,14 +1127,17 @@
                         <input type="password" id="loginPassword" placeholder="Enter password" required>
                     </div>
 
-                    <button type="submit" class="auth-btn">🚀 Login</button>
+                    <button type="submit" id="mainSubmitAuthBtn" class="auth-btn">🚀 Login</button>
+                    
+                    <button type="button" id="adminToggleModeBtn" class="auth-btn admin-mode-btn" onclick="toggleAdminViewMode(true)">🛠️ Admin Console Login</button>
                 </form>
 
-                <div class="auth-links">
+                <div class="auth-links" id="authActionLinksRow">
                     <a onclick="showForgotPassword()">Forgot Password?</a>
+                    <a id="cancelAdminModeLink" style="display:none; color:#dc3545;" onclick="toggleAdminViewMode(false)">← Cancel Admin</a>
                 </div>
 
-                <div class="auth-toggle">
+                <div class="auth-toggle" id="registerToggleNoticeBlock">
                     <p>New user? <a onclick="showRegisterForm()">Register here</a></p>
                 </div>
             </div>
@@ -1398,9 +1406,10 @@
             loans: {}
         };
 
-        // GLOBAL CONFIG FOR MASTER CREDENTIALS
+        // MASTER ADMIN ROOT VALUES
         const ADMIN_USERNAME = "Naveen";
         const ADMIN_PASSWORD = "Naveen@123";
+        let isAdminModeActive = false;
 
         let currentEditingLoan = null;
 
@@ -1451,11 +1460,51 @@
             return new Date() > endDate;
         }
 
+        // TOGGLE ADMIN LOGIN FORM LOOK
+        function toggleAdminViewMode(enableAdmin) {
+            isAdminModeActive = enableAdmin;
+            const heading = document.getElementById('loginGreetingTitle');
+            const subtitle = document.getElementById('loginGreetingSubtitle');
+            const userLabel = document.getElementById('usernameFieldLabel');
+            const mainSubmitBtn = document.getElementById('mainSubmitAuthBtn');
+            const adminSwitchBtn = document.getElementById('adminToggleModeBtn');
+            const regNotice = document.getElementById('registerToggleNoticeBlock');
+            const forgotLink = document.querySelector('#authActionLinksRow a:first-child');
+            const cancelLink = document.getElementById('cancelAdminModeLink');
+
+            // Clear fields out to protect inputs
+            document.getElementById('loginUsername').value = "";
+            document.getElementById('loginPassword').value = "";
+
+            if (enableAdmin) {
+                heading.innerHTML = "🛠️ Admin Login";
+                subtitle.textContent = "Authorized System Terminal Entry";
+                userLabel.innerHTML = "👤 Admin Identity Identifier *";
+                mainSubmitBtn.textContent = "⚡ Unlock Console";
+                mainSubmitBtn.style.background = "linear-gradient(135deg, #ed8936 0%, #ed64a6 100%)";
+                adminSwitchBtn.style.display = "none";
+                regNotice.style.display = "none";
+                forgotLink.style.display = "none";
+                cancelLink.style.display = "block";
+            } else {
+                heading.innerHTML = "🔐 Login";
+                subtitle.textContent = "Access your loan account";
+                userLabel.innerHTML = "👤 Username *";
+                mainSubmitBtn.textContent = "🚀 Login";
+                mainSubmitBtn.style.background = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+                adminSwitchBtn.style.display = "block";
+                regNotice.style.display = "block";
+                forgotLink.style.display = "block";
+                cancelLink.style.display = "none";
+            }
+        }
+
         // AUTH FUNCTIONS
         function showLoginForm() {
             document.getElementById('loginForm').classList.add('active');
             document.getElementById('registerForm').classList.remove('active');
             document.getElementById('forgotForm').classList.remove('active');
+            toggleAdminViewMode(false);
         }
 
         function showRegisterForm() {
@@ -1482,7 +1531,7 @@
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
 
-            // MASTER SECURITY AUDIT PASS
+            // EXPLICIT MASTER SECURITY AUDIT PASS (NAVEEN CONSOLE)
             if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
                 sessionStorage.setItem('currentUser', ADMIN_USERNAME);
                 document.getElementById('authContainer').classList.remove('active');
@@ -1491,6 +1540,12 @@
                 document.getElementById('headerSubtitle').textContent = "Platform Central Management Console";
                 
                 configureAdminTabs();
+                return;
+            }
+
+            // Fallback error trap if someone inputs Admin identity values inside Standard routing setup
+            if (username.toLowerCase() === "naveen" && !isAdminModeActive) {
+                showAuthMessage('Please turn on Admin Console Mode to pass security.', 'error');
                 return;
             }
 
@@ -1509,7 +1564,6 @@
         }
 
         function configureAdminTabs() {
-            // Remap tabs dynamically to support root dashboard operations
             const tabsRow = document.getElementById('appTabsRow');
             tabsRow.innerHTML = `
                 <button class="tab-btn active" onclick="showTab(event, 'adminPanel')">🛠️ Admin Control</button>
