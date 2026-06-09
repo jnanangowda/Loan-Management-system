@@ -268,7 +268,7 @@
         .user-name {
             font-size: 0.85em;
             font-weight: 600;
-            max-width: 80px;
+            max-width: 110px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -338,7 +338,7 @@
         
         .content::-webkit-scrollbar-track {
             background: #f1f1f1;
-        }
+            }
         
         .content::-webkit-scrollbar-thumb {
             background: #667eea;
@@ -1104,12 +1104,10 @@
     </style>
 </head>
 <body>
-    <!-- AUTH CONTAINER -->
     <div class="auth-container active" id="authContainer">
         <div class="auth-box">
             <div id="authMessage"></div>
             
-            <!-- LOGIN FORM -->
             <div id="loginForm" class="auth-form-section active">
                 <h2>🔐 Login</h2>
                 <p class="auth-subtitle">Access your loan account</p>
@@ -1136,7 +1134,6 @@
                 </div>
             </div>
 
-            <!-- REGISTER FORM -->
             <div id="registerForm" class="auth-form-section">
                 <h2>💰 Register</h2>
                 <p class="auth-subtitle">Create new account</p>
@@ -1179,7 +1176,6 @@
                 </div>
             </div>
 
-            <!-- FORGOT PASSWORD FORM -->
             <div id="forgotForm" class="auth-form-section">
                 <h2>🔑 Forgot Password</h2>
                 <p class="auth-subtitle">Reset your password</p>
@@ -1214,7 +1210,6 @@
         </div>
     </div>
 
-    <!-- MAIN CONTAINER -->
     <div class="container" id="mainContainer">
         <div class="header">
             <div class="header-content">
@@ -1234,7 +1229,6 @@
         </div>
         
         <div class="content">
-            <!-- HOME TAB -->
             <div id="home" class="tab-content active">
                 <div id="homeMessage"></div>
                 <div id="summaryCards" class="summary-grid"></div>
@@ -1244,7 +1238,6 @@
                 <div id="editView" class="edit-view"></div>
             </div>
             
-            <!-- CREATE LOAN TAB -->
             <div id="create" class="tab-content">
                 <h3>➕ Create New Loan Agreement</h3>
                 <form id="loanForm">
@@ -1323,7 +1316,6 @@
                 </form>
             </div>
 
-            <!-- FEATURES/INFO TAB -->
             <div id="info" class="tab-content">
                 <h3>ℹ️ Features & Information</h3>
                 
@@ -1343,7 +1335,6 @@
                 </div>
             </div>
 
-            <!-- ADMIN CENTRAL MANAGEMENT DASHBOARD (HIDDEN FROM NORMAL USERS) -->
             <div id="adminPanel" class="tab-content">
                 <h3>🛠️ Admin Control Panel</h3>
                 <p style="color: #666; font-size:0.9em; margin-bottom: 15px;">Monitor configuration frameworks, extract registration structures, and audit security keys.</p>
@@ -1371,8 +1362,7 @@
                             </tr>
                         </thead>
                         <tbody id="adminUserTableBody">
-                            <!-- Dynamic Content -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -1380,7 +1370,6 @@
         </div>
     </div>
 
-    <!-- Notification Modal -->
     <div class="modal" id="notificationModal">
         <div class="modal-content">
             <div class="modal-title">🔔 Send Notification</div>
@@ -1410,8 +1399,8 @@
         };
 
         // GLOBAL CONFIG FOR MASTER CREDENTIALS
-        const ADMIN_USERNAME = "admin";
-        const ADMIN_PASSWORD = "adminpassword";
+        const ADMIN_USERNAME = "Naveen";
+        const ADMIN_PASSWORD = "Naveen@123";
 
         let currentEditingLoan = null;
 
@@ -1498,7 +1487,7 @@
                 sessionStorage.setItem('currentUser', ADMIN_USERNAME);
                 document.getElementById('authContainer').classList.remove('active');
                 document.getElementById('mainContainer').classList.add('active');
-                document.getElementById('userDisplay').textContent = "Admin 🛠️";
+                document.getElementById('userDisplay').textContent = "Naveen 🛠️";
                 document.getElementById('headerSubtitle').textContent = "Platform Central Management Console";
                 
                 configureAdminTabs();
@@ -1527,7 +1516,6 @@
                 <button class="tab-btn" onclick="showTab(event, 'info')">ℹ️ System Specs</button>
             `;
             showTab(null, 'adminPanel');
-            renderAdminDashboard();
         }
 
         function configureStandardTabs() {
@@ -1591,7 +1579,7 @@
             const password = document.getElementById('regPassword').value;
             const confirmPassword = document.getElementById('regConfirmPassword').value;
 
-            if (username.toLowerCase() === ADMIN_USERNAME) {
+            if (username.toLowerCase() === ADMIN_USERNAME.toLowerCase()) {
                 showAuthMessage('Username reserved by platform authority', 'error');
                 return;
             }
@@ -2057,9 +2045,6 @@
             const currentUser = sessionStorage.getItem('currentUser');
             const loan = DB.loans[currentUser][loanId];
             
-            let monthlyInterest = (loan.amount * loan.rate) / 100;
-            const paidCount = Object.values(loan.payments).filter(p => p.paid).length;
-            
             let pdfContent = `
                 <div style="font-family: Arial, sans-serif; padding: 20px;">
                     <h1 style="text-align: center; color: #667eea;">💰 LOAN AGREEMENT DOCUMENT</h1>
@@ -2108,7 +2093,7 @@
 
         function sendNotification() {
             const currentUser = sessionStorage.getItem('currentUser');
-            const userPhone = DB.users[currentUser].phone;
+            const userPhone = DB.users[currentUser] ? DB.users[currentUser].phone : '';
             const notificationType = document.getElementById('notificationType').value;
             const message = document.getElementById('notificationMessage').value;
             
@@ -2155,10 +2140,12 @@
             document.getElementById('mainContainer').classList.add('active');
             
             if(currentUser === ADMIN_USERNAME) {
-                document.getElementById('userDisplay').textContent = "Admin 🛠️";
+                document.getElementById('userDisplay').textContent = "Naveen 🛠️";
+                document.getElementById('headerSubtitle').textContent = "Platform Central Management Console";
                 configureAdminTabs();
             } else {
                 document.getElementById('userDisplay').textContent = currentUser;
+                document.getElementById('headerSubtitle').textContent = "Professional Loan Tracking";
                 configureStandardTabs();
                 showHomeTab();
             }
