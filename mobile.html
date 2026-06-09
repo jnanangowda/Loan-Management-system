@@ -1020,54 +1020,6 @@
             cursor: pointer;
         }
 
-        /* ADMIN SPECIFIC LAYOUTS */
-        .admin-table-container {
-            width: 100%;
-            overflow-x: auto;
-            background: white;
-            border: 2px solid #e0e7ff;
-            border-radius: 12px;
-            margin-top: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.9em;
-        }
-
-        .admin-table th, .admin-table td {
-            padding: 12px 14px;
-            border-bottom: 1px solid #e0e7ff;
-        }
-
-        .admin-table th {
-            background-color: #f8f9ff;
-            color: #667eea;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.8em;
-        }
-
-        .admin-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .admin-action-btn {
-            padding: 6px 10px;
-            background: #dc3545;
-            color: white;
-            border-radius: 6px;
-            font-size: 0.8em;
-            font-weight: 600;
-            min-width: auto;
-            flex: none;
-            border: none;
-            cursor: pointer;
-        }
-
         @media (max-height: 600px) {
             .header {
                 padding: 12px 15px;
@@ -1106,10 +1058,12 @@
     </style>
 </head>
 <body>
+    <!-- AUTH CONTAINER -->
     <div class="auth-container active" id="authContainer">
         <div class="auth-box">
             <div id="authMessage"></div>
             
+            <!-- LOGIN FORM -->
             <div id="loginForm" class="auth-form-section active">
                 <h2>🔐 Login</h2>
                 <p class="auth-subtitle">Access your loan account</p>
@@ -1136,6 +1090,7 @@
                 </div>
             </div>
 
+            <!-- REGISTER FORM -->
             <div id="registerForm" class="auth-form-section">
                 <h2>💰 Register</h2>
                 <p class="auth-subtitle">Create new account</p>
@@ -1178,6 +1133,7 @@
                 </div>
             </div>
 
+            <!-- FORGOT PASSWORD FORM -->
             <div id="forgotForm" class="auth-form-section">
                 <h2>🔑 Forgot Password</h2>
                 <p class="auth-subtitle">Reset your password</p>
@@ -1212,11 +1168,12 @@
         </div>
     </div>
 
+    <!-- MAIN CONTAINER -->
     <div class="container" id="mainContainer">
         <div class="header">
             <div class="header-content">
                 <h1>💰 Loan Manager</h1>
-                <p id="headerSubtitle">Professional Loan Tracking</p>
+                <p>Professional Loan Tracking</p>
             </div>
             <div class="user-section">
                 <span class="user-name">👤 <span id="userDisplay"></span></span>
@@ -1224,13 +1181,14 @@
             </div>
         </div>
         
-        <div class="tabs" id="appTabsRow">
+        <div class="tabs">
             <button class="tab-btn active" onclick="showTab(event, 'home')">🏠 Home</button>
             <button class="tab-btn" onclick="showTab(event, 'create')">➕ New Loan</button>
             <button class="tab-btn" onclick="showTab(event, 'info')">ℹ️ Features</button>
         </div>
         
         <div class="content">
+            <!-- HOME TAB -->
             <div id="home" class="tab-content active">
                 <div id="homeMessage"></div>
                 <div id="summaryCards" class="summary-grid"></div>
@@ -1240,6 +1198,7 @@
                 <div id="editView" class="edit-view"></div>
             </div>
             
+            <!-- CREATE LOAN TAB -->
             <div id="create" class="tab-content">
                 <h3>➕ Create New Loan Agreement</h3>
                 <form id="loanForm">
@@ -1318,6 +1277,7 @@
                 </form>
             </div>
 
+            <!-- FEATURES/INFO TAB -->
             <div id="info" class="tab-content">
                 <h3>ℹ️ Features & Information</h3>
                 
@@ -1356,38 +1316,10 @@
                     <div class="info-card-desc">Export complete loan details and payment history as PDF for record keeping.</div>
                 </div>
             </div>
-
-            <div id="adminPanel" class="tab-content">
-                <h3>🛠️ Admin Control Panel</h3>
-                <p style="color: #666; font-size: 0.9em; margin-bottom: 15px;">Monitor user profiles, passwords, and manage active system accounts.</p>
-                <div class="summary-grid">
-                    <div class="summary-card" style="background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);">
-                        <div class="summary-label">Total Active Users</div>
-                        <div class="summary-value" id="adminTotalUsers">0</div>
-                    </div>
-                    <div class="summary-card" style="background: linear-gradient(135deg, #fd7e14 0%, #d35400 100%);">
-                        <div class="summary-label">Total Platform Loans</div>
-                        <div class="summary-value" id="adminTotalLoans">0</div>
-                    </div>
-                </div>
-                <div class="admin-table-container">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>Password</th>
-                                <th>Phone</th>
-                                <th>Loans</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminUserTableBody"></tbody>
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
 
+    <!-- Notification Modal -->
     <div class="modal" id="notificationModal">
         <div class="modal-content">
             <div class="modal-title">🔔 Send Notification</div>
@@ -1415,9 +1347,6 @@
             users: {},
             loans: {}
         };
-
-        const ADMIN_USERNAME = "Naveen";
-        const ADMIN_PASSWORD = "Naveen@123";
 
         let currentEditingLoan = null;
 
@@ -1496,106 +1425,28 @@
 
         function handleLogin(event) {
             event.preventDefault();
-            const username = document.getElementById('loginUsername').value.trim();
+            const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
-
-            // MASTER ADMIN LOGIN VERIFICATION
-            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-                sessionStorage.setItem('currentUser', ADMIN_USERNAME);
-                document.getElementById('authContainer').classList.remove('active');
-                document.getElementById('mainContainer').classList.add('active');
-                document.getElementById('userDisplay').textContent = "Naveen 🛠️";
-                document.getElementById('headerSubtitle').textContent = "Admin Control Dashboard";
-                configureAdminTabs();
-                return;
-            }
 
             if (DB.users[username] && DB.users[username].password === password) {
                 sessionStorage.setItem('currentUser', username);
                 document.getElementById('authContainer').classList.remove('active');
                 document.getElementById('mainContainer').classList.add('active');
                 document.getElementById('userDisplay').textContent = username;
-                document.getElementById('headerSubtitle').textContent = "Professional Loan Tracking";
-                configureStandardTabs();
                 showHomeTab();
             } else {
                 showAuthMessage('Invalid username or password', 'error');
             }
         }
 
-        function configureAdminTabs() {
-            const tabsRow = document.getElementById('appTabsRow');
-            tabsRow.innerHTML = `
-                <button class="tab-btn active" onclick="showTab(null, 'adminPanel')">🛠️ Admin Panel</button>
-                <button class="tab-btn" onclick="showTab(null, 'info')">ℹ️ Features</button>
-            `;
-            showTab(null, 'adminPanel');
-        }
-
-        function configureStandardTabs() {
-            const tabsRow = document.getElementById('appTabsRow');
-            tabsRow.innerHTML = `
-                <button class="tab-btn active" onclick="showTab(null, 'home')">🏠 Home</button>
-                <button class="tab-btn" onclick="showTab(null, 'create')">➕ New Loan</button>
-                <button class="tab-btn" onclick="showTab(null, 'info')">ℹ️ Features</button>
-            `;
-        }
-
-        function renderAdminDashboard() {
-            const userTableBody = document.getElementById('adminUserTableBody');
-            const totalUsersEl = document.getElementById('adminTotalUsers');
-            const totalLoansEl = document.getElementById('adminTotalLoans');
-            
-            const users = Object.keys(DB.users);
-            let loanCountTotal = 0;
-
-            totalUsersEl.textContent = users.length;
-
-            userTableBody.innerHTML = users.map(username => {
-                const userObj = DB.users[username];
-                const totalUserLoans = DB.loans[username] ? Object.keys(DB.loans[username]).length : 0;
-                loanCountTotal += totalUserLoans;
-
-                return `
-                    <tr>
-                        <td style="font-weight:700; color:#2d3748;">${username}</td>
-                        <td style="font-family:monospace; background:#f8f9fa; padding: 4px 8px; border-radius:4px;">${userObj.password}</td>
-                        <td>${userObj.phone || 'N/A'}</td>
-                        <td style="text-align:center; font-weight:700;">${totalUserLoans}</td>
-                        <td>
-                            <button class="admin-action-btn" onclick="adminDeleteUser('${username}')">Delete</button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-
-            totalLoansEl.textContent = loanCountTotal;
-        }
-
-        function adminDeleteUser(username) {
-            if (confirm(`⚠️ Are you sure you want to completely delete the user "${username}" and all their loan data?`)) {
-                delete DB.users[username];
-                if (DB.loans[username]) {
-                    delete DB.loans[username];
-                }
-                saveDatabase();
-                renderAdminDashboard();
-            }
-        }
-
         function handleRegister(event) {
             event.preventDefault();
-            const username = document.getElementById('regUsername').value.trim();
+            const username = document.getElementById('regUsername').value;
             const email = document.getElementById('regEmail').value;
             const phone = document.getElementById('regPhone').value;
             const address = document.getElementById('regAddress').value;
             const password = document.getElementById('regPassword').value;
             const confirmPassword = document.getElementById('regConfirmPassword').value;
-
-            if (username === ADMIN_USERNAME) {
-                showAuthMessage('Username reserved', 'error');
-                return;
-            }
 
             if (password !== confirmPassword) {
                 showAuthMessage('Passwords do not match', 'error');
@@ -1916,6 +1767,7 @@
 
             paymentView.innerHTML = paymentHTML;
             
+            // Hide loans list and show payment view
             document.getElementById('loansList').style.display = 'none';
             document.getElementById('summaryCards').style.display = 'none';
             paymentView.classList.add('active');
@@ -2068,25 +1920,114 @@
             let pdfContent = `
                 <div style="font-family: Arial, sans-serif; padding: 20px;">
                     <h1 style="text-align: center; color: #667eea;">💰 LOAN AGREEMENT DOCUMENT</h1>
+                    
                     <hr>
+                    
                     <h2>📋 BORROWER DETAILS</h2>
                     <table style="width: 100%; border-collapse: collapse;">
-                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Borrower Name:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">${loan.borrowerName}</td></tr>
-                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Father's Name:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">${loan.fatherName}</td></tr>
-                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Phone:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">${loan.phone}</td></tr>
-                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Address:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">${loan.address}</td></tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Borrower Name:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.borrowerName}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Father's Name:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.fatherName}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Phone:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.phone}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Address:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.address}</td>
+                        </tr>
                     </table>
-
+                    
                     <h2 style="margin-top: 20px;">💰 LOAN DETAILS</h2>
                     <table style="width: 100%; border-collapse: collapse;">
-                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Loan Amount:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">₹${loan.amount.toLocaleString()}</td></tr>
-                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Interest Rate:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">${loan.rate}% per month</td></tr>
-                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Monthly Interest:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">₹${Math.round(monthlyInterest).toLocaleString()}</td></tr>
-                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Duration:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">${loan.months} Months</td></tr>
-                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Start Date:</strong></td><td style="border: 1px solid #ccc; padding: 10px;">${formatDate(loan.startDate)}</td></tr>
-                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Total Interest:</strong></td><td style="border: 1px solid #ccc; padding: 10px; background: #fff3cd;">₹${Math.round(monthlyInterest * loan.months).toLocaleString()}</td></tr>
-                        <tr><td style="border: 1px solid #ccc; padding: 10px;"><strong>Total Payable:</strong></td><td style="border: 1px solid #ccc; padding: 10px; background: #d4edda; font-weight: bold;">₹${Math.round(loan.amount + monthlyInterest * loan.months).toLocaleString()}</td></tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Loan Amount:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px;">₹${loan.amount.toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Interest Rate:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.rate}% per month</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Monthly Interest:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px;">₹${Math.round(monthlyInterest).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Duration:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.months} Months</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Start Date:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px;">${formatDate(loan.startDate)}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Total Interest:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px; background: #fff3cd;">₹${Math.round(monthlyInterest * loan.months).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Total Payable:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px; background: #d4edda; font-weight: bold;">₹${Math.round(loan.amount + monthlyInterest * loan.months).toLocaleString()}</td>
+                        </tr>
                     </table>
+
+                    <h2 style="margin-top: 20px;">📦 PRINCIPAL STATUS</h2>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Status:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px;">${loan.principalReceived ? '✅ Received' : '❌ Not Received'}</td>
+                        </tr>
+                        ${loan.principalReceivedDate ? `
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Received Date:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px;">${formatDate(loan.principalReceivedDate.split('T')[0])}</td>
+                        </tr>
+                        ` : ''}
+                    </table>
+
+                    <h2 style="margin-top: 20px;">📊 PAYMENT STATUS</h2>
+                    <p><strong>Payments Completed: ${paidCount}/${loan.months}</strong></p>
+                    
+                    <h2 style="margin-top: 20px;">📝 Interest Paid HISTORY</h2>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #667eea; color: white;">
+                                <th style="border: 1px solid #ccc; padding: 10px;">Period</th>
+                                <th style="border: 1px solid #ccc; padding: 10px;">Amount (₹)</th>
+                                <th style="border: 1px solid #ccc; padding: 10px;">Status</th>
+                                <th style="border: 1px solid #ccc; padding: 10px;">Paid Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            for (let i = 0; i < loan.months; i++) {
+                const dateRange = getPaymentDateRange(loan.startDate, i);
+                const payment = loan.payments[i];
+                const isPaid = payment.paid;
+                
+                pdfContent += `
+                    <tr>
+                        <td style="border: 1px solid #ccc; padding: 10px;">${dateRange}</td>
+                        <td style="border: 1px solid #ccc; padding: 10px;">₹${Math.round(monthlyInterest).toLocaleString()}</td>
+                        <td style="border: 1px solid #ccc; padding: 10px; background: ${isPaid ? '#d4edda' : '#f8d7da'};">${isPaid ? '✅ Paid' : '❌ Pending'}</td>
+                        <td style="border: 1px solid #ccc; padding: 10px;">${isPaid && payment.paidDate ? formatDate(payment.paidDate.split('T')[0]) : '-'}</td>
+                    </tr>
+                `;
+            }
+            
+            pdfContent += `
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top: 30px; border-top: 2px solid #667eea; padding-top: 20px; text-align: center; color: #666;">
+                        <p>Generated on: ${new Date().toLocaleString()}</p>
+                        <p>This is a computer-generated document from Loan Manager System</p>
+                    </div>
                 </div>
             `;
             
@@ -2095,7 +2036,7 @@
             
             const opt = {
                 margin: 10,
-                filename: `Loan_${loan.borrowerName}.pdf`,
+                filename: `Loan_${loan.borrowerName}_${new Date().toISOString().split('T')[0]}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },
                 jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
@@ -2111,9 +2052,33 @@
             const currentUser = sessionStorage.getItem('currentUser');
             const loan = DB.loans[currentUser][loanId];
             
+            // Find unpaid months
+            let unpaidMonths = [];
+            for (let i = 0; i < loan.months; i++) {
+                if (!loan.payments[i].paid) {
+                    const dateRange = getPaymentDateRange(loan.startDate, i);
+                    unpaidMonths.push(dateRange);
+                }
+            }
+            
             let message = `Loan Update - ${loan.borrowerName}\n\n`;
             message += `Borrower: ${loan.borrowerName}\n`;
             message += `Loan Amount: ₹${loan.amount.toLocaleString()}\n`;
+            message += `Interest Rate: ${loan.rate}% per month\n\n`;
+            
+            if (unpaidMonths.length > 0) {
+                message += `⚠️ UNPAID PAYMENTS:\n`;
+                unpaidMonths.slice(0, 3).forEach(month => {
+                    message += `• ${month}\n`;
+                });
+                if (unpaidMonths.length > 3) {
+                    message += `• and ${unpaidMonths.length - 3} more...\n`;
+                }
+            } else {
+                message += `✅ All payments completed!\n`;
+            }
+            
+            message += `\nPlease contact the borrower regarding pending payments.`;
             
             document.getElementById('notificationMessage').value = message;
         }
@@ -2124,42 +2089,43 @@
 
         function sendNotification() {
             const currentUser = sessionStorage.getItem('currentUser');
-            const userPhone = DB.users[currentUser] ? DB.users[currentUser].phone : '';
+            const userPhone = DB.users[currentUser].phone;
             const notificationType = document.getElementById('notificationType').value;
             const message = document.getElementById('notificationMessage').value;
             
-            const phoneNumber = userPhone ? userPhone.replace(/[^0-9]/g, '') : '';
+            const phoneNumber = userPhone.replace(/[^0-9]/g, '');
             
             if (notificationType === 'whatsapp') {
-                window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-            } else {
-                window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
+                // WhatsApp link
+                const encodedMessage = encodeURIComponent(message);
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+                window.open(whatsappUrl, '_blank');
+            } else if (notificationType === 'sms') {
+                // SMS link
+                const encodedMessage = encodeURIComponent(message);
+                window.location.href = `sms:${phoneNumber}?body=${encodedMessage}`;
             }
             
-            alert(`✅ Notification ready!`);
+            alert(`✅ Notification prepared for WhatsApp/SMS!`);
             closeNotificationModal();
         }
 
         function showTab(event, tabName) {
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(c => c.classList.remove('active'));
-            
-            const targetedTab = document.getElementById(tabName);
-            if(targetedTab) {
-                targetedTab.classList.add('active');
-            }
+            document.getElementById(tabName).classList.add('active');
 
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(b => b.classList.remove('active'));
             
-            if (event && event.target) {
+            if (event) {
                 event.target.classList.add('active');
+            } else {
+                document.querySelector(`button[onclick="showTab(event, '${tabName}')"]`)?.classList.add('active');
             }
 
             if (tabName === 'home') {
                 displayLoans();
-            } else if (tabName === 'adminPanel') {
-                renderAdminDashboard();
             }
         }
 
@@ -2169,17 +2135,11 @@
         if (currentUser) {
             document.getElementById('authContainer').classList.remove('active');
             document.getElementById('mainContainer').classList.add('active');
-            
-            if(currentUser === ADMIN_USERNAME) {
-                document.getElementById('userDisplay').textContent = "Naveen 🛠️";
-                configureAdminTabs();
-            } else {
-                document.getElementById('userDisplay').textContent = currentUser;
-                configureStandardTabs();
-                showHomeTab();
-            }
+            document.getElementById('userDisplay').textContent = currentUser;
+            showHomeTab();
         }
 
+        // Attach form submit handler
         document.getElementById('loanForm').addEventListener('submit', saveLoan);
     </script>
 </body>
