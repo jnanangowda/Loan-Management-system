@@ -48,7 +48,7 @@
         }
 
         .auth-container.active {
-            display: flex;
+            display: flex !important;
         }
 
         .auth-box {
@@ -198,7 +198,7 @@
             display: block;
         }
 
-        /* EXTRACTED CORE CORRECTION: STRICT FORM SECTION VISIBILITY CONTROL */
+        /* FIX: FORCE FORMS TO BE HIDDEN UNLESS OVERRIDDEN BY THE ACTIVE CLASS */
         .auth-form-section {
             display: none !important;
         }
@@ -482,15 +482,6 @@
         .admin-table th, .admin-table td {
             padding: 12px 14px;
             border-bottom: 1px solid #e0e7ff;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: #f8f9ff;
-            border-radius: 8px;
         }
     </style>
 </head>
@@ -791,23 +782,19 @@
             document.getElementById('cancelAdminModeLink').style.display = enableAdmin ? "block" : "none";
         }
 
-        /* FIXED SECTION TOGGLING LOGIC: FORCES REMOVAL OF UNWANTED VIEWS */
         function showLoginForm() {
+            document.querySelectorAll('.auth-form-section').forEach(f => f.classList.remove('active'));
             document.getElementById('loginForm').classList.add('active');
-            document.getElementById('registerForm').classList.remove('active');
-            document.getElementById('forgotForm').classList.remove('active');
             toggleAdminViewMode(false);
         }
 
         function showRegisterForm() {
-            document.getElementById('loginForm').classList.remove('active');
-            document.getElementById('forgotForm').classList.remove('active');
+            document.querySelectorAll('.auth-form-section').forEach(f => f.classList.remove('active'));
             document.getElementById('registerForm').classList.add('active');
         }
 
         function showForgotPassword() {
-            document.getElementById('loginForm').classList.remove('active');
-            document.getElementById('registerForm').classList.remove('active');
+            document.querySelectorAll('.auth-form-section').forEach(f => f.classList.remove('active'));
             document.getElementById('forgotForm').classList.add('active');
         }
 
@@ -1094,7 +1081,7 @@
                 `;
             }
 
-            paymentView.innerHTML = paymentHTML + `</div></div>`;
+            paymentView.innerHTML = pHTML = paymentHTML + `</div></div>`;
             document.getElementById('loansList').style.display = 'none';
             document.getElementById('summaryCards').style.display = 'none';
             document.getElementById('borrowerFilterBlock').style.display = 'none';
@@ -1130,6 +1117,8 @@
             document.getElementById('mainContainer').classList.add('active');
             document.getElementById('userDisplay').textContent = sessionUser === ADMIN_USERNAME ? "Naveen 🛠️" : sessionUser;
             if (sessionUser === ADMIN_USERNAME) { configureAdminTabs(); } else { configureStandardTabs(); showHomeTab(); }
+        } else {
+            showLoginForm();
         }
         document.getElementById('loanForm').addEventListener('submit', saveLoan);
     </script>
