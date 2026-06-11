@@ -1058,12 +1058,10 @@
     </style>
 </head>
 <body>
-    <!-- AUTH CONTAINER -->
     <div class="auth-container active" id="authContainer">
         <div class="auth-box">
             <div id="authMessage"></div>
             
-            <!-- LOGIN FORM -->
             <div id="loginForm" class="auth-form-section active">
                 <h2>🔐 Login</h2>
                 <p class="auth-subtitle">Access your loan account</p>
@@ -1090,7 +1088,6 @@
                 </div>
             </div>
 
-            <!-- REGISTER FORM -->
             <div id="registerForm" class="auth-form-section">
                 <h2>💰 Register</h2>
                 <p class="auth-subtitle">Create new account</p>
@@ -1133,7 +1130,6 @@
                 </div>
             </div>
 
-            <!-- FORGOT PASSWORD FORM -->
             <div id="forgotForm" class="auth-form-section">
                 <h2>🔑 Forgot Password</h2>
                 <p class="auth-subtitle">Reset your password</p>
@@ -1168,7 +1164,6 @@
         </div>
     </div>
 
-    <!-- MAIN CONTAINER -->
     <div class="container" id="mainContainer">
         <div class="header">
             <div class="header-content">
@@ -1189,7 +1184,6 @@
         </div>
         
         <div class="content">
-            <!-- HOME TAB -->
             <div id="home" class="tab-content active">
                 <div id="homeMessage"></div>
                 <div id="summaryCards" class="summary-grid"></div>
@@ -1199,7 +1193,6 @@
                 <div id="editView" class="edit-view"></div>
             </div>
             
-            <!-- CREATE LOAN TAB -->
             <div id="create" class="tab-content">
                 <h3>➕ Create New Loan Agreement</h3>
                 <form id="loanForm">
@@ -1278,7 +1271,6 @@
                 </form>
             </div>
 
-            <!-- FEATURES/INFO TAB -->
             <div id="info" class="tab-content">
                 <h3>ℹ️ Features & Information</h3>
                 
@@ -1318,7 +1310,6 @@
                 </div>
             </div>
 
-            <!-- ADMIN TAB -->
             <div id="admin" class="tab-content">
                 <h3>🛡️ Admin Dashboard Management</h3>
                 <p style="color: #666; font-size: 0.9em; margin-bottom: 20px;">Review, modify, update core user profiles, control passwords, or eliminate system user files dynamically.</p>
@@ -1327,7 +1318,6 @@
         </div>
     </div>
 
-    <!-- Notification Modal -->
     <div class="modal" id="notificationModal">
         <div class="modal-content">
             <div class="modal-title">🔔 Send Notification</div>
@@ -1349,7 +1339,6 @@
         </div>
     </div>
 
-    <!-- Admin Edit User Modal -->
     <div class="modal" id="adminEditUserModal">
         <div class="modal-content">
             <div class="modal-title">✏️ Manage User Workspace</div>
@@ -1603,6 +1592,7 @@
                 createdAt: new Date().toISOString(),
                 principalReceived: false,
                 principalReceivedDate: null,
+                status: 'active', // added global state identifier tracking field
                 payments: {}
             };
 
@@ -1694,7 +1684,11 @@
                 let statusClass = 'status-active';
                 let statusText = '⏳ ACTIVE';
 
-                if (paidCount === loan.months) {
+                // Check manual status toggle choice override first
+                if (loan.status === 'closed') {
+                    statusClass = 'status-closed';
+                    statusText = '✓ CLOSED';
+                } else if (paidCount === loan.months) {
                     statusClass = 'status-closed';
                     statusText = '✓ CLOSED';
                 } else if (overdueCount > 0) {
@@ -1734,6 +1728,16 @@
             }).join('');
         }
 
+        function changeLoanStatus(loanId, statusValue) {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser || !DB.loans[currentUser][loanId]) return;
+            
+            DB.loans[currentUser][loanId].status = statusValue;
+            saveDatabase();
+            alert(`Status adjusted to ${statusValue.toUpperCase()} successfully!`);
+            showPaymentPage(loanId);
+        }
+
         function showPaymentPage(loanId) {
             const currentUser = sessionStorage.getItem('currentUser');
             const loan = DB.loans[currentUser][loanId];
@@ -1742,6 +1746,9 @@
             let monthlyInterest = (loan.amount * loan.rate) / 100;
             const paidCount = Object.values(loan.payments).filter(p => p.paid).length;
             const progressPercent = (paidCount / loan.months) * 100;
+
+            // Enforce compatibility property safe tracking fallback
+            if (!loan.status) loan.status = 'active';
 
             let paymentHTML = `
                 <button class="back-btn" onclick="hiddenPaymentPage()">← Back to Loans</button>
@@ -1760,6 +1767,16 @@
                     <button class="pdf-btn" onclick="exportPDF('${loanId}')">📄 Export PDF</button>
                     <button class="whatsapp-btn" onclick="openNotificationModal('${loanId}')">📱 Notify Me</button>
                     <button class="delete-btn" onclick="deleteLoan('${loanId}')">🗑️ Delete</button>
+                </div>
+
+                <div class="principal-section" style="background: #fdfdfd; border-color: #667eea;">
+                    <div class="form-group" style="margin: 0; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                        <label style="margin: 0; font-weight: 700; font-size: 0.95em;">💼 Loan Record Status Selector:</label>
+                        <select onchange="changeLoanStatus('${loanId}', this.value)" style="width: auto; max-width: 160px; padding: 8px 12px; font-size: 0.9em; font-weight: bold; border-radius: 8px; border: 2px solid #667eea; background: white;">
+                            <option value="active" ${loan.status === 'active' ? 'selected' : ''}>⏳ ACTIVE</option>
+                            <option value="closed" ${loan.status === 'closed' ? 'selected' : ''}>✓ CLOSED</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="principal-section">
@@ -2046,6 +2063,10 @@
                         <tr>
                             <td style="border: 1px solid #ccc; padding: 10px;"><strong>Total Payable:</strong></td>
                             <td style="border: 1px solid #ccc; padding: 10px; background: #d4edda; font-weight: bold;">₹${Math.round(loan.amount + monthlyInterest * loan.months).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ccc; padding: 10px;"><strong>Operational Status:</strong></td>
+                            <td style="border: 1px solid #ccc; padding: 10px; font-weight: bold;">${(loan.status || 'active').toUpperCase()}</td>
                         </tr>
                     </table>
 
