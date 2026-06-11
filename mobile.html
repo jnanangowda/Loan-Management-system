@@ -541,14 +541,6 @@
             background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
             color: #721c24;
         }
-
-        /* CARD HEADER IN-LINE STATUS TEXT DESIGN */
-        .card-status-label {
-            font-size: 1em;
-            font-weight: 700;
-            color: #4a5568;
-            margin-right: 5px;
-        }
         
         .loan-info {
             display: grid;
@@ -1600,7 +1592,7 @@
                 createdAt: new Date().toISOString(),
                 principalReceived: false,
                 principalReceivedDate: null,
-                status: 'active', 
+                status: 'active', // added global state identifier tracking field
                 payments: {}
             };
 
@@ -1689,31 +1681,29 @@
                     .filter(([idx, p]) => !p.paid && isPaymentOverdue(loan.startDate, parseInt(idx)))
                     .length;
 
-                // Build modern system alert badge layout matching requested framework schema
-                let alertBadgeHTML = '';
-                if (overdueCount > 0 && loan.status !== 'closed') {
-                    alertBadgeHTML = `<span class="status-badge status-overdue">⚠️ ${overdueCount} OVERDUE</span>`;
-                } else if (!loan.principalReceived && loan.status !== 'closed') {
-                    alertBadgeHTML = `<span class="status-badge status-pending">⏱️ PENDING</span>`;
-                }
+                let statusClass = 'status-active';
+                let statusText = '⏳ ACTIVE';
 
-                // Explicit master state variable text formatting selector matching design template
-                let currentStatusText = 'ACTIVE';
-                let currentStatusColor = '#28a745'; // bold green layout
-
-                if (loan.status === 'closed' || paidCount === loan.months) {
-                    currentStatusText = 'CLOSED';
-                    currentStatusColor = '#6c757d'; // neutral silver layout
+                // Check manual status toggle choice override first
+                if (loan.status === 'closed') {
+                    statusClass = 'status-closed';
+                    statusText = '✓ CLOSED';
+                } else if (paidCount === loan.months) {
+                    statusClass = 'status-closed';
+                    statusText = '✓ CLOSED';
+                } else if (overdueCount > 0) {
+                    statusClass = 'status-overdue';
+                    statusText = `⚠️ ${overdueCount} OVERDUE`;
+                } else if (!loan.principalReceived) {
+                    statusClass = 'status-pending';
+                    statusText = '⏱️ PENDING';
                 }
 
                 return `
                     <div class="loan-card" onclick="showPaymentPage('${loan.id}')">
                         <div class="loan-header">
                             <span class="loan-name">${loan.borrowerName}</span>
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span class="card-status-label">Status:<span style="color: ${currentStatusColor}; margin-left: 4px;">${currentStatusText}</span></span>
-                                ${alertBadgeHTML}
-                            </div>
+                            <span class="status-badge ${statusClass}">${statusText}</span>
                         </div>
                         <div class="loan-info">
                             <div class="info-item">
@@ -1757,6 +1747,7 @@
             const paidCount = Object.values(loan.payments).filter(p => p.paid).length;
             const progressPercent = (paidCount / loan.months) * 100;
 
+            // Enforce compatibility property safe tracking fallback
             if (!loan.status) loan.status = 'active';
 
             let paymentHTML = `
@@ -1867,6 +1858,7 @@
 
             paymentView.innerHTML = paymentHTML;
             
+            // Hide loans list and show payment view
             document.getElementById('loansList').style.display = 'none';
             document.getElementById('summaryCards').style.display = 'none';
             paymentView.classList.add('active');
@@ -2155,6 +2147,7 @@
             const currentUser = sessionStorage.getItem('currentUser');
             const loan = DB.loans[currentUser][loanId];
             
+            // Find unpaid months
             let unpaidMonths = [];
             for (let i = 0; i < loan.months; i++) {
                 if (!loan.payments[i].paid) {
@@ -2198,10 +2191,12 @@
             const phoneNumber = userPhone.replace(/[^0-9]/g, '');
             
             if (notificationType === 'whatsapp') {
+                // WhatsApp link
                 const encodedMessage = encodeURIComponent(message);
                 const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
                 window.open(whatsappUrl, '_blank');
             } else if (notificationType === 'sms') {
+                // SMS link
                 const encodedMessage = encodeURIComponent(message);
                 window.location.href = `sms:${phoneNumber}?body=${encodedMessage}`;
             }
@@ -2230,7 +2225,7 @@
             }
 
             userKeys.forEach(username => {
-                if (username === 'Naveen@admin') return; 
+                if (username === 'Naveen@admin') return; // Hide admin row representation
                 const u = DB.users[username];
                 const userLoansCount = DB.loans[username] ? Object.keys(DB.loans[username]).length : 0;
 
@@ -2263,7 +2258,7 @@
             document.getElementById('adminUserEmail').value = u.email;
             document.getElementById('adminUserPhone').value = u.phone;
             document.getElementById('adminUserAddress').value = u.address;
-            document.getElementById('adminUserPassword').value = ''; 
+            document.getElementById('adminUserPassword').value = ''; // Reset password update field placeholder
             document.getElementById('adminEditUserModal').classList.add('active');
         }
 
@@ -2300,7 +2295,7 @@
         }
 
         function processAdminUserDelete(username) {
-            if (confirm suicide(`⚠️ Critical Action: Are you entirely sure you want to completely delete the profile for "${username}"? This action will purge all their loan listings.`)) {
+            if (confirm(`⚠️ Critical Action: Are you entirely sure you want to completely delete the profile for "${username}"? This action will purge all their loan listings.`)) {
                 delete DB.users[username];
                 if (DB.loans[username]) {
                     delete DB.loans[username];
